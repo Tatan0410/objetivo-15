@@ -6,6 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Mapamundial.unity
+    guid: 38c8ebf84d2215744b9d4cba2ffd5f97
+  - enabled: 1
+    path: Assets/Scenes/nivel1_colegio.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/nivel2_hipodromo.unity
+    guid: 64aeee0deef5537479c971eba690e6a2
+  - enabled: 1
+    path: Assets/Scenes/nivel3_mercado.unity
+    guid: 3fb56fe245fd8d4488d2a138e5ff831d
+  - enabled: 1
+    path: Assets/Scenes/nivel4_basurero.unity
+    guid: 993e45b39038fd649a447be507552a52
+  - enabled: 1
+    path: Assets/Scenes/nivel5_subterraneo.unity
+    guid: 1746fd3688e758b49becd4447e56dbc4
+  - enabled: 1
+    path: Assets/Scenes/nivel6_empresa.unity
+    guid: a2eea55dc2a753647b56bbe62517cd0c
   m_configObjects: {}
