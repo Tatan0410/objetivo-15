@@ -1,13 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\sebas\\Documents\\GitHub\\objetivo-15\\",
+  "WorkspaceRootPath": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\Documents\\GitHub\\objetivo-15\\assets\\scripts\\jugadormapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\checkpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\checkpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\finnivel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\finnivel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\jugadormapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jugadormapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\sebas\\documents\\github\\objetivo-15\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -23,28 +35,64 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "JugadorMapa.cs",
-              "DocumentMoniker": "C:\\Users\\sebas\\Documents\\GitHub\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\JugadorMapa.cs",
-              "ToolTip": "C:\\Users\\sebas\\Documents\\GitHub\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
-              "RelativeToolTip": "Assets\\scripts\\JugadorMapa.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAiwEkAAAABAAAAAAAAAA==",
+              "Title": "CheckPoint.cs",
+              "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\CheckPoint.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\CheckPoint.cs",
+              "ToolTip": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\CheckPoint.cs",
+              "RelativeToolTip": "Assets\\scripts\\CheckPoint.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T23:55:27.857Z",
+              "WhenOpened": "2026-04-29T15:28:48.44Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "GameManager.cs",
+              "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\GameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\GameManager.cs",
+              "ToolTip": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\GameManager.cs",
+              "RelativeToolTip": "Assets\\scripts\\GameManager.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAIwC8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T15:26:33.764Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FinNivel.cs",
+              "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\FinNivel.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\FinNivel.cs",
+              "ToolTip": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\FinNivel.cs",
+              "RelativeToolTip": "Assets\\scripts\\FinNivel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T00:41:21.92Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "JugadorMapa.cs",
+              "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\JugadorMapa.cs",
+              "ToolTip": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
+              "RelativeToolTip": "Assets\\scripts\\JugadorMapa.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAiwEkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-28T23:55:27.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "PlayerController.cs",
-              "DocumentMoniker": "C:\\Users\\sebas\\Documents\\GitHub\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\PlayerController.cs",
-              "ToolTip": "C:\\Users\\sebas\\Documents\\GitHub\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
               "RelativeToolTip": "Assets\\scripts\\PlayerController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T04:15:31.888Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-28T04:15:31.888Z"
             }
           ]
         }
