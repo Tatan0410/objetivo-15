@@ -1,0 +1,112 @@
+using UnityEngine;
+
+public class Enemigo : MonoBehaviour
+{
+    [Header("Patrulla")]
+    public float velocidad = 2f;
+    public float distanciaPatrulla = 3f;
+
+    [Header("Detección")]
+    public Transform detectorBorde;
+    public LayerMask capaSuelo;
+
+    private Vector2 puntoInicio;
+    private bool moviendoDerecha = true;
+    private Rigidbody2D rb;
+
+    void Start()
+    {
+        puntoInicio = transform.position;
+        rb = GetComponent<Rigidbody2D>();
+        rb.mass = 1000f;
+        rb.isKinematic = false;
+    }
+
+    void FixedUpdate()
+    {
+        Patrullar();
+        VerificarBorde();
+    }
+
+    void Patrullar()
+    {
+        float dir = moviendoDerecha ? 1f : -1f;
+        rb.velocity = new Vector2(dir * velocidad, rb.velocity.y);
+
+        if (moviendoDerecha &&
+            transform.position.x >= puntoInicio.x + distanciaPatrulla)
+            Voltear();
+        else if (!moviendoDerecha &&
+            transform.position.x <= puntoInicio.x - distanciaPatrulla)
+            Voltear();
+    }
+
+    void VerificarBorde()
+    {
+        if (detectorBorde == null) return;
+
+        bool haySuelo = Physics2D.OverlapCircle(
+            detectorBorde.position, 0.1f, capaSuelo);
+
+        if (!haySuelo)
+            Voltear();
+
+        Vector2 direccion = moviendoDerecha ? Vector2.right : Vector2.left;
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position, direccion, 0.6f, capaSuelo);
+        if (hit.collider != null)
+            Voltear();
+    }
+
+    void Voltear()
+    {
+        moviendoDerecha = !moviendoDerecha;
+        transform.localScale = new Vector3(
+            -transform.localScale.x,
+            transform.localScale.y,
+            transform.localScale.z);
+        puntoInicio = transform.position;
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (!col.gameObject.CompareTag("Player")) return;
+
+        float normalY = col.contacts[0].normal.y;
+
+        if (normalY > 0.5f)
+        {
+            Destroy(gameObject);
+            Rigidbody2D rbJugador =
+                col.gameObject.GetComponent<Rigidbody2D>();
+            rbJugador.velocity =
+                new Vector2(rbJugador.velocity.x, 10f);
+        }
+        else
+        {
+            if (VidasManager.instancia != null)
+                VidasManager.instancia.PerderVida();
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("jugador"))
+        {
+            rb.velocity = new Vector2(
+                moviendoDerecha ? velocidad : -velocidad,
+                rb.velocity.y);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, distanciaPatrulla);
+        if (detectorBorde != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(detectorBorde.position, 0.1f);
+        }
+    }
+}
