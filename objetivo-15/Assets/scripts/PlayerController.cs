@@ -24,20 +24,12 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    void OnCollisionStay2D(Collision2D col)
+    void OnTriggerStay2D(Collider2D col)
     {
-        foreach (ContactPoint2D contact in col.contacts)
-        {
-            if (contact.normal.y > 0.5f)
-            {
-                estaEnSuelo = true;
-                return;
-            }
-        }
-        estaEnSuelo = false;
+        estaEnSuelo = true;
     }
 
-    void OnCollisionExit2D(Collision2D col)
+    void OnTriggerExit2D(Collider2D col)
     {
         estaEnSuelo = false;
     }
