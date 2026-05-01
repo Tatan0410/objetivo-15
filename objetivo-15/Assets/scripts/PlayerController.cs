@@ -1,14 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Movimiento")]
     public float velocidad = 8f;
-    public float fuerzaSalto = 16f;
+    public float fuerzaSalto = 12f;
     public float velocidadDash = 20f;
     public float duracionDash = 0.15f;
     public float cooldownDash = 1f;
 
-    [Header("Detecci�n de suelo")]
+    [Header("Detección de suelo")]
     public Transform puntoSuelo;
     public float radioSuelo = 0.2f;
     public LayerMask capaSuelo;
@@ -20,20 +21,25 @@ public class PlayerController : MonoBehaviour
     private float temporizadorDash;
     private float temporizadorCooldown;
     private float direccionDash;
+    private float escalaOriginalX;
+    private bool saltoPendiente = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        escalaOriginalX = Mathf.Abs(transform.localScale.x);
     }
 
     void Update()
     {
-        estaEnSuelo = Physics2D.OverlapCircle(puntoSuelo.position, radioSuelo, capaSuelo);
+        estaEnSuelo = Physics2D.OverlapCircle(
+            puntoSuelo.position, radioSuelo, capaSuelo);
 
         temporizadorCooldown -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && temporizadorCooldown <= 0 && !estaDashing)
+        if (Input.GetKeyDown(KeyCode.LeftShift) &&
+            temporizadorCooldown <= 0 && !estaDashing)
         {
             estaDashing = true;
             temporizadorDash = duracionDash;
@@ -42,29 +48,42 @@ public class PlayerController : MonoBehaviour
             if (direccionDash == 0) direccionDash = 1;
         }
 
-        if (Input.GetButtonDown("Jump") && estaEnSuelo)
-            rb.velocity = new Vector2(rb.velocity.x, fuerzaSalto);
+        // Guardar el salto para aplicarlo en FixedUpdate
+        if (Input.GetKeyDown(KeyCode.Space) && estaEnSuelo)
+            saltoPendiente = true;
     }
 
     void FixedUpdate()
     {
         if (estaDashing)
         {
-            rb.velocity = new Vector2(direccionDash * velocidadDash, rb.velocity.y);
+            rb.velocity = new Vector2(
+                direccionDash * velocidadDash, rb.velocity.y);
             temporizadorDash -= Time.fixedDeltaTime;
-            if (temporizadorDash <= 0) estaDashing = false;
+            if (temporizadorDash <= 0)
+                estaDashing = false;
             return;
         }
 
         float movimiento = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(movimiento * velocidad, rb.velocity.y);
 
-        if (movimiento != 0)
+        // Aplicar salto pendiente antes de sobreescribir velocidad
+        if (saltoPendiente)
         {
-            Vector3 escala = transform.localScale;
-            escala.x = movimiento > 0 ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
-            transform.localScale = escala;
+            rb.velocity = new Vector2(movimiento * velocidad, fuerzaSalto);
+            saltoPendiente = false;
         }
+        else
+        {
+            rb.velocity = new Vector2(movimiento * velocidad, rb.velocity.y);
+        }
+
+        if (movimiento > 0)
+            transform.localScale = new Vector3(
+                escalaOriginalX, transform.localScale.y, 1);
+        else if (movimiento < 0)
+            transform.localScale = new Vector3(
+                -escalaOriginalX, transform.localScale.y, 1);
 
         if (anim != null)
         {

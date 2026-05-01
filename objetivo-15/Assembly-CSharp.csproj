@@ -65,11 +65,10 @@
     <Compile Include="Assets\scripts\JugadorMapa.cs" />
     <Compile Include="Assets\scripts\FinNivel.cs" />
     <Compile Include="Assets\scripts\GameManager.cs" />
+    <Compile Include="Assets\scripts\vidasmanager.cs" />
     <Compile Include="Assets\scripts\ConectarVidasUI.cs" />
-    <Compile Include="Assets\scripts\DebugSuelo.cs" />
     <Compile Include="Assets\scripts\CheckPoint.cs" />
     <Compile Include="Assets\scripts\PlayerController.cs" />
-    <Compile Include="Assets\scripts\VidasManager.cs" />
     <Compile Include="Assets\scripts\Muertejugador.cs" />
     <Compile Include="Assets\scripts\colecionablesPlasticos.cs" />
     <Compile Include="Assets\scripts\camaraseguidora.cs" />
