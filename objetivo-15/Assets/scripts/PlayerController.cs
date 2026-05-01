@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class PlayerController : MonoBehaviour
 {
     [Header("Movimiento")]
@@ -9,6 +8,11 @@ public class PlayerController : MonoBehaviour
     public float duracionDash = 0.15f;
     public float cooldownDash = 1f;
 
+    [Header("Detección de suelo")]
+    public Transform puntoSuelo;
+    public float radioSuelo = 0.2f;
+    public LayerMask capaSuelo;
+
     private Rigidbody2D rb;
     private Animator anim;
     private bool estaEnSuelo;
@@ -16,7 +20,6 @@ public class PlayerController : MonoBehaviour
     private float temporizadorDash;
     private float temporizadorCooldown;
     private float direccionDash;
-    private float temporizadorSalto;
 
     void Start()
     {
@@ -24,23 +27,13 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    void OnTriggerStay2D(Collider2D col)
-    {
-        estaEnSuelo = true;
-    }
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        estaEnSuelo = false;
-    }
-
     void Update()
     {
-        temporizadorSalto -= Time.deltaTime;
+        estaEnSuelo = Physics2D.OverlapCircle(puntoSuelo.position, radioSuelo, capaSuelo);
+
         temporizadorCooldown -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) &&
-            temporizadorCooldown <= 0 && !estaDashing)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && temporizadorCooldown <= 0 && !estaDashing)
         {
             estaDashing = true;
             temporizadorDash = duracionDash;
@@ -50,20 +43,16 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Jump") && estaEnSuelo)
-        {
-            Saltar();
-        }
+            rb.velocity = new Vector2(rb.velocity.x, fuerzaSalto);
     }
 
     void FixedUpdate()
     {
         if (estaDashing)
         {
-            rb.velocity = new Vector2(
-                direccionDash * velocidadDash, rb.velocity.y);
+            rb.velocity = new Vector2(direccionDash * velocidadDash, rb.velocity.y);
             temporizadorDash -= Time.fixedDeltaTime;
-            if (temporizadorDash <= 0)
-                estaDashing = false;
+            if (temporizadorDash <= 0) estaDashing = false;
             return;
         }
 
@@ -71,8 +60,11 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(movimiento * velocidad, rb.velocity.y);
 
         if (movimiento != 0)
-            transform.localScale = new Vector3(
-                movimiento > 0 ? 1 : -1, 1, 1);
+        {
+            Vector3 escala = transform.localScale;
+            escala.x = movimiento > 0 ? Mathf.Abs(escala.x) : -Mathf.Abs(escala.x);
+            transform.localScale = escala;
+        }
 
         if (anim != null)
         {
@@ -81,10 +73,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Saltar()
+    void OnDrawGizmosSelected()
     {
-        if (temporizadorSalto > 0) return;
-        rb.velocity = new Vector2(rb.velocity.x, fuerzaSalto);
-        temporizadorSalto = 0.1f;
+        if (puntoSuelo != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(puntoSuelo.position, radioSuelo);
+        }
     }
 }

@@ -27,6 +27,7 @@ public class VidasManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
@@ -36,17 +37,19 @@ public class VidasManager : MonoBehaviour
         ActualizarUI();
     }
 
+    public void AsignarTexto(TMP_Text texto)
+    {
+        textoVidas = texto;
+        ActualizarUI();
+    }
+
     public void PerderVida()
     {
         if (esInvencible) return;
-
         vidasActuales--;
         ActualizarUI();
-
         if (vidasActuales <= 0)
-        {
             MorirJugador();
-        }
         else
         {
             esInvencible = true;
@@ -54,16 +57,13 @@ public class VidasManager : MonoBehaviour
         }
     }
 
-    void QuitarInvencibilidad()
-    {
-        esInvencible = false;
-    }
+    void QuitarInvencibilidad() => esInvencible = false;
 
     void MorirJugador()
     {
         vidasActuales = vidasMaximas;
         ActualizarUI();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("Mapamundial");
     }
 
     void ActualizarUI()

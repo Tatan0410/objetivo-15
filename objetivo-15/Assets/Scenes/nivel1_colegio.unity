@@ -847,6 +847,7 @@ GameObject:
   - component: {fileID: 907800105}
   - component: {fileID: 907800104}
   - component: {fileID: 907800103}
+  - component: {fileID: 907800108}
   m_Layer: 0
   m_Name: enemigo
   m_TagString: Untagged
@@ -1012,6 +1013,51 @@ Transform:
   - {fileID: 1014429220}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &907800108
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907800102}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.6}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.8, y: 0.3}
+  m_EdgeRadius: 0
 --- !u!1 &921992861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,7 +1088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a34512c43ad02404daae7b4cb0fbdb3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidas: 3
   ultimoCheckpoint: {x: 0, y: 0, z: 0}
   jugador: {fileID: 1479732586}
 --- !u!4 &921992863
@@ -1354,6 +1399,7 @@ GameObject:
   - component: {fileID: 1479732587}
   - component: {fileID: 1479732592}
   - component: {fileID: 1479732593}
+  - component: {fileID: 1479732594}
   m_Layer: 0
   m_Name: jugador
   m_TagString: Player
@@ -1378,6 +1424,11 @@ MonoBehaviour:
   velocidadDash: 15
   duracionDash: 0.15
   cooldownDash: 1
+  puntoSuelo: {fileID: 1980909473}
+  radioSuelo: 0.2
+  capaSuelo:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!70 &1479732588
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1482,7 +1533,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ed4851db66a07a34681e1300a34d9984, type: 3}
-  m_Color: {r: 0.20042463, g: 0.87169814, b: 0.090459146, a: 1}
+  m_Color: {r: 0.9364202, g: 0.94716984, b: 0.93466, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1504,7 +1555,8 @@ Transform:
   m_LocalPosition: {x: -3.87, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1980909473}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1479732592
@@ -1549,7 +1601,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.073975205}
@@ -1565,6 +1617,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 1.8368695}
   m_EdgeRadius: 0
+--- !u!114 &1479732594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479732586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d93a7766c5efe24fa29895f00f2f1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puntoSuelo: {fileID: 1980909473}
+  radio: 1
+  capa:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1609936728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,7 +1775,7 @@ GameObject:
   - component: {fileID: 1653334798}
   - component: {fileID: 1653334797}
   - component: {fileID: 1653334796}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: suelo2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2085,6 +2154,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1980909472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1980909473}
+  m_Layer: 3
+  m_Name: PuntoSuelo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1980909473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980909472}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1479732591}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2006608723
 GameObject:
   m_ObjectHideFlags: 0
@@ -2096,6 +2196,7 @@ GameObject:
   - component: {fileID: 2006608724}
   - component: {fileID: 2006608726}
   - component: {fileID: 2006608725}
+  - component: {fileID: 2006608727}
   m_Layer: 5
   m_Name: textovidas
   m_TagString: Untagged
@@ -2219,6 +2320,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006608723}
   m_CullTransparentMesh: 1
+--- !u!114 &2006608727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006608723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef8ceb7760398d542b6fc74f2f5db099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
