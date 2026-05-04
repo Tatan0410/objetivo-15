@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class JugadorMapa : MonoBehaviour
@@ -14,7 +14,9 @@ public class JugadorMapa : MonoBehaviour
         if (!PlayerPrefs.HasKey("NivelDesbloqueado"))
             PlayerPrefs.SetInt("NivelDesbloqueado", 0);
 
-        // Posicionar al jugador en el nodo actual
+        // Recuperar el último nodo visitado
+        nodoActual = PlayerPrefs.GetInt("NodoActual", 0);
+
         if (nodos.Length > 0)
             transform.position = nodos[nodoActual].position;
     }
@@ -25,6 +27,7 @@ public class JugadorMapa : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(
                 transform.position, destino, velocidadMovimiento * Time.deltaTime);
+
             if (Vector3.Distance(transform.position, destino) < 0.01f)
             {
                 transform.position = destino;
@@ -56,12 +59,16 @@ public class JugadorMapa : MonoBehaviour
             moviendose = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) // ✅ fix
             EntrarNivel();
     }
 
     void EntrarNivel()
     {
+        // Guardar nodo actual para cuando vuelva al mapa
+        PlayerPrefs.SetInt("NodoActual", nodoActual);
+        PlayerPrefs.Save();
+
         switch (nodoActual)
         {
             case 0: SceneManager.LoadScene("nivel1_colegio"); break;

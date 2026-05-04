@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MuerteJugador : MonoBehaviour
 {
@@ -8,13 +8,16 @@ public class MuerteJugador : MonoBehaviour
     void Update()
     {
         if (muriendo) return;
+
         if (transform.position.y < limiteY)
         {
             muriendo = true;
+
             if (VidasManager.instancia != null)
                 VidasManager.instancia.PerderVida();
-            if (GameManager.instancia != null)
-                GameManager.instancia.RespawnJugador(gameObject);
+            // ✅ El respawn ahora lo maneja VidasManager.PerderVida()
+            // ya no necesitas llamar GameManager aquí para evitar doble respawn
+
             muriendo = false;
         }
     }
