@@ -13,6 +13,7 @@ public class Enemigo : MonoBehaviour
     private Vector2 puntoInicio;
     private bool moviendoDerecha = true;
     private Rigidbody2D rb;
+    private bool muerto = false;
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class Enemigo : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (muerto) return;
         Patrullar();
         VerificarBorde();
     }
@@ -57,23 +59,36 @@ public class Enemigo : MonoBehaviour
         puntoInicio = transform.position;
     }
 
-    // Golpe lateral — quita vida
+    void Morir()
+    {
+        muerto = true;
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
+        // Desactiva todos los colliders
+        foreach (Collider2D col in GetComponents<Collider2D>())
+            col.enabled = false;
+        // Cambia color para indicar que está muerto
+        GetComponent<SpriteRenderer>().color = Color.gray;
+        Destroy(gameObject, 1f);
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
+        if (muerto) return;
         if (!col.gameObject.CompareTag("Player")) return;
         if (VidasManager.instancia != null)
             VidasManager.instancia.PerderVida();
     }
 
-    // Pisada desde arriba — mata al enemigo
     void OnTriggerEnter2D(Collider2D col)
     {
+        if (muerto) return;
         if (!col.CompareTag("Player")) return;
         Rigidbody2D rbJugador = col.GetComponent<Rigidbody2D>();
         if (rbJugador != null && rbJugador.velocity.y < -0.1f)
         {
-            rbJugador.velocity = new Vector2(rbJugador.velocity.x, 10f);
-            Destroy(gameObject);
+            rbJugador.velocity = new Vector2(rbJugador.velocity.x, 6f);
+            Morir();
         }
     }
 

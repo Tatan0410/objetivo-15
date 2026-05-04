@@ -1,32 +1,32 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
-{
-    public static GameManager instancia;
-    public Vector3 ultimoCheckpoint;
-    public GameObject jugador;
-
-    void Awake()
+    public class GameManager : MonoBehaviour
     {
-        if (instancia == null)
-            instancia = this;
-        else
-            Destroy(gameObject);
-    }
+        public static GameManager instancia;
+        public Vector3 ultimoCheckpoint;
+        public GameObject jugador;
 
-    void Start()
-    {
-        ultimoCheckpoint = jugador.transform.position;
-    }
+        void Awake()
+        {
+            if (instancia == null)
+                instancia = this;
+            else
+                Destroy(gameObject);
+        }
 
-    public void GuardarCheckpoint(Vector3 posicion)
-    {
-        ultimoCheckpoint = posicion;
-    }
+        void Start()
+        {
+            ultimoCheckpoint = jugador.transform.position;
+        }
 
-    public void RespawnJugador(GameObject obj)
-    {
-        obj.transform.position = ultimoCheckpoint;
+        public void GuardarCheckpoint(Vector3 posicion)
+        {
+            ultimoCheckpoint = posicion;
+        }
+
+        public void RespawnJugador(GameObject obj)
+        {
+            obj.transform.position = ultimoCheckpoint;
+        }
     }
-}

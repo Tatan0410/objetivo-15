@@ -11,9 +11,12 @@ public class JugadorMapa : MonoBehaviour
 
     void Start()
     {
-        // Por defecto solo el nivel 1 está desbloqueado
         if (!PlayerPrefs.HasKey("NivelDesbloqueado"))
             PlayerPrefs.SetInt("NivelDesbloqueado", 0);
+
+        // Posicionar al jugador en el nodo actual
+        if (nodos.Length > 0)
+            transform.position = nodos[nodoActual].position;
     }
 
     void Update()
@@ -42,7 +45,7 @@ public class JugadorMapa : MonoBehaviour
             }
             else
             {
-                Debug.Log("Nivel bloqueado! Completa el nivel anterior.");
+                Debug.Log("Nivel bloqueado!");
             }
         }
 
@@ -54,21 +57,19 @@ public class JugadorMapa : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
-        {
             EntrarNivel();
-        }
     }
 
     void EntrarNivel()
     {
         switch (nodoActual)
         {
-            case 0: SceneManager.LoadScene("Nivel1_Colegio"); break;
-            case 1: SceneManager.LoadScene("Nivel2_Hipodromo"); break;
-            case 2: SceneManager.LoadScene("Nivel3_Mercado"); break;
-            case 3: SceneManager.LoadScene("Nivel4_Basurero"); break;
-            case 4: SceneManager.LoadScene("Nivel5_Subterraneo"); break;
-            case 5: SceneManager.LoadScene("Nivel6_EmpresaFinal"); break;
+            case 0: SceneManager.LoadScene("nivel1_colegio"); break;
+            case 1: SceneManager.LoadScene("nivel2_hipodromo"); break;
+            case 2: SceneManager.LoadScene("nivel3_mercado"); break;
+            case 3: SceneManager.LoadScene("nivel4_basurero"); break;
+            case 4: SceneManager.LoadScene("nivel5_subterraneo"); break;
+            case 5: SceneManager.LoadScene("nivel6_empresa"); break;
         }
     }
 }
