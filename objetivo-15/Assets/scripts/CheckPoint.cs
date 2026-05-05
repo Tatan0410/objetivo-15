@@ -9,9 +9,10 @@ public class Checkpoint : MonoBehaviour
         if (other.CompareTag("Player") && !activado)
         {
             activado = true;
-            // Guardar posición del jugador, no del checkpoint
-            GameManager.instancia.GuardarCheckpoint(other.transform.position);
+            // Guardamos la posición del checkpoint, no del jugador
+            GameManager.instancia.GuardarCheckpoint(transform.position);
             GetComponent<SpriteRenderer>().color = Color.green;
+            Debug.Log("Checkpoint activado");
         }
     }
 }

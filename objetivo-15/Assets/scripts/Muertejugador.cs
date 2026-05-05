@@ -12,13 +12,16 @@ public class MuerteJugador : MonoBehaviour
         if (transform.position.y < limiteY)
         {
             muriendo = true;
-
             if (VidasManager.instancia != null)
                 VidasManager.instancia.PerderVida();
-            // ✅ El respawn ahora lo maneja VidasManager.PerderVida()
-            // ya no necesitas llamar GameManager aquí para evitar doble respawn
 
-            muriendo = false;
+            // Esperar a que el respawn resetee la posición
+            Invoke("ResetearMuriendo", 0.5f);
         }
+    }
+
+    void ResetearMuriendo()
+    {
+        muriendo = false;
     }
 }

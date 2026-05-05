@@ -16,7 +16,7 @@ public class VidasManager : MonoBehaviour
 
     [Header("UI")]
     public TMP_Text textoVidas;
-    public GameObject panelHUD; // ← arrastra aquí el Canvas/Panel del HUD
+    public GameObject panelHUD;
 
     void Awake()
     {
@@ -52,15 +52,19 @@ public class VidasManager : MonoBehaviour
         ActualizarUI();
 
         if (vidasActuales <= 0)
+        {
             MorirJugador();
+        }
         else
         {
+            // Respawn en checkpoint
+            if (GameManager.instancia != null &&
+                GameManager.instancia.jugador != null)
+                GameManager.instancia.RespawnJugador(
+                    GameManager.instancia.jugador);
+
             esInvencible = true;
             Invoke("QuitarInvencibilidad", tiempoInvencible);
-
-            // Respawn en el mismo nivel
-            if (GameManager.instancia != null && GameManager.instancia.jugador != null)
-                GameManager.instancia.RespawnJugador(GameManager.instancia.jugador);
         }
     }
 
@@ -68,34 +72,21 @@ public class VidasManager : MonoBehaviour
 
     void MorirJugador()
     {
-        // ✅ BUG FIX: Ocultar HUD antes de cambiar escena
         if (panelHUD != null)
             panelHUD.SetActive(false);
 
         vidasActuales = vidasMaximas;
         ActualizarUI();
 
-        // Carga la escena y espera que termine para volver a mostrar el HUD
         SceneManager.sceneLoaded += OnEscenaCargada;
         SceneManager.LoadScene("Mapamundial");
     }
 
-    // ✅ BUG FIX: Se ejecuta cuando la escena nueva ya cargó
     void OnEscenaCargada(Scene escena, LoadSceneMode modo)
     {
-        SceneManager.sceneLoaded -= OnEscenaCargada; // desuscribirse
-
-        // Volver a mostrar el HUD
+        SceneManager.sceneLoaded -= OnEscenaCargada;
         if (panelHUD != null)
             panelHUD.SetActive(true);
-
-        // Reasignar el jugador (es un nuevo objeto en la escena nueva)
-        GameObject jugadorNuevo = GameObject.FindGameObjectWithTag("Player");
-        if (jugadorNuevo != null && GameManager.instancia != null)
-        {
-            GameManager.instancia.jugador = jugadorNuevo;
-            GameManager.instancia.ultimoCheckpoint = jugadorNuevo.transform.position;
-        }
     }
 
     void ActualizarUI()
