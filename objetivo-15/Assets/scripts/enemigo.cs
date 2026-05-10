@@ -10,6 +10,10 @@ public class Enemigo : MonoBehaviour
     public Transform detectorBorde;
     public LayerMask capaSuelo;
 
+    [Header("Drop de plásticos")]
+    public GameObject[] prefabsPlasticos;
+    public int cantidadDrop = 2;
+
     private Vector2 puntoInicio;
     private bool moviendoDerecha = true;
     private Rigidbody2D rb;
@@ -33,19 +37,26 @@ public class Enemigo : MonoBehaviour
     {
         float dir = moviendoDerecha ? 1f : -1f;
         rb.velocity = new Vector2(dir * velocidad, rb.velocity.y);
-        if (moviendoDerecha && transform.position.x >= puntoInicio.x + distanciaPatrulla)
+
+        if (moviendoDerecha &&
+            transform.position.x >= puntoInicio.x + distanciaPatrulla)
             Voltear();
-        else if (!moviendoDerecha && transform.position.x <= puntoInicio.x - distanciaPatrulla)
+        else if (!moviendoDerecha &&
+            transform.position.x <= puntoInicio.x - distanciaPatrulla)
             Voltear();
     }
 
     void VerificarBorde()
     {
         if (detectorBorde == null) return;
-        bool haySuelo = Physics2D.OverlapCircle(detectorBorde.position, 0.1f, capaSuelo);
+
+        bool haySuelo = Physics2D.OverlapCircle(
+            detectorBorde.position, 0.1f, capaSuelo);
         if (!haySuelo) Voltear();
+
         Vector2 direccion = moviendoDerecha ? Vector2.right : Vector2.left;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direccion, 0.6f, capaSuelo);
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position, direccion, 0.6f, capaSuelo);
         if (hit.collider != null) Voltear();
     }
 
@@ -59,16 +70,32 @@ public class Enemigo : MonoBehaviour
         puntoInicio = transform.position;
     }
 
+    void SoltarPlasticos()
+    {
+        if (prefabsPlasticos.Length == 0) return;
+
+        for (int i = 0; i < cantidadDrop; i++)
+        {
+            int random = Random.Range(0, prefabsPlasticos.Length);
+            Instantiate(prefabsPlasticos[random],
+                transform.position,
+                Quaternion.identity);
+        }
+    }
+
     void Morir()
     {
         muerto = true;
         rb.velocity = Vector2.zero;
         rb.isKinematic = true;
-        // Desactiva todos los colliders
+
         foreach (Collider2D col in GetComponents<Collider2D>())
             col.enabled = false;
-        // Cambia color para indicar que está muerto
+
         GetComponent<SpriteRenderer>().color = Color.gray;
+
+        SoltarPlasticos();
+
         Destroy(gameObject, 1f);
     }
 
@@ -76,6 +103,7 @@ public class Enemigo : MonoBehaviour
     {
         if (muerto) return;
         if (!col.gameObject.CompareTag("Player")) return;
+
         if (VidasManager.instancia != null)
             VidasManager.instancia.PerderVida();
     }
@@ -84,6 +112,7 @@ public class Enemigo : MonoBehaviour
     {
         if (muerto) return;
         if (!col.CompareTag("Player")) return;
+
         Rigidbody2D rbJugador = col.GetComponent<Rigidbody2D>();
         if (rbJugador != null && rbJugador.velocity.y < -0.1f)
         {
