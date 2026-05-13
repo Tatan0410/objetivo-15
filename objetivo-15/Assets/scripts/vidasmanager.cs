@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿
+
+using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -48,23 +50,39 @@ public class VidasManager : MonoBehaviour
     {
         if (esInvencible) return;
 
+        // Respeta la inmortalidad del power-up
+        PlayerController pc = GameManager.instancia?.jugador?
+            .GetComponent<PlayerController>();
+        if (pc != null && pc.EsInmortal()) return;
+
         vidasActuales--;
         ActualizarUI();
 
         if (vidasActuales <= 0)
-        {
             MorirJugador();
-        }
         else
         {
-            // Respawn en checkpoint
             if (GameManager.instancia != null &&
                 GameManager.instancia.jugador != null)
                 GameManager.instancia.RespawnJugador(
                     GameManager.instancia.jugador);
-
             esInvencible = true;
             Invoke("QuitarInvencibilidad", tiempoInvencible);
+        }
+    }
+
+    // ✅ NUEVO: agrega una vida sin pasar del máximo
+    public void AgregarVida()
+    {
+        if (vidasActuales < vidasMaximas)
+        {
+            vidasActuales++;
+            ActualizarUI();
+            Debug.Log("❤️ Vida ganada! Vidas: " + vidasActuales);
+        }
+        else
+        {
+            Debug.Log("❤️ Ya tienes el máximo de vidas: " + vidasMaximas);
         }
     }
 
@@ -74,10 +92,8 @@ public class VidasManager : MonoBehaviour
     {
         if (panelHUD != null)
             panelHUD.SetActive(false);
-
         vidasActuales = vidasMaximas;
         ActualizarUI();
-
         SceneManager.sceneLoaded += OnEscenaCargada;
         SceneManager.LoadScene("Mapamundial");
     }
