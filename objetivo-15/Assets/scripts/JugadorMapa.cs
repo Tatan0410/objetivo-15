@@ -7,7 +7,6 @@ public class JugadorMapa : MonoBehaviour
     public Transform[] nodos;
 
     [Header("Puntos del camino entre nodos")]
-    // Cada elemento es un grupo de puntos entre un nodo y el siguiente
     public CaminoEntreNodos[] caminos;
 
     public float velocidadMovimiento = 3f;
@@ -16,14 +15,14 @@ public class JugadorMapa : MonoBehaviour
     private bool moviendose = false;
     private Transform[] rutaActual;
     private int puntoRutaActual = 0;
-    private bool yendo = true; // true = avanzando, false = retrocediendo
 
     void Start()
     {
         if (!PlayerPrefs.HasKey("NivelDesbloqueado"))
             PlayerPrefs.SetInt("NivelDesbloqueado", 0);
 
-        nodoActual = PlayerPrefs.GetInt("NodoActual", 0);
+        int nodoGuardado = PlayerPrefs.GetInt("NodoActual", 0);
+        nodoActual = nodoGuardado;
 
         if (nodos.Length > 0)
             transform.position = nodos[nodoActual].position;
@@ -39,14 +38,13 @@ public class JugadorMapa : MonoBehaviour
 
         int nivelDesbloqueado = PlayerPrefs.GetInt("NivelDesbloqueado");
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) && nodoActual < nodos.Length - 1)
+        if (Input.GetKeyDown(KeyCode.RightArrow) &&
+            nodoActual < nodos.Length - 1)
         {
             if (nodoActual + 1 <= nivelDesbloqueado)
             {
-                // Construye la ruta: puntos intermedios + nodo destino
-                rutaActual = ObtenerRuta(nodoActual, true);
+                rutaActual = ObtenerRutaDirecta(nodoActual);
                 puntoRutaActual = 0;
-                yendo = true;
                 moviendose = true;
                 nodoActual++;
             }
@@ -58,48 +56,51 @@ public class JugadorMapa : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) && nodoActual > 0)
         {
-            // Ruta al revés
-            rutaActual = ObtenerRuta(nodoActual - 1, false);
+            rutaActual = ObtenerRutaInversa(nodoActual - 1);
             puntoRutaActual = 0;
-            yendo = false;
             moviendose = true;
             nodoActual--;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return) ||
+            Input.GetKeyDown(KeyCode.Space))
             EntrarNivel();
     }
 
-    // Construye el array de puntos a seguir
-    Transform[] ObtenerRuta(int indiceCamino, bool avanzando)
+    Transform[] ObtenerRutaDirecta(int indiceCamino)
     {
-        if (indiceCamino >= caminos.Length || caminos[indiceCamino].puntos.Length == 0)
-        {
-            // Si no hay camino definido, va directo al nodo
-            return new Transform[] { nodos[avanzando ? indiceCamino + 1 : indiceCamino] };
-        }
+        Transform nodoDestino = nodos[indiceCamino + 1];
 
-        Transform[] puntosIntermedios = caminos[indiceCamino].puntos;
-        Transform nodoDestino = nodos[avanzando ? indiceCamino + 1 : indiceCamino];
+        if (indiceCamino >= caminos.Length ||
+            caminos[indiceCamino].puntos.Length == 0)
+            return new Transform[] { nodoDestino };
 
-        // Arma la ruta completa
-        if (avanzando)
-        {
-            Transform[] ruta = new Transform[puntosIntermedios.Length + 1];
-            for (int i = 0; i < puntosIntermedios.Length; i++)
-                ruta[i] = puntosIntermedios[i];
-            ruta[ruta.Length - 1] = nodoDestino;
-            return ruta;
-        }
-        else
-        {
-            // Al revés: nodo destino + puntos al revés
-            Transform[] ruta = new Transform[puntosIntermedios.Length + 1];
-            ruta[0] = nodoDestino;
-            for (int i = 0; i < puntosIntermedios.Length; i++)
-                ruta[i + 1] = puntosIntermedios[puntosIntermedios.Length - 1 - i];
-            return ruta;
-        }
+        Transform[] pts = caminos[indiceCamino].puntos;
+        Transform[] ruta = new Transform[pts.Length + 1];
+
+        for (int i = 0; i < pts.Length; i++)
+            ruta[i] = pts[i];
+
+        ruta[ruta.Length - 1] = nodoDestino;
+        return ruta;
+    }
+
+    Transform[] ObtenerRutaInversa(int indiceCamino)
+    {
+        Transform nodoDestino = nodos[indiceCamino];
+
+        if (indiceCamino >= caminos.Length ||
+            caminos[indiceCamino].puntos.Length == 0)
+            return new Transform[] { nodoDestino };
+
+        Transform[] pts = caminos[indiceCamino].puntos;
+        Transform[] ruta = new Transform[pts.Length + 1];
+
+        for (int i = 0; i < pts.Length; i++)
+            ruta[i] = pts[pts.Length - 1 - i];
+
+        ruta[ruta.Length - 1] = nodoDestino;
+        return ruta;
     }
 
     void MoverPorRuta()
@@ -111,20 +112,24 @@ public class JugadorMapa : MonoBehaviour
         }
 
         Vector3 destino = rutaActual[puntoRutaActual].position;
+
+        Debug.Log("Yendo a punto " + puntoRutaActual +
+            " posicion: " + destino +
+            " desde: " + transform.position);
+
         transform.position = Vector3.MoveTowards(
-            transform.position, destino, velocidadMovimiento * Time.deltaTime);
+            transform.position, destino,
+            velocidadMovimiento * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, destino) < 0.01f)
         {
             transform.position = destino;
             puntoRutaActual++;
 
-            // Si llegó al último punto, terminó
             if (puntoRutaActual >= rutaActual.Length)
                 moviendose = false;
         }
     }
-
     void EntrarNivel()
     {
         PlayerPrefs.SetInt("NodoActual", nodoActual);
@@ -142,10 +147,9 @@ public class JugadorMapa : MonoBehaviour
     }
 }
 
-// Agrupa los puntos intermedios de cada camino
 [System.Serializable]
 public class CaminoEntreNodos
 {
-    public string nombre; // Solo para identificarlo en el Inspector
+    public string nombre;
     public Transform[] puntos;
 }

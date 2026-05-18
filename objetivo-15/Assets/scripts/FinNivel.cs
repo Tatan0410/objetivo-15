@@ -1,19 +1,25 @@
-    using UnityEngine;
-    using UnityEngine.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-    public class FinNivel : MonoBehaviour
+public class FinNivel : MonoBehaviour
+{
+    public int numeroNivel;
+
+    void OnTriggerEnter2D(Collider2D other)
     {
-        public int numeroNivel;
-
-        void OnTriggerEnter2D(Collider2D other)
+        if (other.CompareTag("Player"))
         {
-            if (other.CompareTag("Player"))
-            {
-                // Desbloquea el siguiente nivel
-                if (PlayerPrefs.GetInt("NivelDesbloqueado") < numeroNivel)
-                    PlayerPrefs.SetInt("NivelDesbloqueado", numeroNivel);
+            if (PlayerPrefs.GetInt("NivelDesbloqueado") < numeroNivel)
+                PlayerPrefs.SetInt("NivelDesbloqueado", numeroNivel);
 
-                SceneManager.LoadScene("Mapamundial");
-            }
+            // Guardar nodo actual igual al nivel completado
+            PlayerPrefs.SetInt("NodoActual", numeroNivel - 1);
+
+            // Indicar que NO debe moverse automáticamente
+            PlayerPrefs.SetInt("MoverAutomatico", 0);
+            PlayerPrefs.Save();
+
+            SceneManager.LoadScene("Mapamundial");
         }
     }
+}
