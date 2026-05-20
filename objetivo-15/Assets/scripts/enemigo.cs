@@ -12,7 +12,9 @@ public class Enemigo : MonoBehaviour
 
     [Header("Drop de plásticos")]
     public GameObject[] prefabsPlasticos;
-    public int cantidadDrop = 2;
+    public int cantidadDrop = 1;
+    [Range(0f, 1f)]
+    public float probabilidadDrop = 0.5f;
 
     private Vector2 puntoInicio;
     private bool moviendoDerecha = true;
@@ -72,6 +74,7 @@ public class Enemigo : MonoBehaviour
 
     void SoltarPlasticos()
     {
+        if (Random.value > probabilidadDrop) return;
         if (prefabsPlasticos.Length == 0) return;
 
         for (int i = 0; i < cantidadDrop; i++)
@@ -93,9 +96,7 @@ public class Enemigo : MonoBehaviour
             col.enabled = false;
 
         GetComponent<SpriteRenderer>().color = Color.gray;
-
         SoltarPlasticos();
-
         Destroy(gameObject, 1f);
     }
 
