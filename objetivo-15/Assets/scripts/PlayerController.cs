@@ -1,6 +1,4 @@
-﻿
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
@@ -22,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public float duracionVelocidad = 8f;
     public float duracionInmortalidad = 10f;
 
+    [Header("Límites del nivel")]
+    public bool usarLimiteIzquierdo = true;
+
     // Referencias
     private Rigidbody2D rb;
     private Animator anim;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private float direccionDash;
     private float escalaOriginalX;
     private bool saltoPendiente = false;
+    private bool controlActivo = true;
 
     // Estado potenciadores
     private float velocidadNormal;
@@ -52,6 +54,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!controlActivo) return;
+
         estaEnSuelo = Physics2D.OverlapCircle(
             puntoSuelo.position, radioSuelo, capaSuelo);
 
@@ -73,6 +77,24 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Límite izquierdo de la cámara
+        if (usarLimiteIzquierdo && Camera.main != null)
+        {
+            float limiteIzquierdo = Camera.main.transform.position.x -
+                Camera.main.orthographicSize * Camera.main.aspect;
+            if (transform.position.x < limiteIzquierdo)
+                transform.position = new Vector3(
+                    limiteIzquierdo,
+                    transform.position.y,
+                    transform.position.z);
+        }
+
+        if (!controlActivo)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            return;
+        }
+
         if (estaDashing)
         {
             rb.velocity = new Vector2(
@@ -109,6 +131,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Desactiva el control del jugador (para animaciones de fin de nivel)
+    public void DesactivarControl()
+    {
+        controlActivo = false;
+        estaDashing = false;
+    }
+
+    public void ActivarControl()
+    {
+        controlActivo = true;
+    }
+
     // ═══════════════════════════════════════
     // SISTEMA DE POTENCIADORES
     // ═══════════════════════════════════════
@@ -126,7 +160,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(BoostInmortalidad());
                 break;
             case TipoPotenciador.VidaExtra:
-                VidasManager.instancia.AgregarVida();  // ✅ corregido
+                VidasManager.instancia.AgregarVida();
                 StartCoroutine(DestelloColor(Color.red, 0.3f));
                 break;
         }
@@ -137,20 +171,17 @@ public class PlayerController : MonoBehaviour
         potenciadorActivo = true;
         velocidad = velocidadBoost;
         if (sr) sr.color = new Color(1f, 0.9f, 0.2f);
-        Debug.Log("⚡ Velocidad activada por " + duracionVelocidad + "s");
 
         yield return new WaitForSeconds(duracionVelocidad);
 
         velocidad = velocidadNormal;
         if (sr) sr.color = Color.white;
         potenciadorActivo = false;
-        Debug.Log("⚡ Velocidad restaurada");
     }
 
     IEnumerator BoostInmortalidad()
     {
         inmortal = true;
-        Debug.Log("⭐ Inmortalidad activada por " + duracionInmortalidad + "s");
 
         float tiempo = 0f;
         while (tiempo < duracionInmortalidad)
@@ -164,7 +195,6 @@ public class PlayerController : MonoBehaviour
 
         inmortal = false;
         if (sr) sr.color = Color.white;
-        Debug.Log("⭐ Inmortalidad terminada");
     }
 
     IEnumerator DestelloColor(Color color, float duracion)
