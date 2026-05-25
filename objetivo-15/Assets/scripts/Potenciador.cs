@@ -27,7 +27,6 @@ public class Potenciador : MonoBehaviour
 
     void Update()
     {
-        // Flotación igual que los plásticos
         float nuevoY = posInicial.y +
             Mathf.Sin(Time.time * velocidadFlotacion) * alturaFlotacion;
         transform.position = new Vector3(posInicial.x, nuevoY, posInicial.z);
@@ -37,8 +36,17 @@ public class Potenciador : MonoBehaviour
     {
         if (!col.CompareTag("Player")) return;
 
-        col.SendMessage("AplicarPotenciador", tipo,
-                        SendMessageOptions.DontRequireReceiver);
+        PlayerController pc = col.GetComponent<PlayerController>();
+        if (pc != null)
+        {
+            pc.AplicarPotenciador(tipo);
+            Debug.Log("Potenciador aplicado: " + tipo);
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró PlayerController en el jugador");
+        }
+
         Destroy(gameObject);
     }
 }

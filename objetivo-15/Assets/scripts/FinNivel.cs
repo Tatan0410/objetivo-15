@@ -24,7 +24,6 @@ public class FinNivel : MonoBehaviour
         Rigidbody2D rb = jugador.GetComponent<Rigidbody2D>();
         PlayerController pc = jugador.GetComponent<PlayerController>();
 
-        // Desactivar control del jugador
         if (pc != null) pc.DesactivarControl();
         if (rb != null) rb.velocity = Vector2.zero;
 
@@ -63,6 +62,10 @@ public class FinNivel : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1f);
+
+        // Resetear checkpoint antes de ir al mapa
+        if (GameManager.instancia != null)
+            GameManager.instancia.ResetearCheckpoint();
 
         if (PlayerPrefs.GetInt("NivelDesbloqueado") < numeroNivel)
             PlayerPrefs.SetInt("NivelDesbloqueado", numeroNivel);

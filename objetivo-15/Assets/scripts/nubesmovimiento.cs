@@ -35,7 +35,7 @@ public class NubesMovimiento : MonoBehaviour
             Quaternion.identity);
 
         float velocidad = Random.Range(velocidadMin, velocidadMax);
-        float escala = Random.Range(0.5f, 1.5f);
+        float escala = Random.Range(0.5f, 0.8f);
         nube.transform.localScale = new Vector3(escala, escala, 1);
 
         nube.AddComponent<NubeIndividual>().Inicializar(

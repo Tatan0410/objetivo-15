@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public Vector3 ultimoCheckpoint;
     public GameObject jugador;
     private Vector3 posicionInicialJugador;
+    private bool checkpointGuardado = false;
 
     void Awake()
     {
@@ -27,13 +28,15 @@ public class GameManager : MonoBehaviour
         if (jugador != null)
         {
             posicionInicialJugador = jugador.transform.position;
-            ultimoCheckpoint = posicionInicialJugador;
+            if (!checkpointGuardado)
+                ultimoCheckpoint = posicionInicialJugador;
         }
     }
 
     public void GuardarCheckpoint(Vector3 posicion)
     {
         ultimoCheckpoint = posicion;
+        checkpointGuardado = true;
         Debug.Log("Checkpoint guardado: " + posicion);
     }
 
@@ -45,7 +48,11 @@ public class GameManager : MonoBehaviour
         if (rb != null) rb.velocity = Vector2.zero;
     }
 
-    // Se llama automáticamente cuando carga una escena nueva
+    public void ResetearCheckpoint()
+    {
+        checkpointGuardado = false;
+    }
+
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnEscenaCargada;
@@ -58,13 +65,14 @@ public class GameManager : MonoBehaviour
 
     void OnEscenaCargada(Scene escena, LoadSceneMode modo)
     {
-        // Buscar el jugador en la nueva escena
         GameObject jugadorNuevo = GameObject.FindGameObjectWithTag("Player");
         if (jugadorNuevo != null)
         {
             jugador = jugadorNuevo;
-            // Resetear checkpoint al inicio de la escena nueva
-            ultimoCheckpoint = jugadorNuevo.transform.position;
+
+            if (checkpointGuardado)
+                jugadorNuevo.transform.position = ultimoCheckpoint;
+            // Si no hay checkpoint, el jugador queda donde está en la escena
         }
     }
 }
