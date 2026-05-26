@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NubesMovimiento : MonoBehaviour
 {
-    [Header("Configuraci�n")]
+    [Header("Configuración")]
     public GameObject prefabNube;
     public int cantidadNubes = 5;
     public float velocidadMin = 0.3f;
@@ -27,17 +27,19 @@ public class NubesMovimiento : MonoBehaviour
         float x = posicionAleatoria ?
             cam.transform.position.x + Random.Range(-rangoHorizontal, rangoHorizontal) :
             cam.transform.position.x + rangoHorizontal + 5f;
-
         float y = cam.transform.position.y + Random.Range(alturaMin, alturaMax);
 
         GameObject nube = Instantiate(prefabNube,
             new Vector3(x, y, 0),
             Quaternion.identity);
 
+        // ✅ FIX: hacer la nube hija de este objeto para que
+        // transform.childCount funcione correctamente
+        nube.transform.SetParent(transform);
+
         float velocidad = Random.Range(velocidadMin, velocidadMax);
         float escala = Random.Range(0.5f, 0.8f);
         nube.transform.localScale = new Vector3(escala, escala, 1);
-
         nube.AddComponent<NubeIndividual>().Inicializar(
             velocidad, rangoHorizontal, cam);
     }

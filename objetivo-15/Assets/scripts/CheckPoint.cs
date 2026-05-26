@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
@@ -9,8 +9,11 @@ public class Checkpoint : MonoBehaviour
         if (other.CompareTag("Player") && !activado)
         {
             activado = true;
-            // Guardamos la posici�n del checkpoint, no del jugador
+
+            // ✅ Guardamos la posición del checkpoint
+            // El offset Y se aplica dentro de GameManager.GuardarCheckpoint()
             GameManager.instancia.GuardarCheckpoint(transform.position);
+
             GetComponent<SpriteRenderer>().color = Color.green;
             Debug.Log("Checkpoint activado");
         }
