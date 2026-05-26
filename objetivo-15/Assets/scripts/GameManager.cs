@@ -11,9 +11,6 @@ public class GameManager : MonoBehaviour
     private Vector3 posicionInicialJugador;
     private bool checkpointGuardado = false;
 
-    // Offset para que el jugador aparezca ENCIMA del checkpoint, no dentro del suelo
-    private const float RESPAWN_OFFSET_Y = 1f;
-
     void Awake()
     {
         if (instancia == null)
@@ -40,10 +37,9 @@ public class GameManager : MonoBehaviour
 
     public void GuardarCheckpoint(Vector3 posicion)
     {
-        // ✅ Guardamos con offset Y para que el respawn sea sobre el suelo
-        ultimoCheckpoint = new Vector3(posicion.x, posicion.y + RESPAWN_OFFSET_Y, posicion.z);
+        ultimoCheckpoint = posicion;
         checkpointGuardado = true;
-        Debug.Log("Checkpoint guardado: " + ultimoCheckpoint);
+        Debug.Log("Checkpoint guardado: " + posicion);
     }
 
     public void RespawnJugador(GameObject obj)
@@ -57,10 +53,9 @@ public class GameManager : MonoBehaviour
     public void ResetearCheckpoint()
     {
         checkpointGuardado = false;
-        // ✅ Resetear la posición también para que no quede la vieja en memoria
-        // Se actualizará con la posición inicial del jugador al cargar la escena
-        ultimoCheckpoint = Vector3.zero;
-        Debug.Log("Checkpoint reseteado");
+        // ✅ FIX: resetear ultimoCheckpoint a la posición inicial
+        // para que al reentrar el nivel, el jugador aparezca al inicio
+        ultimoCheckpoint = posicionInicialJugador;
     }
 
     void OnEnable()
@@ -75,10 +70,17 @@ public class GameManager : MonoBehaviour
 
     void OnEscenaCargada(Scene escena, LoadSceneMode modo)
     {
+        // Si cargamos el mapa mundial, no buscar jugador
+        if (escena.name == "Mapamundial") return;
+
         GameObject jugadorNuevo = GameObject.FindGameObjectWithTag("Player");
         if (jugadorNuevo != null)
         {
             jugador = jugadorNuevo;
+
+            // ✅ Guardar posición inicial del jugador en esta escena
+            // ANTES de moverlo, por si no hay checkpoint guardado
+            posicionInicialJugador = jugadorNuevo.transform.position;
 
             if (checkpointGuardado)
             {
@@ -89,9 +91,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                // ✅ Sin checkpoint — guardar posición inicial de la escena
-                // para que futuros respawns sin checkpoint vayan al inicio del nivel
-                posicionInicialJugador = jugadorNuevo.transform.position;
+                // Sin checkpoint — el jugador queda en su posición inicial de la escena
                 ultimoCheckpoint = posicionInicialJugador;
             }
         }
