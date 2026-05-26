@@ -3,7 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\potenciador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\vidasmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\vidasmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\jugadormapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jugadormapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\potenciador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\potenciador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -21,14 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inventario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\vidasmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\vidasmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\jugadormapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\jugadormapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\finnivel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -131,35 +131,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "JugadorMapa.cs",
-              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\JugadorMapa.cs",
-              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
-              "RelativeToolTip": "Assets\\scripts\\JugadorMapa.cs",
-              "ViewState": "AgIAAIgAAAAAAAAAAAAIwKIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T23:55:27.857Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "PlayerController.cs",
-              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\PlayerController.cs",
-              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
-              "RelativeToolTip": "Assets\\scripts\\PlayerController.cs",
-              "ViewState": "AgIAAL4AAAAAAAAAAAAIwM8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T04:15:31.888Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "enemigo.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\enemigo.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\enemigo.cs",
@@ -167,12 +143,11 @@
               "RelativeToolTip": "Assets\\scripts\\enemigo.cs",
               "ViewState": "AgIAAGkAAAAAAAAAAAAUwKgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-30T16:01:54.669Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-30T16:01:54.669Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Potenciador.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\Potenciador.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Potenciador.cs",
@@ -185,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "CajaSorpresa.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\CajaSorpresa.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\CajaSorpresa.cs",
@@ -193,8 +168,7 @@
               "RelativeToolTip": "Assets\\scripts\\CajaSorpresa.cs",
               "ViewState": "AgIAAEwAAAAAAAAAAAA0wHAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-10T21:40:31.701Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-10T21:40:31.701Z"
             },
             {
               "$type": "Document",
@@ -234,7 +208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "PlasticoItem.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlasticoItem.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\PlasticoItem.cs",
@@ -242,12 +216,11 @@
               "RelativeToolTip": "Assets\\scripts\\PlasticoItem.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAiwE4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T03:06:38.889Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T03:06:38.889Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Inventario.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\Inventario.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Inventario.cs",
@@ -255,8 +228,7 @@
               "RelativeToolTip": "Assets\\scripts\\Inventario.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAcwB4AAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T03:07:28.241Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T03:07:28.241Z"
             },
             {
               "$type": "Document",
@@ -272,16 +244,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "vidasmanager.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\vidasmanager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\vidasmanager.cs",
               "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\vidasmanager.cs",
               "RelativeToolTip": "Assets\\scripts\\vidasmanager.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAowGQAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAywHAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-30T15:07:01.108Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "JugadorMapa.cs",
+              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\JugadorMapa.cs",
+              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
+              "RelativeToolTip": "Assets\\scripts\\JugadorMapa.cs",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAIwKMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-28T23:55:27.857Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\scripts\\PlayerController.cs",
+              "ViewState": "AgIAAL4AAAAAAAAAAAAIwM8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-28T04:15:31.888Z"
             },
             {
               "$type": "Document",

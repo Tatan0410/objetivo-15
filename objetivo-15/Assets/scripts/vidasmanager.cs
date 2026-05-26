@@ -1,6 +1,4 @@
-﻿
-
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -66,12 +64,12 @@ public class VidasManager : MonoBehaviour
                 GameManager.instancia.jugador != null)
                 GameManager.instancia.RespawnJugador(
                     GameManager.instancia.jugador);
+
             esInvencible = true;
             Invoke("QuitarInvencibilidad", tiempoInvencible);
         }
     }
 
-    // ✅ NUEVO: agrega una vida sin pasar del máximo
     public void AgregarVida()
     {
         if (vidasActuales < vidasMaximas)
@@ -93,7 +91,7 @@ public class VidasManager : MonoBehaviour
         vidasActuales = vidasMaximas;
         ActualizarUI();
 
-        // ✅ Limpiar checkpoint para que al reentrar el nivel empiece desde el inicio
+        // ✅ Limpiar checkpoint en memoria para que no persista a la próxima sesión
         if (GameManager.instancia != null)
             GameManager.instancia.ResetearCheckpoint();
 

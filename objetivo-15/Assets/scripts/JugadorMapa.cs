@@ -18,11 +18,9 @@ public class JugadorMapa : MonoBehaviour
 
     void Start()
     {
-        // Asegurar que exista la clave con valor inicial 0
         if (!PlayerPrefs.HasKey("NivelDesbloqueado"))
             PlayerPrefs.SetInt("NivelDesbloqueado", 0);
 
-        // ✅ Recuperar el nodo donde estaba el jugador (ya sea al morir o al completar)
         int nodoGuardado = PlayerPrefs.GetInt("NodoActual", 0);
         nodoActual = Mathf.Clamp(nodoGuardado, 0, nodos.Length - 1);
 
@@ -40,7 +38,6 @@ public class JugadorMapa : MonoBehaviour
 
         int nivelDesbloqueado = PlayerPrefs.GetInt("NivelDesbloqueado", 0);
 
-        // Avanzar al nodo siguiente (solo si está desbloqueado)
         if (Input.GetKeyDown(KeyCode.RightArrow) &&
             nodoActual < nodos.Length - 1)
         {
@@ -59,7 +56,6 @@ public class JugadorMapa : MonoBehaviour
             }
         }
 
-        // Retroceder al nodo anterior (siempre permitido)
         if (Input.GetKeyDown(KeyCode.LeftArrow) && nodoActual > 0)
         {
             rutaActual = ObtenerRutaInversa(nodoActual - 1);
@@ -70,7 +66,6 @@ public class JugadorMapa : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        // Entrar al nivel
         if (Input.GetKeyDown(KeyCode.Return) ||
             Input.GetKeyDown(KeyCode.Space))
             EntrarNivel();
@@ -138,9 +133,15 @@ public class JugadorMapa : MonoBehaviour
 
     void EntrarNivel()
     {
-        // Guardar posición actual antes de entrar
         PlayerPrefs.SetInt("NodoActual", nodoActual);
         PlayerPrefs.Save();
+
+        // ✅ CLAVE: limpiar checkpoint ANTES de cargar el nivel
+        // El GameManager tiene DontDestroyOnLoad y guarda el checkpoint
+        // en memoria — si no lo limpiamos aquí, al entrar al nivel
+        // el jugador respawnea en el checkpoint de la sesión anterior
+        if (GameManager.instancia != null)
+            GameManager.instancia.ResetearCheckpoint();
 
         switch (nodoActual)
         {
