@@ -18,11 +18,13 @@ public class JugadorMapa : MonoBehaviour
 
     void Start()
     {
+        // Asegurar que exista la clave con valor inicial 0
         if (!PlayerPrefs.HasKey("NivelDesbloqueado"))
             PlayerPrefs.SetInt("NivelDesbloqueado", 0);
 
+        // ✅ Recuperar el nodo donde estaba el jugador (ya sea al morir o al completar)
         int nodoGuardado = PlayerPrefs.GetInt("NodoActual", 0);
-        nodoActual = nodoGuardado;
+        nodoActual = Mathf.Clamp(nodoGuardado, 0, nodos.Length - 1);
 
         if (nodos.Length > 0)
             transform.position = nodos[nodoActual].position;
@@ -36,8 +38,9 @@ public class JugadorMapa : MonoBehaviour
             return;
         }
 
-        int nivelDesbloqueado = PlayerPrefs.GetInt("NivelDesbloqueado");
+        int nivelDesbloqueado = PlayerPrefs.GetInt("NivelDesbloqueado", 0);
 
+        // Avanzar al nodo siguiente (solo si está desbloqueado)
         if (Input.GetKeyDown(KeyCode.RightArrow) &&
             nodoActual < nodos.Length - 1)
         {
@@ -47,21 +50,27 @@ public class JugadorMapa : MonoBehaviour
                 puntoRutaActual = 0;
                 moviendose = true;
                 nodoActual++;
+                PlayerPrefs.SetInt("NodoActual", nodoActual);
+                PlayerPrefs.Save();
             }
             else
             {
-                Debug.Log("¡Nivel bloqueado!");
+                Debug.Log("🔒 Nivel bloqueado! Debes completar el nivel anterior.");
             }
         }
 
+        // Retroceder al nodo anterior (siempre permitido)
         if (Input.GetKeyDown(KeyCode.LeftArrow) && nodoActual > 0)
         {
             rutaActual = ObtenerRutaInversa(nodoActual - 1);
             puntoRutaActual = 0;
             moviendose = true;
             nodoActual--;
+            PlayerPrefs.SetInt("NodoActual", nodoActual);
+            PlayerPrefs.Save();
         }
 
+        // Entrar al nivel
         if (Input.GetKeyDown(KeyCode.Return) ||
             Input.GetKeyDown(KeyCode.Space))
             EntrarNivel();
@@ -113,10 +122,6 @@ public class JugadorMapa : MonoBehaviour
 
         Vector3 destino = rutaActual[puntoRutaActual].position;
 
-        Debug.Log("Yendo a punto " + puntoRutaActual +
-            " posicion: " + destino +
-            " desde: " + transform.position);
-
         transform.position = Vector3.MoveTowards(
             transform.position, destino,
             velocidadMovimiento * Time.deltaTime);
@@ -130,8 +135,10 @@ public class JugadorMapa : MonoBehaviour
                 moviendose = false;
         }
     }
+
     void EntrarNivel()
     {
+        // Guardar posición actual antes de entrar
         PlayerPrefs.SetInt("NodoActual", nodoActual);
         PlayerPrefs.Save();
 
@@ -143,6 +150,7 @@ public class JugadorMapa : MonoBehaviour
             case 3: SceneManager.LoadScene("nivel4_basurero"); break;
             case 4: SceneManager.LoadScene("nivel5_subterraneo"); break;
             case 5: SceneManager.LoadScene("nivel6_empresa"); break;
+            default: Debug.LogWarning("Nodo sin escena asignada: " + nodoActual); break;
         }
     }
 }

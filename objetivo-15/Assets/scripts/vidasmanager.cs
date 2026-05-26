@@ -90,13 +90,14 @@ public class VidasManager : MonoBehaviour
 
     void MorirJugador()
     {
-        // Resetear checkpoint al morir
+        vidasActuales = vidasMaximas;
+        ActualizarUI();
+
+        // ✅ Limpiar checkpoint para que al reentrar el nivel empiece desde el inicio
         if (GameManager.instancia != null)
             GameManager.instancia.ResetearCheckpoint();
 
-        vidasActuales = vidasMaximas;
-        ActualizarUI();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("Mapamundial");
     }
 
     void OnEscenaCargada(Scene escena, LoadSceneMode modo)

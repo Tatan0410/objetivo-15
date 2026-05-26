@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Enemigo : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class Enemigo : MonoBehaviour
     private bool moviendoDerecha = true;
     private Rigidbody2D rb;
     private bool muerto = false;
+
+    // Guardamos la posición de muerte para el spawn,
+    // ya que el enemigo se destruye antes de que corra el delay
+    private Vector3 posicionMuerte;
 
     void Start()
     {
@@ -51,7 +56,6 @@ public class Enemigo : MonoBehaviour
     void VerificarBorde()
     {
         if (detectorBorde == null) return;
-
         bool haySuelo = Physics2D.OverlapCircle(
             detectorBorde.position, 0.1f, capaSuelo);
         if (!haySuelo) Voltear();
@@ -77,13 +81,19 @@ public class Enemigo : MonoBehaviour
         if (Random.value > probabilidadDrop) return;
         if (prefabsPlasticos.Length == 0) return;
 
-        for (int i = 0; i < cantidadDrop; i++)
-        {
-            int random = Random.Range(0, prefabsPlasticos.Length);
-            Instantiate(prefabsPlasticos[random],
-                transform.position,
-                Quaternion.identity);
-        }
+        // ✅ FIX: guardamos posición ANTES de destruir el objeto
+        // y usamos un GameObject temporal para correr la coroutine
+        posicionMuerte = transform.position;
+
+        // Creamos un objeto vacío temporal que sobrevive al enemigo
+        // y spawnea los plásticos después de 0.5s
+        GameObject runner = new GameObject("PlasticoSpawnRunner");
+        runner.AddComponent<PlasticoSpawnRunner>().Iniciar(
+            prefabsPlasticos,
+            cantidadDrop,
+            posicionMuerte,
+            0.5f
+        );
     }
 
     void Morir()
@@ -104,7 +114,6 @@ public class Enemigo : MonoBehaviour
     {
         if (muerto) return;
         if (!col.gameObject.CompareTag("Player")) return;
-
         if (VidasManager.instancia != null)
             VidasManager.instancia.PerderVida();
     }
@@ -131,5 +140,30 @@ public class Enemigo : MonoBehaviour
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(detectorBorde.position, 0.1f);
         }
+    }
+}
+
+// ✅ Clase auxiliar: objeto temporal que spawnea los plásticos con delay
+// y luego se destruye solo — no depende del enemigo que ya murió
+public class PlasticoSpawnRunner : MonoBehaviour
+{
+    public void Iniciar(GameObject[] prefabs, int cantidad, Vector3 posicion, float delay)
+    {
+        StartCoroutine(SpawnConDelay(prefabs, cantidad, posicion, delay));
+    }
+
+    IEnumerator SpawnConDelay(GameObject[] prefabs, int cantidad, Vector3 posicion, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        for (int i = 0; i < cantidad; i++)
+        {
+            int random = Random.Range(0, prefabs.Length);
+            // Spawnear ligeramente separado para que no se acumulen
+            Vector3 offset = new Vector3(Random.Range(-0.5f, 0.5f), 0.3f, 0);
+            Instantiate(prefabs[random], posicion + offset, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
     }
 }

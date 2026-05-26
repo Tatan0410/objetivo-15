@@ -14,29 +14,42 @@ public class PlasticoItem : MonoBehaviour
     private bool recolectado = false;
     private Vector3 posicionInicial;
     private Rigidbody2D rb;
+    private Collider2D col;
 
     void Start()
     {
         posicionInicial = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
 
-        // ✅ FIX PRINCIPAL: apagar la física para que no caiga
+        // Apagar física para que no caiga
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0f;
 
+        // Desactivar collider al spawn para que no se auto-recolecte
+        // cuando aparece encima del jugador al matar un enemigo
+        col.enabled = false;
+        Invoke("ActivarCollider", 0.3f);
+
         Destroy(gameObject, tiempoVida);
+    }
+
+    void ActivarCollider()
+    {
+        if (!recolectado)
+            col.enabled = true;
     }
 
     void Update()
     {
-        // Animación de flotación (como monedas de Mario)
+        // Animación de flotación estilo monedas de Mario
         float nuevoY = posicionInicial.y +
             Mathf.Sin(Time.time * velocidadFlotacion) * alturaFlotacion;
         transform.position = new Vector3(
             posicionInicial.x, nuevoY, posicionInicial.z);
 
-        // Seguridad por si cae de todas formas
+        // Destruir si cae fuera del mapa
         if (transform.position.y < limiteY)
             Destroy(gameObject);
     }
@@ -44,10 +57,13 @@ public class PlasticoItem : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (recolectado) return;
-
         if (col.CompareTag("Player"))
         {
             recolectado = true;
+
+            // ✅ FIX: deshabilitar collider de inmediato para que no dispare
+            // dos veces en el mismo frame por colliders múltiples del jugador
+            GetComponent<Collider2D>().enabled = false;
 
             if (Inventario.instancia != null)
                 Inventario.instancia.AgregarPlastico(tipo);

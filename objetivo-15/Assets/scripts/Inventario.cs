@@ -27,6 +27,8 @@ public class Inventario : MonoBehaviour
 
     public void AgregarPlastico(TipoPlastico tipo)
     {
+        Debug.Log("🧪 AGREGANDO: " + tipo +
+                  "\nDesde: " + System.Environment.StackTrace);
         switch (tipo)
         {
             case TipoPlastico.BotellaPET:
