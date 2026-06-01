@@ -5,7 +5,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instancia;
 
+    [Header("Checkpoint actual")]
     public Vector3 ultimoCheckpoint;
+
+    [Header("Referencia jugador")]
     public GameObject jugador;
 
     private Vector3 posicionInicialJugador;
@@ -30,33 +33,76 @@ public class GameManager : MonoBehaviour
         if (jugador != null)
         {
             posicionInicialJugador = jugador.transform.position;
+
             if (!checkpointGuardado)
+            {
                 ultimoCheckpoint = posicionInicialJugador;
+            }
         }
     }
+
+    // ═══════════════════════════════════════
+    // GUARDAR CHECKPOINT
+    // ═══════════════════════════════════════
 
     public void GuardarCheckpoint(Vector3 posicion)
     {
         ultimoCheckpoint = posicion;
         checkpointGuardado = true;
-        Debug.Log("Checkpoint guardado: " + posicion);
+
+        Debug.Log("Checkpoint guardado en: " + posicion);
     }
+
+    // ═══════════════════════════════════════
+    // RESPAWN DEL JUGADOR
+    // ═══════════════════════════════════════
 
     public void RespawnJugador(GameObject obj)
     {
         if (obj == null) return;
-        obj.transform.position = ultimoCheckpoint;
+
         Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
-        if (rb != null) rb.velocity = Vector2.zero;
+
+        if (rb != null)
+        {
+            // Detener TODO movimiento
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+
+            // Apagar física temporalmente
+            rb.simulated = false;
+        }
+
+        // Mover al checkpoint
+        obj.transform.position = ultimoCheckpoint;
+
+        // Resetear rotación
+        obj.transform.rotation = Quaternion.identity;
+
+        // Reactivar física
+        if (rb != null)
+        {
+            rb.simulated = true;
+        }
+
+        Debug.Log("Jugador respawneado en: " + ultimoCheckpoint);
     }
+
+    // ═══════════════════════════════════════
+    // RESETEAR CHECKPOINT
+    // ═══════════════════════════════════════
 
     public void ResetearCheckpoint()
     {
         checkpointGuardado = false;
-        // ✅ FIX: resetear ultimoCheckpoint a la posición inicial
-        // para que al reentrar el nivel, el jugador aparezca al inicio
+
+        // Volver al inicio del nivel
         ultimoCheckpoint = posicionInicialJugador;
     }
+
+    // ═══════════════════════════════════════
+    // CAMBIO DE ESCENA
+    // ═══════════════════════════════════════
 
     void OnEnable()
     {
@@ -70,28 +116,24 @@ public class GameManager : MonoBehaviour
 
     void OnEscenaCargada(Scene escena, LoadSceneMode modo)
     {
-        // Si cargamos el mapa mundial, no buscar jugador
-        if (escena.name == "Mapamundial") return;
+        // Ignorar mapa mundial
+        if (escena.name == "Mapamundial")
+            return;
 
         GameObject jugadorNuevo = GameObject.FindGameObjectWithTag("Player");
+
         if (jugadorNuevo != null)
         {
             jugador = jugadorNuevo;
 
-            // ✅ Guardar posición inicial del jugador en esta escena
-            // ANTES de moverlo, por si no hay checkpoint guardado
-            posicionInicialJugador = jugadorNuevo.transform.position;
+            posicionInicialJugador = jugador.transform.position;
 
             if (checkpointGuardado)
             {
-                // Hay checkpoint activo — respawnear ahí
-                jugadorNuevo.transform.position = ultimoCheckpoint;
-                Rigidbody2D rb = jugadorNuevo.GetComponent<Rigidbody2D>();
-                if (rb != null) rb.velocity = Vector2.zero;
+                RespawnJugador(jugador);
             }
             else
             {
-                // Sin checkpoint — el jugador queda en su posición inicial de la escena
                 ultimoCheckpoint = posicionInicialJugador;
             }
         }

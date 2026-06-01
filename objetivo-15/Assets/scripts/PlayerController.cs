@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    public Animator animator;
+
     [Header("Movimiento")]
     public float velocidad = 6f;
     public float fuerzaSalto = 7.5f;
@@ -23,12 +25,9 @@ public class PlayerController : MonoBehaviour
     [Header("Límites del nivel")]
     public bool usarLimiteIzquierdo = true;
 
-    // Referencias
     private Rigidbody2D rb;
-    private Animator anim;
     private SpriteRenderer sr;
 
-    // Estado movimiento
     private bool estaEnSuelo;
     private bool estaDashing;
     private float temporizadorDash;
@@ -38,7 +37,6 @@ public class PlayerController : MonoBehaviour
     private bool saltoPendiente = false;
     private bool controlActivo = true;
 
-    // Estado potenciadores
     private float velocidadNormal;
     private bool inmortal = false;
     private bool potenciadorActivo = false;
@@ -46,18 +44,21 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+
+        // Si no asignaste el Animator en el Inspector, lo busca automáticamente
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
         escalaOriginalX = Mathf.Abs(transform.localScale.x);
         velocidadNormal = velocidad;
     }
 
-    void Update()
+    void Update() 
     {
         if (!controlActivo) return;
 
-        estaEnSuelo = Physics2D.OverlapCircle(
-            puntoSuelo.position, radioSuelo, capaSuelo);
+        estaEnSuelo = Physics2D.OverlapCircle(puntoSuelo.position, radioSuelo, capaSuelo);
 
         temporizadorCooldown -= Time.deltaTime;
 
@@ -77,7 +78,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Límite izquierdo de la cámara
         if (usarLimiteIzquierdo && Camera.main != null)
         {
             float limiteIzquierdo = Camera.main.transform.position.x -
@@ -92,16 +92,26 @@ public class PlayerController : MonoBehaviour
         if (!controlActivo)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
+            // ✅ Detiene animación de movimiento al perder control
+            if (animator != null)
+            {
+                animator.SetBool("corriendo", false);
+                animator.SetBool("enSuelo", estaEnSuelo);
+            }
             return;
         }
 
         if (estaDashing)
         {
-            rb.velocity = new Vector2(
-                direccionDash * velocidadDash, rb.velocity.y);
+            rb.velocity = new Vector2(direccionDash * velocidadDash, rb.velocity.y);
             temporizadorDash -= Time.fixedDeltaTime;
             if (temporizadorDash <= 0)
                 estaDashing = false;
+
+            // ✅ Activa animación de dash si tienes el parámetro
+            if (animator != null)
+                animator.SetBool("corriendo", true);
+
             return;
         }
 
@@ -118,34 +128,21 @@ public class PlayerController : MonoBehaviour
         }
 
         if (movimiento > 0)
-            transform.localScale = new Vector3(
-                escalaOriginalX, transform.localScale.y, 1);
+            transform.localScale = new Vector3(escalaOriginalX, transform.localScale.y, 1);
         else if (movimiento < 0)
-            transform.localScale = new Vector3(
-                -escalaOriginalX, transform.localScale.y, 1);
+            transform.localScale = new Vector3(-escalaOriginalX, transform.localScale.y, 1);
 
-        if (anim != null)
+        // ✅ Un solo Animator, parámetros consistentes
+        if (animator != null)
         {
-            anim.SetBool("corriendo", movimiento != 0);
-            anim.SetBool("enSuelo", estaEnSuelo);
+            animator.SetBool("corriendo", movimiento != 0);
+            animator.SetBool("enSuelo", estaEnSuelo);
+            animator.SetFloat("velocidadVertical", rb.velocity.y); // útil para salto/caída
         }
     }
 
-    // Desactiva el control del jugador (para animaciones de fin de nivel)
-    public void DesactivarControl()
-    {
-        controlActivo = false;
-        estaDashing = false;
-    }
-
-    public void ActivarControl()
-    {
-        controlActivo = true;
-    }
-
-    // ═══════════════════════════════════════
-    // SISTEMA DE POTENCIADORES
-    // ═══════════════════════════════════════
+    public void DesactivarControl() { controlActivo = false; estaDashing = false; }
+    public void ActivarControl() { controlActivo = true; }
 
     public void AplicarPotenciador(TipoPotenciador tipo)
     {
@@ -171,9 +168,7 @@ public class PlayerController : MonoBehaviour
         potenciadorActivo = true;
         velocidad = velocidadBoost;
         if (sr) sr.color = new Color(1f, 0.9f, 0.2f);
-
         yield return new WaitForSeconds(duracionVelocidad);
-
         velocidad = velocidadNormal;
         if (sr) sr.color = Color.white;
         potenciadorActivo = false;
@@ -182,7 +177,6 @@ public class PlayerController : MonoBehaviour
     IEnumerator BoostInmortalidad()
     {
         inmortal = true;
-
         float tiempo = 0f;
         while (tiempo < duracionInmortalidad)
         {
@@ -192,7 +186,6 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             tiempo += 0.4f;
         }
-
         inmortal = false;
         if (sr) sr.color = Color.white;
     }

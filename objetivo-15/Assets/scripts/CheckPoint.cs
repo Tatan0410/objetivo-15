@@ -4,10 +4,8 @@ public class Checkpoint : MonoBehaviour
 {
     private bool activado = false;
 
-    [Header("Offset de spawn")]
-    // ✅ El jugador aparece un poco arriba del checkpoint para no
-    // quedar dentro del suelo ni de la geometría
-    public float offsetY = 1f;
+    [Header("Punto exacto de respawn")]
+    public Transform spawnPoint;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -15,12 +13,18 @@ public class Checkpoint : MonoBehaviour
         {
             activado = true;
 
-            // ✅ Guardar posición con offset hacia arriba
-            Vector3 posSpawn = transform.position + Vector3.up * offsetY;
-            GameManager.instancia.GuardarCheckpoint(posSpawn);
+            if (spawnPoint != null)
+            {
+                GameManager.instancia.GuardarCheckpoint(spawnPoint.position);
+
+                Debug.Log("Checkpoint guardado en: " + spawnPoint.position);
+            }
+            else
+            {
+                Debug.LogWarning("No hay SpawnPoint asignado");
+            }
 
             GetComponent<SpriteRenderer>().color = Color.green;
-            Debug.Log("Checkpoint activado en: " + posSpawn);
         }
     }
 }
