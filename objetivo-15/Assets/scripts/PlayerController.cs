@@ -65,10 +65,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!controlActivo) return;
-
         estaEnSuelo = Physics2D.OverlapCircle(
             puntoSuelo.position, radioSuelo, capaSuelo);
+
+        if (!controlActivo) return;
 
         temporizadorCooldown -= Time.deltaTime;
 
@@ -128,7 +128,6 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                rb.velocity = Vector2.zero;
                 if (animator != null)
                 {
                     animator.SetBool("corriendo", false);
