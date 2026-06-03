@@ -48,11 +48,11 @@ public class FinNivel : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        // Animar la bandera bajando
+        // El jugador iza la bandera (sube en vez de caer)
         if (bandera != null)
         {
             Vector3 posInicial = bandera.position;
-            Vector3 posFinal = posInicial + Vector3.down * 2f;
+            Vector3 posFinal = posInicial + Vector3.up * 2f;
             float t = 0;
             while (t < 1f)
             {
