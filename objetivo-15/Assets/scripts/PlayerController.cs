@@ -115,8 +115,27 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            controlActivo = true;
             return;
+        }
+
+        if (caidaLentaActiva)
+        {
+            if (estaEnSuelo)
+            {
+                caidaLentaActiva = false;
+                rb.gravityScale = gravedadNormal;
+                controlActivo = true;
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+                if (animator != null)
+                {
+                    animator.SetBool("corriendo", false);
+                    animator.SetBool("enSuelo", false);
+                }
+                return;
+            }
         }
 
         if (!controlActivo)
@@ -129,12 +148,6 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("enSuelo", estaEnSuelo);
             }
             return;
-        }
-
-        if (caidaLentaActiva && estaEnSuelo)
-        {
-            caidaLentaActiva = false;
-            rb.gravityScale = gravedadNormal;
         }
 
         if (usarLimiteIzquierdo && Camera.main != null)
