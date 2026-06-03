@@ -4,10 +4,8 @@ public class Checkpoint : MonoBehaviour
 {
     private bool activado = false;
 
-    [Header("Punto exacto de respawn (opcional)")]
-    // Si asignas un SpawnPoint, el jugador aparece ahí
-    // Si no, aparece encima del propio checkpoint
-    public Transform spawnPoint;
+    [Header("Offset adicional sobre el checkpoint")]
+    public float offsetRespawn = 1f;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -15,20 +13,7 @@ public class Checkpoint : MonoBehaviour
         {
             activado = true;
 
-            Vector3 posRespawn;
-
-            if (spawnPoint != null)
-            {
-                // Usar el SpawnPoint asignado en el Inspector
-                posRespawn = spawnPoint.position;
-            }
-            else
-            {
-                // ✅ Fallback: usar posición del checkpoint + offset hacia arriba
-                // para no quedar dentro del suelo
-                posRespawn = transform.position + Vector3.up * 1f;
-                Debug.LogWarning("Checkpoint sin SpawnPoint — usando posición automática: " + posRespawn);
-            }
+            Vector3 posRespawn = transform.position + Vector3.up * offsetRespawn;
 
             // Guardar respawn localmente en el jugador
             MuerteJugador muerte = other.GetComponent<MuerteJugador>();

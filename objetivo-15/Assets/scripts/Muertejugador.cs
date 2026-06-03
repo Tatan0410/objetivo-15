@@ -6,7 +6,7 @@ public class MuerteJugador : MonoBehaviour
     public float limiteY = -20f;
 
     [Header("Respawn")]
-    public float respawnYOffset = 100f;
+    public float respawnYOffset = 15f;
 
     private bool muriendo = false;
     private Rigidbody2D rb;

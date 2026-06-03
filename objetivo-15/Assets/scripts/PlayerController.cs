@@ -41,11 +41,14 @@ public class PlayerController : MonoBehaviour
     private bool inmortal = false;
     private bool potenciadorActivo = false;
 
-    [Header("Respawn (no tocar)")]
+    [Header("Respawn")]
     public bool respawnPendiente = false;
     public Vector3 posicionRespawn;
-    public float respawnYSeguro = -5f;
-    public float respawnYForzado = 0f;
+
+    [Header("Caída lenta (Minecraft)")]
+    public bool caidaLentaActiva = false;
+    public float gravedadNormal = 1f;
+    public float gravedadCaidaLenta = 0.3f;
 
     void Start()
     {
@@ -57,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
         escalaOriginalX = Mathf.Abs(transform.localScale.x);
         velocidadNormal = velocidad;
+        gravedadNormal = rb.gravityScale;
     }
 
     void Update()
@@ -89,15 +93,29 @@ public class PlayerController : MonoBehaviour
             respawnPendiente = false;
 
             Vector3 destino = posicionRespawn;
-            Debug.Log("Respawn ANTES: destino=" + destino + " yForzado=" + respawnYForzado);
-            destino.y = Mathf.Max(destino.y, respawnYForzado);
+            Debug.Log("Respawn en: " + destino);
 
             rb.velocity = Vector2.zero;
             rb.position = destino;
             transform.position = destino;
 
+            rb.gravityScale = gravedadCaidaLenta;
+            caidaLentaActiva = true;
+
+            if (Camera.main != null)
+            {
+                CamaraSeguidora cam = Camera.main.GetComponent<CamaraSeguidora>();
+                if (cam != null)
+                {
+                    Vector3 posCam = destino;
+                    posCam.x += cam.offset.x;
+                    posCam.y += cam.offset.y;
+                    posCam.z = Camera.main.transform.position.z;
+                    Camera.main.transform.position = posCam;
+                }
+            }
+
             controlActivo = true;
-            Debug.Log("Respawn DESPUÉS: destino=" + destino + " | pos real=" + transform.position);
             return;
         }
 
@@ -111,6 +129,12 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("enSuelo", estaEnSuelo);
             }
             return;
+        }
+
+        if (caidaLentaActiva && estaEnSuelo)
+        {
+            caidaLentaActiva = false;
+            rb.gravityScale = gravedadNormal;
         }
 
         if (usarLimiteIzquierdo && Camera.main != null)
