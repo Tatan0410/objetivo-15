@@ -114,8 +114,10 @@ public class Enemigo : MonoBehaviour
     {
         if (muerto) return;
         if (!col.gameObject.CompareTag("Player")) return;
-        if (VidasManager.instancia != null)
-            VidasManager.instancia.PerderVida();
+
+        MuerteJugador muerte = col.gameObject.GetComponent<MuerteJugador>();
+        if (muerte != null)
+            muerte.MorirPorEnemigo();
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -128,6 +130,12 @@ public class Enemigo : MonoBehaviour
         {
             rbJugador.velocity = new Vector2(rbJugador.velocity.x, 6f);
             Morir();
+        }
+        else
+        {
+            MuerteJugador muerte = col.GetComponent<MuerteJugador>();
+            if (muerte != null)
+                muerte.MorirPorEnemigo();
         }
     }
 

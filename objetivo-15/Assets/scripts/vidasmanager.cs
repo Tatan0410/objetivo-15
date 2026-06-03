@@ -60,11 +60,6 @@ public class VidasManager : MonoBehaviour
             MorirJugador();
         else
         {
-            if (GameManager.instancia != null &&
-                GameManager.instancia.jugador != null)
-                GameManager.instancia.RespawnJugador(
-                    GameManager.instancia.jugador);
-
             esInvencible = true;
             Invoke("QuitarInvencibilidad", tiempoInvencible);
         }

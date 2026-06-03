@@ -1,41 +1,66 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MuerteJugador : MonoBehaviour
 {
     [Header("Límite de caída")]
     public float limiteY = -20f;
 
+    [Header("Respawn")]
+    public float respawnYOffset = 100f;
+
     private bool muriendo = false;
+    private Rigidbody2D rb;
+    private PlayerController pc;
+    private Vector3 posicionRespawn;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        pc = GetComponent<PlayerController>();
+        posicionRespawn = transform.position;
+    }
 
     void Update()
     {
-        // Evitar múltiples muertes
         if (muriendo) return;
-
-        // Detectar caída al vacío
         if (transform.position.y < limiteY)
-        {
-            StartCoroutine(Morir());
-        }
+            Morir();
     }
 
-    IEnumerator Morir()
+    public void MorirPorEnemigo()
     {
+        if (muriendo) return;
+        Morir();
+    }
+
+    public void GuardarRespawn(Vector3 pos)
+    {
+        posicionRespawn = pos;
+    }
+
+    void Morir()
+    {
+        if (muriendo) return;
         muriendo = true;
 
-        Debug.Log("Jugador cayó al vacío");
+        if (pc != null) pc.DesactivarControl();
+        if (rb != null) rb.velocity = Vector2.zero;
 
-        // Perder vida
         if (VidasManager.instancia != null)
-        {
             VidasManager.instancia.PerderVida();
+
+        if (this == null) return;
+
+        if (VidasManager.instancia != null && VidasManager.instancia.vidasActuales > 0)
+        {
+            if (pc != null)
+            {
+                Vector3 destino = posicionRespawn + Vector3.up * respawnYOffset;
+                pc.posicionRespawn = destino;
+                pc.respawnPendiente = true;
+            }
         }
 
-        // Esperar un poquito para estabilizar
-        yield return new WaitForSeconds(0.2f);
-
-        // Permitir futuras muertes
         muriendo = false;
     }
 }

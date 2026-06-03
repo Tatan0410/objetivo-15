@@ -38,12 +38,11 @@ public class jugadorpatrulla : MonoBehaviour
     // ← OnTriggerEnter2D porque el jugador tiene Is Trigger activado
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Trigger con: " + col.gameObject.name + " | Tag: " + col.gameObject.tag);
-
         if (col.CompareTag("Player"))
         {
-            if (VidasManager.instancia != null)
-                VidasManager.instancia.PerderVida();
+            MuerteJugador muerte = col.GetComponent<MuerteJugador>();
+            if (muerte != null)
+                muerte.MorirPorEnemigo();
         }
     }
 

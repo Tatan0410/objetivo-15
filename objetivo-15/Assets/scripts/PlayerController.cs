@@ -41,12 +41,17 @@ public class PlayerController : MonoBehaviour
     private bool inmortal = false;
     private bool potenciadorActivo = false;
 
+    [Header("Respawn (no tocar)")]
+    public bool respawnPendiente = false;
+    public Vector3 posicionRespawn;
+    public float respawnYSeguro = -5f;
+    public float respawnYForzado = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
 
-        // Si no asignaste el Animator en el Inspector, lo busca automáticamente
         if (animator == null)
             animator = GetComponent<Animator>();
 
@@ -54,11 +59,12 @@ public class PlayerController : MonoBehaviour
         velocidadNormal = velocidad;
     }
 
-    void Update() 
+    void Update()
     {
         if (!controlActivo) return;
 
-        estaEnSuelo = Physics2D.OverlapCircle(puntoSuelo.position, radioSuelo, capaSuelo);
+        estaEnSuelo = Physics2D.OverlapCircle(
+            puntoSuelo.position, radioSuelo, capaSuelo);
 
         temporizadorCooldown -= Time.deltaTime;
 
@@ -78,6 +84,35 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (respawnPendiente)
+        {
+            respawnPendiente = false;
+
+            Vector3 destino = posicionRespawn;
+            Debug.Log("Respawn ANTES: destino=" + destino + " yForzado=" + respawnYForzado);
+            destino.y = Mathf.Max(destino.y, respawnYForzado);
+
+            rb.velocity = Vector2.zero;
+            rb.position = destino;
+            transform.position = destino;
+
+            controlActivo = true;
+            Debug.Log("Respawn DESPUÉS: destino=" + destino + " | pos real=" + transform.position);
+            return;
+        }
+
+        if (!controlActivo)
+        {
+            rb.velocity = Vector2.zero;
+
+            if (animator != null)
+            {
+                animator.SetBool("corriendo", false);
+                animator.SetBool("enSuelo", estaEnSuelo);
+            }
+            return;
+        }
+
         if (usarLimiteIzquierdo && Camera.main != null)
         {
             float limiteIzquierdo = Camera.main.transform.position.x -
@@ -89,29 +124,15 @@ public class PlayerController : MonoBehaviour
                     transform.position.z);
         }
 
-        if (!controlActivo)
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            // ✅ Detiene animación de movimiento al perder control
-            if (animator != null)
-            {
-                animator.SetBool("corriendo", false);
-                animator.SetBool("enSuelo", estaEnSuelo);
-            }
-            return;
-        }
-
         if (estaDashing)
         {
-            rb.velocity = new Vector2(direccionDash * velocidadDash, rb.velocity.y);
+            rb.velocity = new Vector2(
+                direccionDash * velocidadDash, rb.velocity.y);
             temporizadorDash -= Time.fixedDeltaTime;
-            if (temporizadorDash <= 0)
-                estaDashing = false;
+            if (temporizadorDash <= 0) estaDashing = false;
 
-            // ✅ Activa animación de dash si tienes el parámetro
             if (animator != null)
                 animator.SetBool("corriendo", true);
-
             return;
         }
 
@@ -128,21 +149,30 @@ public class PlayerController : MonoBehaviour
         }
 
         if (movimiento > 0)
-            transform.localScale = new Vector3(escalaOriginalX, transform.localScale.y, 1);
+            transform.localScale = new Vector3(
+                escalaOriginalX, transform.localScale.y, 1);
         else if (movimiento < 0)
-            transform.localScale = new Vector3(-escalaOriginalX, transform.localScale.y, 1);
+            transform.localScale = new Vector3(
+                -escalaOriginalX, transform.localScale.y, 1);
 
-        // ✅ Un solo Animator, parámetros consistentes
         if (animator != null)
         {
             animator.SetBool("corriendo", movimiento != 0);
             animator.SetBool("enSuelo", estaEnSuelo);
-            animator.SetFloat("velocidadVertical", rb.velocity.y); // útil para salto/caída
+            animator.SetFloat("velocidadVertical", rb.velocity.y);
         }
     }
 
-    public void DesactivarControl() { controlActivo = false; estaDashing = false; }
-    public void ActivarControl() { controlActivo = true; }
+    public void DesactivarControl()
+    {
+        controlActivo = false;
+        estaDashing = false;
+    }
+
+    public void ActivarControl()
+    {
+        controlActivo = true;
+    }
 
     public void AplicarPotenciador(TipoPotenciador tipo)
     {

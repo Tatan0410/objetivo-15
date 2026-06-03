@@ -534,11 +534,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1437346690570530999, guid: 7355044a80e76ef46bc5777df2f7d112, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.84
+      value: 14.97
       objectReference: {fileID: 0}
     - target: {fileID: 1437346690570530999, guid: 7355044a80e76ef46bc5777df2f7d112, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.66
+      value: -3.32
       objectReference: {fileID: 0}
     - target: {fileID: 1437346690570530999, guid: 7355044a80e76ef46bc5777df2f7d112, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3290,6 +3290,10 @@ MonoBehaviour:
   duracionVelocidad: 8
   duracionInmortalidad: 10
   usarLimiteIzquierdo: 1
+  respawnPendiente: 0
+  posicionRespawn: {x: 0, y: 0, z: 0}
+  respawnYSeguro: -5
+  respawnYForzado: 50
 --- !u!50 &1479732589
 Rigidbody2D:
   serializedVersion: 4
@@ -3398,6 +3402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limiteY: -10
+  respawnYOffset: 5
 --- !u!61 &1479732593
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4796,7 +4801,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1437346690570530999, guid: 7355044a80e76ef46bc5777df2f7d112, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5.1915
+      value: 8.17475
       objectReference: {fileID: 0}
     - target: {fileID: 1437346690570530999, guid: 7355044a80e76ef46bc5777df2f7d112, type: 3}
       propertyPath: m_LocalScale.y
@@ -4804,7 +4809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1437346690570530999, guid: 7355044a80e76ef46bc5777df2f7d112, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.19
+      value: 8.6816
       objectReference: {fileID: 0}
     - target: {fileID: 1437346690570530999, guid: 7355044a80e76ef46bc5777df2f7d112, type: 3}
       propertyPath: m_LocalPosition.y
