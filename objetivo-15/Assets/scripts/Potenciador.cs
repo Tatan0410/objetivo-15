@@ -9,11 +9,11 @@ public enum TipoPotenciador
 
 public class Potenciador : MonoBehaviour
 {
-    [Header("Configuración")]
+    [Header("Configuraciï¿½n")]
     public TipoPotenciador tipo;
     public float tiempoVida = 10f;
 
-    [Header("Animación flotante")]
+    [Header("Animaciï¿½n flotante")]
     public float velocidadFlotacion = 2f;
     public float alturaFlotacion = 0.15f;
 
@@ -21,6 +21,9 @@ public class Potenciador : MonoBehaviour
 
     void Start()
     {
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.isTrigger = true;
+
         posInicial = transform.position;
         Destroy(gameObject, tiempoVida);
     }
@@ -44,7 +47,7 @@ public class Potenciador : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No se encontró PlayerController en el jugador");
+            Debug.LogWarning("No se encontrï¿½ PlayerController en el jugador");
         }
 
         Destroy(gameObject);

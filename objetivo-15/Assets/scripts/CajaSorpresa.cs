@@ -7,15 +7,15 @@ public class CajaSorpresa : MonoBehaviour
     public GameObject[] prefabsPowerUp;
 
     [Header("Tipo de caja")]
-    public bool cajaEnSuelo = false; // false = aérea (golpe cabeza)
+    public bool cajaEnSuelo = false; // false = aï¿½rea (golpe cabeza)
                                      // true  = en suelo (pisarla)
     [Header("Apariencia")]
     public Sprite spriteActiva;      // sprite normal (dorado/?)
-    public Sprite spriteUsada;       // sprite después de golpear (gris)
+    public Sprite spriteUsada;       // sprite despuï¿½s de golpear (gris)
     public Color colorActiva = new Color(1f, 0.85f, 0f); // dorado
     public Color colorUsada = new Color(0.4f, 0.4f, 0.4f); // gris
 
-    [Header("Animación de golpe")]
+    [Header("Animaciï¿½n de golpe")]
     public float alturaRebote = 0.3f;
     public float velocidadRebote = 8f;
 
@@ -27,6 +27,9 @@ public class CajaSorpresa : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
         posOriginal = transform.position;
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.isTrigger = false;
 
         if (sr)
         {
@@ -40,30 +43,7 @@ public class CajaSorpresa : MonoBehaviour
         if (usada) return;
         if (!col.collider.CompareTag("Player")) return;
 
-        // Detecta dirección del golpe por la normal del contacto
-        foreach (ContactPoint2D contacto in col.contacts)
-        {
-            if (!cajaEnSuelo)
-            {
-                // Caja AÉREA: el jugador golpea desde ABAJO
-                // normal.y < -0.5 significa que el golpe viene de abajo
-                if (contacto.normal.y < -0.5f)
-                {
-                    Activar();
-                    break;
-                }
-            }
-            else
-            {
-                // Caja en SUELO: el jugador la pisa desde ARRIBA
-                // normal.y > 0.5 significa que el golpe viene de arriba
-                if (contacto.normal.y > 0.5f)
-                {
-                    Activar();
-                    break;
-                }
-            }
-        }
+        Activar();
     }
 
     void Activar()

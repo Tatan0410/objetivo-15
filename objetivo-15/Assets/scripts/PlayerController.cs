@@ -61,6 +61,9 @@ public class PlayerController : MonoBehaviour
         escalaOriginalX = Mathf.Abs(transform.localScale.x);
         velocidadNormal = velocidad;
         gravedadNormal = rb.gravityScale;
+
+        if (!CompareTag("Player"))
+            gameObject.tag = "Player";
     }
 
     void Update()
@@ -83,6 +86,8 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && estaEnSuelo)
+            saltoPendiente = true;
+        if (Input.GetKeyDown(KeyCode.W) && estaEnSuelo)
             saltoPendiente = true;
     }
 
