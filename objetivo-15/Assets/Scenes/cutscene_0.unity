@@ -793,8 +793,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 26}
-  m_SizeDelta: {x: -996.91, y: -233.993}
+  m_AnchoredPosition: {x: -11, y: 18}
+  m_SizeDelta: {x: -1556.896, y: -432.413}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1158878603
 MonoBehaviour:
@@ -843,13 +843,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 9
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -879,7 +879,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -463.52783, y: -46.352684, z: -466.62082, w: -92.70579}
+  m_margin: {x: -637.6969, y: -19.896599, z: -636.3809, w: -22.156235}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -928,8 +928,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 320, y: -23}
-  m_SizeDelta: {x: 1200, y: 250}
+  m_AnchoredPosition: {x: 87.129, y: -23.213}
+  m_SizeDelta: {x: 944.259, y: 578.772}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1321637468
 MonoBehaviour:
@@ -944,15 +944,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.090134375, g: 0.09433961, b: 0.08953363, a: 0.7058824}
+  m_Color: {r: 0.9641509, g: 1, b: 0.9641509, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: c6a9a3d9d49729a4f93c9031f5a849b9, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1015,8 +1015,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imagenPlaneta: {fileID: 2000000012}
-  spriteBocaCerrada: {fileID: 21300000, guid: f52648bab7f94a84f967ccce40e15956, type: 3}
-  spriteBocaAbierta: {fileID: 21300000, guid: e245b90d86b220d47bfbd67751d07613, type: 3}
+  spriteBocaCerrada: {fileID: 21300000, guid: ba4302ad565de2740ac101856defe981, type: 3}
+  spriteBocaAbierta: {fileID: 21300000, guid: 9ed4572746d73ca4fb557bece29ee8fa, type: 3}
   velocidadBoca: 0.2
   textoDialogo: {fileID: 1158878603}
   botonSiguiente: {fileID: 533010984}
@@ -1027,6 +1027,9 @@ MonoBehaviour:
   - texto: "\xA1Hola! Soy la Tierra. En el colegio Sagrado Coraz\xF3n de Soledad,
       los estudiantes enfrentan un grave problema: el pl\xE1stico contamina sus espacios.
       \xA1Ay\xFAdalos a limpiar!"
+    vozAudio: {fileID: 0}
+  - texto: "\xBFEst\xE1s listo para ayudar? Recorre cada rinc\xF3n del colegio y
+      recoge todo el pl\xE1stico que encuentres. \xA1Cada botella y bolsa cuenta!"
     vozAudio: {fileID: 0}
   - texto: 'pene
 
@@ -1187,7 +1190,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f52648bab7f94a84f967ccce40e15956, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9ed4572746d73ca4fb557bece29ee8fa, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

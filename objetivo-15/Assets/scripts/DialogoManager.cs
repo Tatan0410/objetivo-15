@@ -46,6 +46,12 @@ public class DialogoManager : MonoBehaviour
         botonSkip.SetActive(true);
         if (imagenPlaneta != null && spriteBocaCerrada != null)
             imagenPlaneta.sprite = spriteBocaCerrada;
+
+        if (botonSiguiente != null)
+            botonSiguiente.GetComponent<Button>().onClick.AddListener(Siguiente);
+        if (botonSkip != null)
+            botonSkip.GetComponent<Button>().onClick.AddListener(SkipCutscene);
+
         MostrarDialogo(0);
     }
 
