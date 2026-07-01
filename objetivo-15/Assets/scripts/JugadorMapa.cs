@@ -145,9 +145,9 @@ public class JugadorMapa : MonoBehaviour
 
         switch (nodoActual)
         {
-            case 0: SceneManager.LoadScene("nivel1_colegio"); break;
-            case 1: SceneManager.LoadScene("nivel2_hipodromo"); break;
-            case 2: SceneManager.LoadScene("nivel3_mercado"); break;
+            case 0: SceneManager.LoadScene("cutscene_0"); break;
+            case 1: SceneManager.LoadScene("cutscene_1"); break;
+            case 2: SceneManager.LoadScene("cutscene_2"); break;
             case 3: SceneManager.LoadScene("nivel4_basurero"); break;
             case 4: SceneManager.LoadScene("nivel5_subterraneo"); break;
             case 5: SceneManager.LoadScene("nivel6_empresa"); break;
