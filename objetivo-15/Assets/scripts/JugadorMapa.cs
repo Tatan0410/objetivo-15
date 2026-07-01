@@ -148,9 +148,9 @@ public class JugadorMapa : MonoBehaviour
             case 0: SceneManager.LoadScene("cutscene_0"); break;
             case 1: SceneManager.LoadScene("cutscene_1"); break;
             case 2: SceneManager.LoadScene("cutscene_2"); break;
-            case 3: SceneManager.LoadScene("nivel4_basurero"); break;
-            case 4: SceneManager.LoadScene("nivel5_subterraneo"); break;
-            case 5: SceneManager.LoadScene("nivel6_empresa"); break;
+            case 3: SceneManager.LoadScene("cutscene_3"); break;
+            case 4: SceneManager.LoadScene("cutscene_4"); break;
+            case 5: SceneManager.LoadScene("cutscene_5"); break;
             default: Debug.LogWarning("Nodo sin escena asignada: " + nodoActual); break;
         }
     }
