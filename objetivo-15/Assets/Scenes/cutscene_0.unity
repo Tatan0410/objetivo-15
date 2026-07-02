@@ -1017,7 +1017,7 @@ MonoBehaviour:
   imagenPlaneta: {fileID: 2000000012}
   spriteBocaCerrada: {fileID: 21300000, guid: ba4302ad565de2740ac101856defe981, type: 3}
   spriteBocaAbierta: {fileID: 21300000, guid: 9ed4572746d73ca4fb557bece29ee8fa, type: 3}
-  velocidadBoca: 0.2
+  velocidadBoca: 0.3
   textoDialogo: {fileID: 1158878603}
   botonSiguiente: {fileID: 533010984}
   textoBotonSiguiente: {fileID: 2082514484}
@@ -1039,7 +1039,8 @@ MonoBehaviour:
       las tierras y proteger la biodiversidad. \xA1T\xFA eres parte del cambio!"
     vozAudio: {fileID: 0}
   escenaDestino: nivel1_colegio
-  velocidadTexto: 0.08
+  textoSiguienteUltimo: "\xA1Jugar!"
+  velocidadTexto: 0.09
 --- !u!82 &2000000003
 AudioSource:
   m_ObjectHideFlags: 0

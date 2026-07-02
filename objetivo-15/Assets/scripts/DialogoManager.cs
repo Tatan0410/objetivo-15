@@ -34,6 +34,7 @@ public class DialogoManager : MonoBehaviour
     [Header("Configuración")]
     public Dialogo[] dialogos;
     public string escenaDestino;
+    public string textoSiguienteUltimo = "¡Jugar!";
     public float velocidadTexto = 0.03f;
 
     private int indiceActual = 0;
@@ -42,6 +43,7 @@ public class DialogoManager : MonoBehaviour
 
     void Start()
     {
+        AudioListener.volume = PlayerPrefs.GetFloat("Volumen", 1f);
         botonSiguiente.SetActive(false);
         botonSkip.SetActive(true);
         if (imagenPlaneta != null && spriteBocaCerrada != null)
@@ -77,7 +79,7 @@ public class DialogoManager : MonoBehaviour
         DetenerBoca();
         escribiendo = false;
         botonSiguiente.SetActive(true);
-        textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : "¡Jugar!";
+        textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : textoSiguienteUltimo;
     }
 
     IEnumerator AnimarBoca()
@@ -110,7 +112,7 @@ public class DialogoManager : MonoBehaviour
             DetenerBoca();
             escribiendo = false;
             botonSiguiente.SetActive(true);
-            textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : "¡Jugar!";
+            textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : textoSiguienteUltimo;
             return;
         }
         indiceActual++;
@@ -130,3 +132,6 @@ public class DialogoManager : MonoBehaviour
         SceneManager.LoadScene(escenaDestino);
     }
 }
+
+
+

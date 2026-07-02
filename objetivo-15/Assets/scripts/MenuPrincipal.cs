@@ -5,14 +5,11 @@ public class MenuPrincipal : MonoBehaviour
 {
     [Header("Paneles")]
     public GameObject panelMenuPrincipal;
-    public GameObject panelAcercaDe;
 
     void Start()
     {
         Time.timeScale = 1f;
-
         panelMenuPrincipal.SetActive(true);
-        panelAcercaDe.SetActive(false);
     }
 
     public void Jugar()
@@ -20,16 +17,9 @@ public class MenuPrincipal : MonoBehaviour
         SceneManager.LoadScene("Mapamundial");
     }
 
-    public void AbrirAcercaDe()
+    public void AbrirSoluciones()
     {
-        panelMenuPrincipal.SetActive(false);
-        panelAcercaDe.SetActive(true);
-    }
-
-    public void VolverAlMenu()
-    {
-        panelAcercaDe.SetActive(false);
-        panelMenuPrincipal.SetActive(true);
+        SceneManager.LoadScene("cutscene_soluciones");
     }
 
     public void Salir()
