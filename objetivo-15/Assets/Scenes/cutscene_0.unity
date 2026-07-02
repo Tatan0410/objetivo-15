@@ -793,8 +793,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11, y: 18}
-  m_SizeDelta: {x: -1556.896, y: -432.413}
+  m_AnchoredPosition: {x: -9.019989, y: 16.399994}
+  m_SizeDelta: {x: -1590.154, y: -428.848}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1158878603
 MonoBehaviour:
@@ -879,7 +879,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -637.6969, y: -19.896599, z: -636.3809, w: -22.156235}
+  m_margin: {x: -664.7584, y: -13.133537, z: -672.46265, w: -6.939247}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -928,8 +928,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 87.129, y: -23.213}
-  m_SizeDelta: {x: 944.259, y: 578.772}
+  m_AnchoredPosition: {x: 198, y: -49}
+  m_SizeDelta: {x: 944.259, y: 653.167}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1321637468
 MonoBehaviour:
@@ -1024,15 +1024,15 @@ MonoBehaviour:
   botonSkip: {fileID: 2000000020}
   audioSource: {fileID: 2000000003}
   dialogos:
-  - texto: "\xA1Hola! Soy la Tierra. En el colegio Sagrado Coraz\xF3n de Soledad,
-      Atl\xE1ntico, los estudiantes enfrentan un grave problema: el pl\xE1stico
-      contamina sus espacios. El ODS 15 busca proteger la vida de ecosistemas
-      terrestres. \xA1Ay\xFAdalos a limpiar!"
-    vozAudio: {fileID: 0}
-  - texto: "\xBFSab\xEDas que cada a\xF1o m\xE1s de 11 millones de toneladas de
-      pl\xE1stico llegan al oc\xE9ano? El pl\xE1stico tarda hasta 500 a\xF1os en
-      degradarse. Recorre el colegio y recoge todo el pl\xE1stico que encuentres.
-      \xA1Cada botella y bolsa cuenta!"
+  - texto: "\xA1Hola! Soy ambientalin. En el colegio Sagrado Coraz\xF3n de Soledad,
+      Atl\xE1ntico, los estudiantes enfrentan un grave problema: el pl\xE1stico contamina
+      sus espacios. El ODS 15 busca proteger la vida de ecosistemas terrestres. \xA1Ay\xFAdalos
+      a limpiar!"
+    vozAudio: {fileID: 8300000, guid: eb7bd8f2cde2ef2409524d04a6e34d2f, type: 3}
+  - texto: "\xBFSab\xEDas que cada a\xF1o m\xE1s de 11 millones de toneladas de pl\xE1stico
+      llegan al oc\xE9ano? El pl\xE1stico tarda hasta 500 a\xF1os en degradarse.
+      Recorre el colegio y recoge todo el pl\xE1stico que encuentres. \xA1Cada botella
+      y bolsa cuenta!"
     vozAudio: {fileID: 0}
   - texto: "En Colombia, la contaminaci\xF3n por pl\xE1sticos afecta nuestros suelos,
       r\xEDos y ecosistemas. El ODS 15 nos invita a detener la degradaci\xF3n de
