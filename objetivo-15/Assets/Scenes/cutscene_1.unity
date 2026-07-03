@@ -784,16 +784,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10000000027}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0011131285, w: -0.9999994}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 10000000032}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.128}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11, y: 18}
+  m_AnchoredPosition: {x: -11.0000305, y: 18}
   m_SizeDelta: {x: -1556.896, y: -432.413}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &10000000029
@@ -879,7 +879,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -637.6969, y: -19.896599, z: -636.3809, w: -22.156235}
+  m_margin: {x: -651.56116, y: -19.896599, z: -672.9068, w: -22.156235}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -928,8 +928,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 87.129, y: -23.213}
-  m_SizeDelta: {x: 944.259, y: 578.772}
+  m_AnchoredPosition: {x: 87.129, y: 2.007}
+  m_SizeDelta: {x: 944.259, y: 629.213}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &10000000033
 MonoBehaviour:
@@ -1027,17 +1027,18 @@ MonoBehaviour:
   - texto: "\xA1Excelente! Has limpiado el colegio sagrado coraz\xF3n. Ahora visita
       el hip\xF3dromo,\nun lugar donde el da\xF1o a los ecosistemas es visible. En
       el Atl\xE1ntico,\nhemos perdido m\xE1s del 70% de nuestros bosques secos tropicales."
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 1686be3517f013a4e882d4905ca2272a, type: 3}
   - texto: "La deforestaci\xF3n destruye el h\xE1bitat de muchas especies. El ODS
       15 busca\ngestionar sosteniblemente los bosques y detener la p\xE9rdida de
       biodiversidad.\nCada \xE1rbol que protegemos ayuda a mantener la vida en la
       Tierra."
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 1e074ac2af1c6ef488024d8471e4d38f, type: 3}
   - texto: "En Colombia, la expansi\xF3n agr\xEDcola y ganadera es la principal causa
       de\ndeforestaci\xF3n. Pero con peque\xF1as acciones como reciclar y consumir\nresponsablemente,
       podemos marcar la diferencia. \xA1Sigue adelante!"
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: d8c4e7f08a3cdf541a9f4c58884a40e6, type: 3}
   escenaDestino: nivel2_hipodromo
+  textoSiguienteUltimo: "\xA1Jugar!"
   velocidadTexto: 0.08
 --- !u!82 &10000000038
 AudioSource:

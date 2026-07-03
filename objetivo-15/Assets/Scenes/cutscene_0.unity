@@ -1033,14 +1033,14 @@ MonoBehaviour:
       llegan al oc\xE9ano? El pl\xE1stico tarda hasta 500 a\xF1os en degradarse.
       Recorre el colegio y recoge todo el pl\xE1stico que encuentres. \xA1Cada botella
       y bolsa cuenta!"
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 757390c19fe012a47a9e0b2e2e29e36e, type: 3}
   - texto: "En Colombia, la contaminaci\xF3n por pl\xE1sticos afecta nuestros suelos,
       r\xEDos y ecosistemas. El ODS 15 nos invita a detener la degradaci\xF3n de
       las tierras y proteger la biodiversidad. \xA1T\xFA eres parte del cambio!"
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 218c9b4ec62939543b7eed9696dba5c4, type: 3}
   escenaDestino: nivel1_colegio
   textoSiguienteUltimo: "\xA1Jugar!"
-  velocidadTexto: 0.09
+  velocidadTexto: 0.07
 --- !u!82 &2000000003
 AudioSource:
   m_ObjectHideFlags: 0
