@@ -7,7 +7,7 @@ public class VidasManager : MonoBehaviour
     public static VidasManager instancia;
 
     [Header("Configuración")]
-    public int vidasMaximas = 3;
+    public int vidasMaximas = 5;
     public int vidasActuales;
 
     [Header("Invencibilidad temporal")]
@@ -34,7 +34,7 @@ public class VidasManager : MonoBehaviour
 
     void Start()
     {
-        vidasActuales = vidasMaximas;
+        vidasActuales = 3;
         ActualizarUI();
     }
 

@@ -49,6 +49,16 @@ public class SetupEscenas : EditorWindow
         }
 
         EditorGUILayout.Space();
+
+        if (GUILayout.Button("6. Limpiar power-ups directos de nivel1_colegio", GUILayout.Height(40)))
+            LimpiarPotenciadoresDirectos();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("7. Ajustar posicion Y de enemigos en nivel1_colegio", GUILayout.Height(40)))
+            AjustarEnemigos();
+
+        EditorGUILayout.Space();
         EditorGUILayout.HelpBox("Abre cada escena despues de configurar para verificar.", MessageType.Info);
     }
 
@@ -408,6 +418,79 @@ public class SetupEscenas : EditorWindow
         Debug.Log("Mapamundial configurado");
     }
 
+    // ─────────────────────── LIMPIAR POWER-UPS DIRECTOS ───────────────────────
+
+    static void LimpiarPotenciadoresDirectos()
+    {
+        string path = "Assets/Scenes/nivel1_colegio.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+
+        string[] nombres = { "potenciadorvidas", "potenciadorvelocidad", "potenciadorinmortalidad" };
+        var toDestroy = new System.Collections.Generic.List<GameObject>();
+
+        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
+            foreach (var nombre in nombres)
+            {
+                if (go.name.StartsWith(nombre))
+                {
+                    toDestroy.Add(go);
+                    break;
+                }
+            }
+        }
+
+        foreach (var go in toDestroy)
+        {
+            Debug.Log($"Eliminando {go.name} de {path}");
+            Object.DestroyImmediate(go);
+        }
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        Debug.Log("Potenciadores directos eliminados de nivel1_colegio");
+    }
+
+    // ─────────────────────── AJUSTAR ENEMIGOS ───────────────────────
+
+    static void AjustarEnemigos()
+    {
+        string path = "Assets/Scenes/nivel1_colegio.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+
+        int ajustados = 0;
+        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
+            if (go.GetComponent<Enemigo>() == null) continue;
+
+            Vector3 pos = go.transform.position;
+
+            if (go.name.StartsWith("enemigo2"))
+                pos.y += 0.83f;
+            else if (go.name.StartsWith("enemigo"))
+                pos.y += 0.86f;
+            else
+                continue;
+
+            go.transform.position = pos;
+            ajustados++;
+            Debug.Log($"Ajustado {go.name}: pos.y → {pos.y}");
+        }
+
+        if (ajustados > 0)
+        {
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        }
+        Debug.Log($"Enemigos ajustados: {ajustados}");
+    }
+
     // ─────── UI HELPERS ───────
 
     static GameObject MakeUI(string name, Transform parent, Vector2 aMin, Vector2 aMax,
@@ -483,6 +566,9 @@ public class SetupEscenas : EditorWindow
         string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
                             "nivel4_basurero", "nivel5_subterraneo", "nivel6_empresa" };
         foreach (var lv in levels) ConfigurarPausa(lv);
+
+        LimpiarPotenciadoresDirectos();
+        AjustarEnemigos();
 
         Debug.Log("=== TODAS LAS ESCENAS CONFIGURADAS ===");
         if (Application.isBatchMode) EditorApplication.Exit(0);

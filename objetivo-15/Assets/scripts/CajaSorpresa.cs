@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class CajaSorpresa : MonoBehaviour
 {
@@ -7,35 +6,14 @@ public class CajaSorpresa : MonoBehaviour
     public GameObject[] prefabsPowerUp;
 
     [Header("Tipo de caja")]
-    public bool cajaEnSuelo = false; // false = a�rea (golpe cabeza)
-                                     // true  = en suelo (pisarla)
-    [Header("Apariencia")]
-    public Sprite spriteActiva;      // sprite normal (dorado/?)
-    public Sprite spriteUsada;       // sprite despu�s de golpear (gris)
-    public Color colorActiva = new Color(1f, 0.85f, 0f); // dorado
-    public Color colorUsada = new Color(0.4f, 0.4f, 0.4f); // gris
-
-    [Header("Animaci�n de golpe")]
-    public float alturaRebote = 0.3f;
-    public float velocidadRebote = 8f;
+    public bool cajaEnSuelo = false;
 
     private bool usada = false;
-    private SpriteRenderer sr;
-    private Vector3 posOriginal;
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
-        posOriginal = transform.position;
-
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.isTrigger = false;
-
-        if (sr)
-        {
-            if (spriteActiva != null) sr.sprite = spriteActiva;
-            sr.color = colorActiva;
-        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -50,8 +28,7 @@ public class CajaSorpresa : MonoBehaviour
     {
         usada = true;
         SoltarPowerUp();
-        StartCoroutine(AnimacionGolpe());
-        CambiarApariencia();
+        Destroy(gameObject);
     }
 
     void SoltarPowerUp()
@@ -64,30 +41,7 @@ public class CajaSorpresa : MonoBehaviour
 
         int idx = Random.Range(0, prefabsPowerUp.Length);
 
-        // Suelta el power-up arriba de la caja
         Vector3 posSpawn = transform.position + Vector3.up * 1.2f;
         Instantiate(prefabsPowerUp[idx], posSpawn, Quaternion.identity);
-    }
-
-    void CambiarApariencia()
-    {
-        if (!sr) return;
-        if (spriteUsada != null) sr.sprite = spriteUsada;
-        sr.color = colorUsada;
-    }
-
-    IEnumerator AnimacionGolpe()
-    {
-        // Sube
-        float tiempo = 0f;
-        while (tiempo < 0.1f)
-        {
-            transform.position = posOriginal +
-                Vector3.up * Mathf.Sin(tiempo * velocidadRebote) * alturaRebote;
-            tiempo += Time.deltaTime;
-            yield return null;
-        }
-        // Baja de vuelta
-        transform.position = posOriginal;
     }
 }

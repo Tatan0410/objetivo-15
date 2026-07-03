@@ -22,8 +22,6 @@ public class Enemigo : MonoBehaviour
     private Rigidbody2D rb;
     private bool muerto = false;
 
-    // Guardamos la posición de muerte para el spawn,
-    // ya que el enemigo se destruye antes de que corra el delay
     private Vector3 posicionMuerte;
 
     void Start()
@@ -115,6 +113,13 @@ public class Enemigo : MonoBehaviour
         if (muerto) return;
         if (!col.gameObject.CompareTag("Player")) return;
 
+        PlayerController pc = col.gameObject.GetComponent<PlayerController>();
+        if (pc != null && pc.EsInmortal())
+        {
+            Morir();
+            return;
+        }
+
         MuerteJugador muerte = col.gameObject.GetComponent<MuerteJugador>();
         if (muerte != null)
             muerte.MorirPorEnemigo();
@@ -124,6 +129,16 @@ public class Enemigo : MonoBehaviour
     {
         if (muerto) return;
         if (!col.CompareTag("Player")) return;
+
+        PlayerController pc = col.GetComponent<PlayerController>();
+        if (pc != null && pc.EsInmortal())
+        {
+            Rigidbody2D rbJug = col.GetComponent<Rigidbody2D>();
+            if (rbJug != null)
+                rbJug.velocity = new Vector2(rbJug.velocity.x, 6f);
+            Morir();
+            return;
+        }
 
         Rigidbody2D rbJugador = col.GetComponent<Rigidbody2D>();
         if (rbJugador != null && rbJugador.velocity.y < -0.1f)

@@ -206,12 +206,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidad: 2
   distanciaPatrulla: 3
-  detectorBorde: {fileID: 0}
+  detectorBorde: {fileID: 7046287908204524594}
   capaSuelo:
     serializedVersion: 2
     m_Bits: 8
-  prefabsPlasticos: []
+  prefabsPlasticos:
+  - {fileID: 4326275224554361473, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
+  - {fileID: 8834090006834012522, guid: d42dc879f5d984f4d8b15c10ff028c03, type: 3}
+  - {fileID: 3210178663849849241, guid: ea51c30a2134f914ba69af7ca9152403, type: 3}
+  - {fileID: 3173909263460584513, guid: 3f2ae0e1ddfcb0244a11dfa2223a3477, type: 3}
   cantidadDrop: 2
+  probabilidadDrop: 0.5
+  distanciaRaycast: 10
 --- !u!61 &3665734406590839247
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -221,7 +227,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 8999181128353779622}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9d11f7f808f69304db347c894849aee0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
