@@ -25,6 +25,11 @@ public class PlayerController : MonoBehaviour
     [Header("Límites del nivel")]
     public bool usarLimiteIzquierdo = true;
 
+    [Header("Disparo")]
+    public GameObject prefabProyectil;
+    public KeyCode teclaDisparo = KeyCode.F;
+    public float cooldownDisparo = 0.5f;
+
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
@@ -32,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private bool estaDashing;
     private float temporizadorDash;
     private float temporizadorCooldown;
+    private float temporizadorCooldownDisparo;
     private float direccionDash;
     private float escalaOriginalX;
     private bool saltoPendiente = false;
@@ -74,6 +80,7 @@ public class PlayerController : MonoBehaviour
         if (!controlActivo) return;
 
         temporizadorCooldown -= Time.deltaTime;
+        temporizadorCooldownDisparo -= Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) &&
             temporizadorCooldown <= 0 && !estaDashing)
@@ -89,6 +96,25 @@ public class PlayerController : MonoBehaviour
             saltoPendiente = true;
         if (Input.GetKeyDown(KeyCode.W) && estaEnSuelo)
             saltoPendiente = true;
+
+        if ((Input.GetKeyDown(teclaDisparo) || Input.GetMouseButtonDown(0)) &&
+            temporizadorCooldownDisparo <= 0)
+        {
+            TipoArma arma = GetArmaEquipada();
+            if (arma == TipoArma.Lanzador || arma == TipoArma.Red || arma == TipoArma.LanzaTubos)
+            {
+                if (MunicionManager.instancia != null &&
+                    !MunicionManager.instancia.ConsumirMunicion())
+                {
+                    // Sin municion, no dispara
+                }
+                else
+                {
+                    Disparar(arma);
+                    temporizadorCooldownDisparo = cooldownDisparo;
+                }
+            }
+        }
     }
 
     void FixedUpdate()
@@ -213,6 +239,36 @@ public class PlayerController : MonoBehaviour
     public void ActivarControl()
     {
         controlActivo = true;
+    }
+
+    TipoArma GetArmaEquipada()
+    {
+        foreach (Transform child in transform)
+        {
+            ArmaPlaceholder arma = child.GetComponent<ArmaPlaceholder>();
+            if (arma != null)
+                return arma.tipo;
+        }
+        return TipoArma.Escudo;
+    }
+
+    void Disparar(TipoArma arma)
+    {
+        if (prefabProyectil == null)
+        {
+            Debug.LogWarning("prefabProyectil no asignado en PlayerController");
+            return;
+        }
+
+        float dirX = transform.localScale.x > 0 ? 1f : -1f;
+        Vector3 spawnPos = transform.position + new Vector3(dirX * 0.6f, 0, 0);
+        GameObject proy = Instantiate(prefabProyectil, spawnPos, Quaternion.identity);
+
+        TipoProyectil tipo = TipoProyectil.Lanzador;
+        if (arma == TipoArma.Red) tipo = TipoProyectil.Red;
+        else if (arma == TipoArma.LanzaTubos) tipo = TipoProyectil.LanzaTubos;
+
+        proy.GetComponent<ProyectilArma>().Iniciar(new Vector2(dirX, 0), tipo);
     }
 
     public void AplicarPotenciador(TipoPotenciador tipo)

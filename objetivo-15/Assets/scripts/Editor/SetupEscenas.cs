@@ -59,6 +59,21 @@ public class SetupEscenas : EditorWindow
             AjustarEnemigos();
 
         EditorGUILayout.Space();
+
+        if (GUILayout.Button("8. Colocar Municion en nivel1_colegio", GUILayout.Height(40)))
+            ColocarMunicion();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("9. Reconstruir HUD (corazones + iconos)", GUILayout.Height(40)))
+            ReconstruirHUD();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("10. Normalizar escala de enemigos (fix pisada)", GUILayout.Height(40)))
+            NormalizarEnemigos();
+
+        EditorGUILayout.Space();
         EditorGUILayout.HelpBox("Abre cada escena despues de configurar para verificar.", MessageType.Info);
     }
 
@@ -491,6 +506,77 @@ public class SetupEscenas : EditorWindow
         Debug.Log($"Enemigos ajustados: {ajustados}");
     }
 
+    // ─────────────────────── NORMALIZAR ENEMIGOS ───────────────────────
+
+    static void NormalizarEnemigos()
+    {
+        string path = "Assets/Scenes/nivel1_colegio.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+
+        var targets = new System.Collections.Generic.Dictionary<string, Vector2>
+        {
+            { "enemigo (2)", new Vector2(0.72114f, 0.6f) },
+            { "enemigo (1)", new Vector2(0.3f, 0.47f) },
+            { "enemigo2", new Vector2(0.6f, 0.92f) },
+        };
+
+        int ajustados = 0;
+
+        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
+            if (go.GetComponent<Enemigo>() == null) continue;
+            if (!targets.TryGetValue(go.name, out var origScale)) continue;
+
+            float uniforme = origScale.x;
+            Vector3 oldScale = go.transform.localScale;
+
+            go.transform.localScale = new Vector3(uniforme, uniforme, oldScale.z);
+
+            // Adjust children's localPosition to maintain world position
+            foreach (Transform child in go.transform)
+            {
+                Vector3 childPos = child.localPosition;
+                childPos.x *= (oldScale.x / uniforme);
+                childPos.y *= (oldScale.y / uniforme);
+                child.localPosition = new Vector3(
+                    (float)System.Math.Round(childPos.x, 4),
+                    (float)System.Math.Round(childPos.y, 4),
+                    childPos.z);
+            }
+
+            foreach (var col in go.GetComponents<BoxCollider2D>())
+            {
+                Vector2 size = col.size;
+                Vector2 offset = col.offset;
+
+                size.x *= (oldScale.x / uniforme);
+                size.y *= (oldScale.y / uniforme);
+                offset.x *= (oldScale.x / uniforme);
+                offset.y *= (oldScale.y / uniforme);
+
+                col.size = new Vector2(
+                    (float)System.Math.Round(size.x, 4),
+                    (float)System.Math.Round(size.y, 4));
+                col.offset = new Vector2(
+                    (float)System.Math.Round(offset.x, 4),
+                    (float)System.Math.Round(offset.y, 4));
+            }
+
+            ajustados++;
+            Debug.Log($"Normalizado {go.name}: escala {oldScale} → ({uniforme}, {uniforme}), colliders ajustados.");
+        }
+
+        if (ajustados > 0)
+        {
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        }
+        Debug.Log($"Enemigos normalizados: {ajustados}");
+    }
+
     // ─────── UI HELPERS ───────
 
     static GameObject MakeUI(string name, Transform parent, Vector2 aMin, Vector2 aMax,
@@ -556,6 +642,229 @@ public class SetupEscenas : EditorWindow
 
     // ─────── BATCH MODE ENTRY POINT ───────
 
+    // ─────── COLOCAR MUNICION ───────
+
+    static void ColocarMunicion()
+    {
+        string path = "Assets/Scenes/nivel1_colegio.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+
+        // Remove existing Municion items group
+        var oldGroup = GameObject.Find("Municion");
+        if (oldGroup != null) Object.DestroyImmediate(oldGroup);
+
+        GameObject parent = new GameObject("Municion");
+
+        Vector3[] posiciones = new Vector3[]
+        {
+            new Vector3(6f, -1f, 0),
+            new Vector3(15f, 0.5f, 0),
+            new Vector3(22f, -1.5f, 0),
+            new Vector3(30f, 2f, 0),
+            new Vector3(38f, -1f, 0),
+            new Vector3(45f, 0f, 0),
+            new Vector3(52f, -1.5f, 0),
+            new Vector3(60f, 1f, 0),
+        };
+
+        for (int i = 0; i < posiciones.Length; i++)
+        {
+            GameObject mun = new GameObject($"Municion_{i + 1}");
+            mun.transform.SetParent(parent.transform);
+            mun.transform.position = posiciones[i];
+            mun.AddComponent<SpriteRenderer>();
+            CircleCollider2D col = mun.AddComponent<CircleCollider2D>();
+            col.isTrigger = true;
+            col.radius = 0.3f;
+            mun.AddComponent<ItemMunicion>();
+        }
+
+        string prefabPath = "Assets/prefabs/Municion.prefab";
+        GameObject first = parent.transform.GetChild(0).gameObject;
+        PrefabUtility.SaveAsPrefabAsset(first, prefabPath);
+        Debug.Log($"Prefab creado en {prefabPath}");
+
+        foreach (Transform child in parent.transform)
+            Object.DestroyImmediate(child.gameObject);
+
+        for (int i = 0; i < posiciones.Length; i++)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent.transform);
+            instance.name = $"Municion_{i + 1}";
+            instance.transform.position = posiciones[i];
+        }
+
+        // ── Create MunicionManager if not present ──
+        var mmGO = GameObject.Find("MunicionManager");
+        if (mmGO == null)
+        {
+            mmGO = new GameObject("MunicionManager");
+            var mm = mmGO.AddComponent<MunicionManager>();
+            mm.municionActual = 15;
+            mm.municionMaxima = 30;
+        }
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        Debug.Log($"Municion colocada: {posiciones.Length} items en {path}");
+    }
+
+    // ─────── RECONSTRUIR HUD ───────
+
+    static void ReconstruirHUD()
+    {
+        string path = "Assets/Scenes/nivel1_colegio.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+        var font = FindFont();
+        var canvas = Object.FindFirstObjectByType<Canvas>();
+        if (canvas == null)
+        {
+            Debug.LogError("No hay Canvas en la escena.");
+            return;
+        }
+
+        // Remove old HUD elements if exist
+        var toRemove = new System.Collections.Generic.List<GameObject>();
+        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
+            if (go.name.StartsWith("TextVidas") || go.name.StartsWith("textovidas") ||
+                go.name.StartsWith("TextMunicion") || go.name.StartsWith("textomunicion") ||
+                go.name == "TextoBolsa" || go.name == "TextoBotella" ||
+                go.name == "TextTubo" || go.name == "TextTarro" ||
+                go.name == "PanelInventario" ||
+                go.name == "ContenedorCorazones" || go.name == "ContenedorRecursos")
+            {
+                toRemove.Add(go);
+            }
+        }
+        foreach (var go in toRemove) Object.DestroyImmediate(go);
+
+        // ─── 1. HEARTS (VIDAS) ───
+        var heartParent = MakeUI("ContenedorCorazones", canvas.transform,
+            new Vector2(0f, 1f), new Vector2(0f, 1f),
+            new Vector2(10, -10), new Vector2(180, 36), new Vector2(0f, 1f));
+
+        Image[] heartImages = new Image[5];
+        for (int i = 0; i < 5; i++)
+        {
+            var h = MakeUI($"Corazon{i + 1}", heartParent.transform,
+                new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                new Vector2(i * 36, 0), new Vector2(32, 32), new Vector2(0.5f, 0.5f));
+            var img = h.AddComponent<Image>();
+            heartImages[i] = img;
+        }
+
+        // Save persistent heart sprites and connect to VidasManager
+        var dir = "Assets/sprites/generados";
+        if (!AssetDatabase.IsValidFolder("Assets/sprites"))
+            AssetDatabase.CreateFolder("Assets", "sprites");
+        if (!AssetDatabase.IsValidFolder(dir))
+            AssetDatabase.CreateFolder("Assets/sprites", "generados");
+
+        var texLleno = IconoUtils.GenerarCorazonTexture(32, new Color(1f, 0.2f, 0.2f));
+        var texVacio = IconoUtils.GenerarCorazonTexture(32, new Color(0.3f, 0.3f, 0.3f));
+        GuardarTexturaComoPNG(dir + "/corazon_lleno.png", texLleno);
+        GuardarTexturaComoPNG(dir + "/corazon_vacio.png", texVacio);
+        AssetDatabase.Refresh();
+
+        var sprLleno = AssetDatabase.LoadAssetAtPath<Sprite>(dir + "/corazon_lleno.png");
+        var sprVacio = AssetDatabase.LoadAssetAtPath<Sprite>(dir + "/corazon_vacio.png");
+
+        var vm = Object.FindFirstObjectByType<VidasManager>();
+        if (vm != null)
+        {
+            vm.corazonLleno = sprLleno;
+            vm.corazonVacio = sprVacio;
+            vm.corazones = heartImages;
+            for (int i = 0; i < heartImages.Length; i++)
+                heartImages[i].sprite = i < vm.vidasActuales ? sprLleno : sprVacio;
+            Debug.Log("Corazones conectados a VidasManager.");
+        }
+        else Debug.LogError("No se encontro VidasManager en la escena.");
+
+        // ─── 2. RESOURCE COUNTERS (Inventario + Municion) ───
+        var resParent = MakeUI("ContenedorRecursos", canvas.transform,
+            new Vector2(0f, 1f), new Vector2(0f, 1f),
+            new Vector2(10, -55), new Vector2(200, 150), new Vector2(0f, 1f));
+
+        // Helper to create a ContadorHUD row
+        System.Func<string, Color, int, ContadorHUD> crearContador =
+            (nombre, color, index) =>
+        {
+            var row = MakeUI(nombre, resParent.transform,
+                new Vector2(0f, 1f), new Vector2(0f, 1f),
+                new Vector2(0, -index * 28), new Vector2(200, 24), new Vector2(0f, 1f));
+
+            // TODO: reemplazar icono placeholder con sprite real
+            var iconGO = MakeUI("Icono", row.transform,
+                new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                new Vector2(0, 0), new Vector2(20, 20), new Vector2(0.5f, 0.5f));
+            var iconImg = iconGO.AddComponent<Image>();
+            iconImg.sprite = IconoUtils.GenerarCirculo(16, 100, color);
+
+            var txtGO = MakeUI("Numero", row.transform,
+                new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                new Vector2(26, 0), new Vector2(80, 24), new Vector2(0f, 0.5f));
+            var tmp = txtGO.AddComponent<TextMeshProUGUI>();
+            tmp.text = "0";
+            tmp.fontSize = 18;
+            tmp.color = color;
+            tmp.alignment = TextAlignmentOptions.Left;
+            if (font) tmp.font = font;
+
+            var cont = row.AddComponent<ContadorHUD>();
+            cont.icono = iconImg;
+            cont.texto = tmp;
+            return cont;
+        };
+
+        // Create ContadorHUDs for each resource
+        var contPET = crearContador("ContPET", new Color(0.2f, 0.8f, 0.2f), 0);
+        var contBolsa = crearContador("ContBolsa", new Color(0.2f, 0.5f, 0.9f), 1);
+        var contTarro = crearContador("ContTarro", new Color(0.9f, 0.8f, 0.2f), 2);
+        var contTubo = crearContador("ContTubo", new Color(0.7f, 0.7f, 0.7f), 3);
+        var contMunicion = crearContador("ContMunicion", new Color(1f, 0.6f, 0.1f), 4);
+
+        // Connect to Inventario (use FindObjectByType, not .instancia — Editor mode)
+        var inv = Object.FindFirstObjectByType<Inventario>();
+        if (inv != null)
+        {
+            inv.contadorPET = contPET;
+            inv.contadorBolsa = contBolsa;
+            inv.contadorTarro = contTarro;
+            inv.contadorTubo = contTubo;
+            Debug.Log("Contadores de recursos conectados a Inventario.");
+        }
+        else Debug.LogError("No se encontro Inventario en la escena.");
+
+        // Connect to MunicionManager
+        var mm = Object.FindFirstObjectByType<MunicionManager>();
+        if (mm != null)
+        {
+            mm.AsignarContador(contMunicion);
+            Debug.Log("Contador de municion conectado.");
+        }
+        else Debug.LogError("No se encontro MunicionManager en la escena.");
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        Debug.Log("HUD reconstruido: corazones + contadores de recursos.");
+    }
+
+    static void GuardarTexturaComoPNG(string path, Texture2D tex)
+    {
+        byte[] bytes = tex.EncodeToPNG();
+
+        File.WriteAllBytes(path, bytes);
+        Debug.Log("Textura guardada: " + path);
+    }
+
     [MenuItem("Tools/Setup Escenas (Automatico)")]
     public static void RunAllBatch()
     {
@@ -569,6 +878,8 @@ public class SetupEscenas : EditorWindow
 
         LimpiarPotenciadoresDirectos();
         AjustarEnemigos();
+        ColocarMunicion();
+        ReconstruirHUD();
 
         Debug.Log("=== TODAS LAS ESCENAS CONFIGURADAS ===");
         if (Application.isBatchMode) EditorApplication.Exit(0);

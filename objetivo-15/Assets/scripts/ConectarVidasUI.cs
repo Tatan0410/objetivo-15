@@ -1,12 +1,12 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class ConectarVidasUI : MonoBehaviour
 {
     void Start()
     {
-        TMP_Text texto = GetComponent<TMP_Text>();
-        if (VidasManager.instancia != null)
-            VidasManager.instancia.AsignarTexto(texto);
+        Image[] images = GetComponentsInChildren<Image>();
+        if (images.Length > 0 && VidasManager.instancia != null)
+            VidasManager.instancia.AsignarCorazones(images);
     }
 }

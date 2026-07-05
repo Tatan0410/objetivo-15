@@ -3,7 +3,11 @@ guid: 4e8c14680872a3c4687472bd773e8187
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - prefabLanzador: {fileID: 100000, guid: 11111111111111111111111111111111, type: 3}
+  - prefabRed: {fileID: 100000, guid: 22222222222222222222222222222222, type: 3}
+  - prefabEscudo: {fileID: 100000, guid: 33333333333333333333333333333333, type: 3}
+  - prefabLanzaTubos: {fileID: 100000, guid: 44444444444444444444444444444444, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

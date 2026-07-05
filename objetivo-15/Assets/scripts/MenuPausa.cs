@@ -60,7 +60,7 @@ public class MenuPausa : MonoBehaviour
         if (VidasManager.instancia != null)
         {
             VidasManager.instancia.vidasActuales =
-                VidasManager.instancia.vidasMaximas;
+                VidasManager.instancia.vidasIniciales;
         }
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

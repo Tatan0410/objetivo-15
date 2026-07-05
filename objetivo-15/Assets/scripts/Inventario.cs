@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using TMPro;
 
 public class Inventario : MonoBehaviour
 {
@@ -11,11 +10,12 @@ public class Inventario : MonoBehaviour
     public int tarros = 0;
     public int tubosPVC = 0;
 
-    [Header("UI")]
-    public TMP_Text textoBotella;
-    public TMP_Text textoBolsa;
-    public TMP_Text textoTarro;
-    public TMP_Text textoTubo;
+    [Header("UI - Contadores")]
+    // TODO: reemplazar iconos placeholder con sprites reales
+    public ContadorHUD contadorPET;
+    public ContadorHUD contadorBolsa;
+    public ContadorHUD contadorTarro;
+    public ContadorHUD contadorTubo;
 
     void Awake()
     {
@@ -25,10 +25,14 @@ public class Inventario : MonoBehaviour
             Destroy(gameObject);
     }
 
+    void Start()
+    {
+        ActualizarUI();
+    }
+
     public void AgregarPlastico(TipoPlastico tipo)
     {
-        Debug.Log("🧪 AGREGANDO: " + tipo +
-                  "\nDesde: " + System.Environment.StackTrace);
+        Debug.Log("AGREGANDO: " + tipo);
         switch (tipo)
         {
             case TipoPlastico.BotellaPET:
@@ -68,9 +72,9 @@ public class Inventario : MonoBehaviour
 
     void ActualizarUI()
     {
-        if (textoBotella) textoBotella.text = "PET: " + botellasPET;
-        if (textoBolsa) textoBolsa.text = "Bolsa: " + bolsasPlasticas;
-        if (textoTarro) textoTarro.text = "Tarro: " + tarros;
-        if (textoTubo) textoTubo.text = "Tubo: " + tubosPVC;
+        if (contadorPET != null) contadorPET.Actualizar(botellasPET);
+        if (contadorBolsa != null) contadorBolsa.Actualizar(bolsasPlasticas);
+        if (contadorTarro != null) contadorTarro.Actualizar(tarros);
+        if (contadorTubo != null) contadorTubo.Actualizar(tubosPVC);
     }
 }

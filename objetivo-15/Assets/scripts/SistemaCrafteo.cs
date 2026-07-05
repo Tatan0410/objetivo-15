@@ -25,7 +25,7 @@ public class SistemaCrafteo : MonoBehaviour
         {
             Inventario.instancia.GastarIngredientes(3, 0, 0, 0);
             EquiparArma(prefabLanzador);
-            Debug.Log("¡Lanzador crafteado!");
+            Debug.Log("ï¿½Lanzador crafteado!");
         }
         else Debug.Log("Necesitas 3 botellas PET");
     }
@@ -36,7 +36,7 @@ public class SistemaCrafteo : MonoBehaviour
         {
             Inventario.instancia.GastarIngredientes(0, 5, 0, 0);
             EquiparArma(prefabRed);
-            Debug.Log("¡Red crafteada!");
+            Debug.Log("ï¿½Red crafteada!");
         }
         else Debug.Log("Necesitas 5 bolsas");
     }
@@ -47,7 +47,7 @@ public class SistemaCrafteo : MonoBehaviour
         {
             Inventario.instancia.GastarIngredientes(1, 0, 2, 0);
             EquiparArma(prefabEscudo);
-            Debug.Log("¡Escudo crafteado!");
+            Debug.Log("ï¿½Escudo crafteado!");
         }
         else Debug.Log("Necesitas 2 tarros y 1 botella");
     }
@@ -58,17 +58,29 @@ public class SistemaCrafteo : MonoBehaviour
         {
             Inventario.instancia.GastarIngredientes(0, 0, 0, 3);
             EquiparArma(prefabLanzaTubos);
-            Debug.Log("¡LanzaTubos crafteado!");
+            Debug.Log("ï¿½LanzaTubos crafteado!");
         }
         else Debug.Log("Necesitas 3 tubos PVC");
     }
 
     void EquiparArma(GameObject prefabArma)
     {
-        if (prefabArma == null) return;
+        if (prefabArma == null)
+        {
+            Debug.LogWarning("El prefab del arma no esta asignado en SistemaCrafteo");
+            return;
+        }
         GameObject jugador = GameObject.FindGameObjectWithTag("Player");
-        if (jugador != null)
-            Instantiate(prefabArma, jugador.transform.position,
-                Quaternion.identity, jugador.transform);
+        if (jugador == null) return;
+
+        // Remover arma anterior si existe
+        foreach (Transform child in jugador.transform)
+        {
+            if (child.GetComponent<ArmaPlaceholder>() != null)
+                Destroy(child.gameObject);
+        }
+
+        Instantiate(prefabArma, jugador.transform.position,
+            Quaternion.identity, jugador.transform);
     }
 }

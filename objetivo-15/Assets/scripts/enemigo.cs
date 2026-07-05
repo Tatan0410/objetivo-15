@@ -17,25 +17,86 @@ public class Enemigo : MonoBehaviour
     [Range(0f, 1f)]
     public float probabilidadDrop = 0.5f;
 
+    [Header("Persecucion")]
+    public float rangoDeteccion = 4f;
+    public float rangoDeteccionVertical = 1.5f;
+
     private Vector2 puntoInicio;
     private bool moviendoDerecha = true;
     private Rigidbody2D rb;
     private bool muerto = false;
+    private bool congelado = false;
+    private Transform jugador;
+    private Color colorOriginal;
+    private SpriteRenderer sr;
 
     private Vector3 posicionMuerte;
+    private bool yaProcesadoEsteFrame = false;
 
     void Start()
     {
         puntoInicio = transform.position;
         rb = GetComponent<Rigidbody2D>();
         rb.mass = 1000f;
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null) colorOriginal = sr.color;
+        GameObject j = GameObject.FindGameObjectWithTag("Player");
+        if (j != null) jugador = j.transform;
     }
 
     void FixedUpdate()
     {
-        if (muerto) return;
-        Patrullar();
-        VerificarBorde();
+        yaProcesadoEsteFrame = false;
+        if (muerto || congelado) return;
+
+        if (jugador == null)
+        {
+            GameObject j = GameObject.FindGameObjectWithTag("Player");
+            if (j != null) jugador = j.transform;
+        }
+
+        float dist = jugador != null
+            ? Vector2.Distance(transform.position, jugador.position)
+            : float.MaxValue;
+
+        if (dist <= rangoDeteccion && Mathf.Abs(transform.position.y - jugador.position.y) <= rangoDeteccionVertical)
+            Perseguir();
+        else
+        {
+            Patrullar();
+            VerificarBorde();
+        }
+    }
+
+    void Perseguir()
+    {
+        float dir = jugador.position.x > transform.position.x ? 1f : -1f;
+
+        // Verifica si hay piso adelante con el detectorBorde
+        if (detectorBorde != null)
+        {
+            bool haySuelo = Physics2D.OverlapCircle(
+                detectorBorde.position, 0.1f, capaSuelo);
+            if (!haySuelo)
+            {
+                rb.velocity = Vector2.zero;
+                return;
+            }
+        }
+
+        rb.velocity = new Vector2(dir * velocidad, rb.velocity.y);
+
+        // Voltear visual hacia el jugador sin tocar puntoInicio
+        if (dir > 0 && transform.localScale.x < 0)
+            transform.localScale = new Vector3(
+                -transform.localScale.x,
+                transform.localScale.y,
+                transform.localScale.z);
+        else if (dir < 0 && transform.localScale.x > 0)
+            transform.localScale = new Vector3(
+                -transform.localScale.x,
+                transform.localScale.y,
+                transform.localScale.z);
     }
 
     void Patrullar()
@@ -108,50 +169,82 @@ public class Enemigo : MonoBehaviour
         Destroy(gameObject, 1f);
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    private Collider2D ObtenerColliderCuerpo()
     {
-        if (muerto) return;
-        if (!col.gameObject.CompareTag("Player")) return;
-
-        PlayerController pc = col.gameObject.GetComponent<PlayerController>();
-        if (pc != null && pc.EsInmortal())
-        {
-            Morir();
-            return;
-        }
-
-        MuerteJugador muerte = col.gameObject.GetComponent<MuerteJugador>();
-        if (muerte != null)
-            muerte.MorirPorEnemigo();
+        foreach (var c in GetComponents<Collider2D>())
+            if (!c.isTrigger) return c;
+        return null;
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    private void ManejarContactoJugador(Collider2D colJugador, GameObject jugador)
     {
-        if (muerto) return;
-        if (!col.CompareTag("Player")) return;
+        if (muerto || congelado || yaProcesadoEsteFrame) return;
 
-        PlayerController pc = col.GetComponent<PlayerController>();
+        PlayerController pc = jugador.GetComponent<PlayerController>();
         if (pc != null && pc.EsInmortal())
         {
-            Rigidbody2D rbJug = col.GetComponent<Rigidbody2D>();
-            if (rbJug != null)
-                rbJug.velocity = new Vector2(rbJug.velocity.x, 6f);
             Morir();
+            yaProcesadoEsteFrame = true;
             return;
         }
 
-        Rigidbody2D rbJugador = col.GetComponent<Rigidbody2D>();
-        if (rbJugador != null && rbJugador.velocity.y < -0.1f)
+        Rigidbody2D rbJug = jugador.GetComponent<Rigidbody2D>();
+        Collider2D cuerpo = ObtenerColliderCuerpo();
+        if (rbJug == null || cuerpo == null) return;
+
+        float pieJugador = colJugador.bounds.min.y;
+        float cabezaEnemigo = cuerpo.bounds.max.y;
+
+        yaProcesadoEsteFrame = true;
+
+        if (rbJug.velocity.y < -0.1f && pieJugador >= cabezaEnemigo - 0.1f)
         {
-            rbJugador.velocity = new Vector2(rbJugador.velocity.x, 6f);
+            rbJug.velocity = new Vector2(rbJug.velocity.x, 6f);
             Morir();
         }
         else
         {
-            MuerteJugador muerte = col.GetComponent<MuerteJugador>();
+            MuerteJugador muerte = jugador.GetComponent<MuerteJugador>();
             if (muerte != null)
                 muerte.MorirPorEnemigo();
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (muerto || congelado) return;
+        if (!col.gameObject.CompareTag("Player")) return;
+        ManejarContactoJugador(col.otherCollider, col.gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (muerto || congelado) return;
+        if (!other.CompareTag("Player")) return;
+        ManejarContactoJugador(other, other.gameObject);
+    }
+
+    public void RecibirDanio(int cantidad)
+    {
+        Morir();
+    }
+
+    public void Congelar()
+    {
+        congelado = true;
+        rb.velocity = Vector2.zero;
+        if (sr != null)
+        {
+            colorOriginal = sr.color;
+            sr.color = new Color(0.5f, 0.8f, 1f);
+        }
+        Invoke("Restaurar", 5f);
+    }
+
+    void Restaurar()
+    {
+        congelado = false;
+        if (sr != null) sr.color = colorOriginal;
     }
 
     void OnDrawGizmosSelected()

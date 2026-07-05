@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class VidasManager : MonoBehaviour
@@ -8,14 +8,18 @@ public class VidasManager : MonoBehaviour
 
     [Header("Configuración")]
     public int vidasMaximas = 5;
+    public int vidasIniciales = 3;
     public int vidasActuales;
 
     [Header("Invencibilidad temporal")]
     public float tiempoInvencible = 1.5f;
     private bool esInvencible = false;
 
-    [Header("UI")]
-    public TMP_Text textoVidas;
+    [Header("UI - Corazones")]
+    public Image[] corazones;
+    // TODO: reemplazar sprites placeholder con corazones reales
+    public Sprite corazonLleno;
+    public Sprite corazonVacio;
     public GameObject panelHUD;
 
     void Awake()
@@ -34,13 +38,18 @@ public class VidasManager : MonoBehaviour
 
     void Start()
     {
-        vidasActuales = 3;
+        if (corazonLleno == null)
+            corazonLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
+        if (corazonVacio == null)
+            corazonVacio = IconoUtils.GenerarCorazon(32, 100, new Color(0.3f, 0.3f, 0.3f));
+
+        vidasActuales = vidasIniciales;
         ActualizarUI();
     }
 
-    public void AsignarTexto(TMP_Text texto)
+    public void AsignarCorazones(Image[] imagenes)
     {
-        textoVidas = texto;
+        corazones = imagenes;
         ActualizarUI();
     }
 
@@ -48,7 +57,6 @@ public class VidasManager : MonoBehaviour
     {
         if (esInvencible) return;
 
-        // Respeta la inmortalidad del power-up
         PlayerController pc = GameManager.instancia?.jugador?
             .GetComponent<PlayerController>();
         if (pc != null && pc.EsInmortal()) return;
@@ -71,11 +79,11 @@ public class VidasManager : MonoBehaviour
         {
             vidasActuales++;
             ActualizarUI();
-            Debug.Log("❤️ Vida ganada! Vidas: " + vidasActuales);
+            Debug.Log("VIDA GANADA! Vidas: " + vidasActuales);
         }
         else
         {
-            Debug.Log("❤️ Ya tienes el máximo de vidas: " + vidasMaximas);
+            Debug.Log("Ya tienes el maximo de vidas: " + vidasMaximas);
         }
     }
 
@@ -83,10 +91,9 @@ public class VidasManager : MonoBehaviour
 
     void MorirJugador()
     {
-        vidasActuales = vidasMaximas;
+        vidasActuales = vidasIniciales;
         ActualizarUI();
 
-        // ✅ Limpiar checkpoint en memoria para que no persista a la próxima sesión
         if (GameManager.instancia != null)
             GameManager.instancia.ResetearCheckpoint();
 
@@ -102,7 +109,12 @@ public class VidasManager : MonoBehaviour
 
     void ActualizarUI()
     {
-        if (textoVidas != null)
-            textoVidas.text = "Vidas: " + vidasActuales;
+        if (corazones == null) return;
+
+        for (int i = 0; i < corazones.Length; i++)
+        {
+            if (corazones[i] == null) continue;
+            corazones[i].sprite = i < vidasActuales ? corazonLleno : corazonVacio;
+        }
     }
 }
