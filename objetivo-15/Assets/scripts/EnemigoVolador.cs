@@ -26,7 +26,7 @@ public class EnemigoVolador : MonoBehaviour
     {
         puntoInicio = transform.position;
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f;
+        if (rb != null) rb.bodyType = RigidbodyType2D.Kinematic;
         sr = GetComponent<SpriteRenderer>();
         if (sr != null) colorOriginal = sr.color;
     }
@@ -40,8 +40,9 @@ public class EnemigoVolador : MonoBehaviour
 
     void Patrullar()
     {
+        if (rb == null) return;
         float dir = moviendoDerecha ? 1f : -1f;
-        rb.velocity = new Vector2(dir * velocidad, 0);
+        rb.MovePosition(rb.position + new Vector2(dir * velocidad * Time.fixedDeltaTime, 0));
 
         if (moviendoDerecha &&
             transform.position.x >= puntoInicio.x + distanciaPatrulla)
@@ -64,7 +65,7 @@ public class EnemigoVolador : MonoBehaviour
     void SoltarPlasticos()
     {
         if (Random.value > probabilidadDrop) return;
-        if (prefabsPlasticos.Length == 0) return;
+        if (prefabsPlasticos == null || prefabsPlasticos.Length == 0) return;
 
         posicionMuerte = transform.position;
 
@@ -80,13 +81,16 @@ public class EnemigoVolador : MonoBehaviour
     void Morir()
     {
         muerto = true;
-        rb.velocity = Vector2.zero;
-        rb.isKinematic = true;
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+        }
 
         foreach (Collider2D col in GetComponents<Collider2D>())
             col.enabled = false;
 
-        GetComponent<SpriteRenderer>().color = Color.gray;
+        if (sr != null) sr.color = Color.gray;
         SoltarPlasticos();
         Destroy(gameObject, 1f);
     }
@@ -111,11 +115,25 @@ public class EnemigoVolador : MonoBehaviour
         }
 
         Rigidbody2D rbJug = jugador.GetComponent<Rigidbody2D>();
-        Collider2D cuerpo = ObtenerColliderCuerpo();
-        if (rbJug == null || cuerpo == null) return;
+        if (rbJug == null) return;
 
+        Collider2D cuerpo = ObtenerColliderCuerpo();
         float pieJugador = colJugador.bounds.min.y;
-        float cabezaEnemigo = cuerpo.bounds.max.y;
+        float cabezaEnemigo;
+        if (cuerpo != null)
+            cabezaEnemigo = cuerpo.bounds.max.y;
+        else
+        {
+            Collider2D trigger = null;
+            foreach (var c in GetComponents<Collider2D>())
+                if (c.isTrigger) { trigger = c; break; }
+            if (trigger != null)
+                cabezaEnemigo = trigger.bounds.max.y;
+            else if (sr != null)
+                cabezaEnemigo = sr.bounds.max.y;
+            else
+                return;
+        }
 
         yaProcesadoEsteFrame = true;
 
@@ -158,13 +176,14 @@ public class EnemigoVolador : MonoBehaviour
 
     public void RecibirDanio(int cantidad)
     {
+        if (muerto) return;
         Morir();
     }
 
     public void Congelar()
     {
         congelado = true;
-        rb.velocity = Vector2.zero;
+        if (rb != null) rb.velocity = Vector2.zero;
         if (sr != null)
         {
             colorOriginal = sr.color;

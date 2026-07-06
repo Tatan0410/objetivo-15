@@ -1024,13 +1024,20 @@ MonoBehaviour:
   botonSkip: {fileID: 12000000043}
   audioSource: {fileID: 12000000038}
   dialogos:
-  - texto: "El siguiente paso nos lleva al basurero. M\xE1s de 100 millones de hect\xE1reas\nde tierra se degradan cada a\xF1o en el mundo. Los basureros mal manejados\nson una fuente grave de contaminaci\xF3n del suelo."
-    vozAudio: {fileID: 0}
-  - texto: "En el departamento del Atl\xE1ntico, la gesti\xF3n inadecuada de residuos\namenaza la salud de los ecosistemas. El pl\xE1stico fragmentado se\nconvierte en micropl\xE1sticos que afectan la vida silvestre."
-    vozAudio: {fileID: 0}
-  - texto: "El ODS 15 nos llama a luchar contra la desertificaci\xF3n y detener la\ndegradaci\xF3n de las tierras. Reciclar y reducir nuestros residuos\nson pasos fundamentales. \xA1Cada acci\xF3n cuenta!"
+  - texto: "El siguiente paso nos lleva al basurero. M\xE1s de 100 millones de hect\xE1reas\nde
+      tierra se degradan cada a\xF1o en el mundo. Los basureros mal manejados\nson
+      una fuente grave de contaminaci\xF3n del suelo."
+    vozAudio: {fileID: 8300000, guid: 31970a8d37e0b7346aafef417398c245, type: 3}
+  - texto: "En el departamento del Atl\xE1ntico, la gesti\xF3n inadecuada de residuos\namenaza
+      la salud de los ecosistemas. El pl\xE1stico fragmentado se\nconvierte en micropl\xE1sticos
+      que afectan la vida silvestre."
+    vozAudio: {fileID: 8300000, guid: 39376475412fafa4ba4108bf3ef1ae45, type: 3}
+  - texto: "El ODS 15 nos llama a luchar contra la desertificaci\xF3n y detener la\ndegradaci\xF3n
+      de las tierras. Reciclar y reducir nuestros residuos\nson pasos fundamentales.
+      \xA1Cada acci\xF3n cuenta!"
     vozAudio: {fileID: 0}
   escenaDestino: nivel4_basurero
+  textoSiguienteUltimo: "\xA1Jugar!"
   velocidadTexto: 0.08
 --- !u!82 &12000000038
 AudioSource:

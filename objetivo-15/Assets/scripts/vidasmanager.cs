@@ -17,7 +17,7 @@ public class VidasManager : MonoBehaviour
 
     [Header("UI - Corazones")]
     public Image[] corazones;
-    // TODO: reemplazar sprites placeholder con corazones reales
+
     public Sprite corazonLleno;
     public Sprite corazonVacio;
     public GameObject panelHUD;
@@ -100,11 +100,24 @@ public class VidasManager : MonoBehaviour
         SceneManager.LoadScene("Mapamundial");
     }
 
-    void OnEscenaCargada(Scene escena, LoadSceneMode modo)
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnEscenaCargada;
+    }
+
+    void OnDisable()
     {
         SceneManager.sceneLoaded -= OnEscenaCargada;
-        if (panelHUD != null)
-            panelHUD.SetActive(true);
+    }
+
+    void OnEscenaCargada(Scene escena, LoadSceneMode modo)
+    {
+        GameObject contenedor = GameObject.Find("ContenedorCorazones");
+        if (contenedor != null)
+        {
+            Image[] images = contenedor.GetComponentsInChildren<Image>();
+            AsignarCorazones(images);
+        }
     }
 
     void ActualizarUI()

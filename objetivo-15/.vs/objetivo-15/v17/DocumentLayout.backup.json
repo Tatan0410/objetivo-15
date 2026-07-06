@@ -3,7 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\dialogomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\enemigo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemigo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\vidasmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\vidasmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\dialogomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\dialogomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -23,19 +31,44 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DialogoManager.cs",
-              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\DialogoManager.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\DialogoManager.cs",
-              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\DialogoManager.cs",
-              "RelativeToolTip": "Assets\\scripts\\DialogoManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAYAAAAAAAAAA==",
+              "Title": "enemigo.cs",
+              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\enemigo.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\enemigo.cs",
+              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\enemigo.cs",
+              "RelativeToolTip": "Assets\\scripts\\enemigo.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwA0AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-01T04:04:33.884Z",
+              "WhenOpened": "2026-07-05T18:31:09.445Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "vidasmanager.cs",
+              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\vidasmanager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\vidasmanager.cs",
+              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\vidasmanager.cs",
+              "RelativeToolTip": "Assets\\scripts\\vidasmanager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T04:23:52.578Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DialogoManager.cs",
+              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\DialogoManager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\DialogoManager.cs",
+              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\DialogoManager.cs",
+              "RelativeToolTip": "Assets\\scripts\\DialogoManager.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAwwHYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-01T04:04:33.884Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "JugadorMapa.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\JugadorMapa.cs",
