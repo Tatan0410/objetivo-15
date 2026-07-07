@@ -14,12 +14,14 @@ public class MenuPrincipal : MonoBehaviour
 
     public void Jugar()
     {
-        SceneManager.LoadScene("Mapamundial");
+        if (SceneTransitionManager.instancia != null)
+            SceneTransitionManager.instancia.CargarEscena("Mapamundial");
     }
 
     public void AbrirSoluciones()
     {
-        SceneManager.LoadScene("cutscene_soluciones");
+        if (SceneTransitionManager.instancia != null)
+            SceneTransitionManager.instancia.CargarEscena("cutscene_soluciones");
     }
 
     public void Salir()

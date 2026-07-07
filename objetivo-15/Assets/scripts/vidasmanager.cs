@@ -97,7 +97,8 @@ public class VidasManager : MonoBehaviour
         if (GameManager.instancia != null)
             GameManager.instancia.ResetearCheckpoint();
 
-        SceneManager.LoadScene("Mapamundial");
+        if (GameOverManager.instancia != null)
+            GameOverManager.instancia.MostrarGameOver();
     }
 
     void OnEnable()

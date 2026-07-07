@@ -143,16 +143,20 @@ public class JugadorMapa : MonoBehaviour
         if (GameManager.instancia != null)
             GameManager.instancia.ResetearCheckpoint();
 
+        string escena = "";
         switch (nodoActual)
         {
-            case 0: SceneManager.LoadScene("cutscene_0"); break;
-            case 1: SceneManager.LoadScene("cutscene_1"); break;
-            case 2: SceneManager.LoadScene("cutscene_2"); break;
-            case 3: SceneManager.LoadScene("cutscene_3"); break;
-            case 4: SceneManager.LoadScene("cutscene_4"); break;
-            case 5: SceneManager.LoadScene("cutscene_5"); break;
+            case 0: escena = "cutscene_0"; break;
+            case 1: escena = "cutscene_1"; break;
+            case 2: escena = "cutscene_2"; break;
+            case 3: escena = "cutscene_3"; break;
+            case 4: escena = "cutscene_4"; break;
+            case 5: escena = "cutscene_5"; break;
             default: Debug.LogWarning("Nodo sin escena asignada: " + nodoActual); break;
         }
+
+        if (!string.IsNullOrEmpty(escena) && SceneTransitionManager.instancia != null)
+            SceneTransitionManager.instancia.CargarEscena(escena);
     }
 }
 

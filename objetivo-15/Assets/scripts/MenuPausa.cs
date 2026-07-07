@@ -63,7 +63,8 @@ public class MenuPausa : MonoBehaviour
                 VidasManager.instancia.vidasIniciales;
         }
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (SceneTransitionManager.instancia != null)
+            SceneTransitionManager.instancia.CargarEscena(SceneManager.GetActiveScene().name);
     }
 
     public void CambiarVolumen(float valor)
@@ -77,6 +78,7 @@ public class MenuPausa : MonoBehaviour
     {
         Time.timeScale = 1f;
         pausado = false;
-        SceneManager.LoadScene("MenuPrincipal");
+        if (SceneTransitionManager.instancia != null)
+            SceneTransitionManager.instancia.CargarEscena("menuprincipal");
     }
 }

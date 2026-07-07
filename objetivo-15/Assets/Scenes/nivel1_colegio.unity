@@ -6215,6 +6215,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51b85ea595c089b41bd4c0b42dae6444, type: 3}
+--- !u!1 &1355697866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1355697868}
+  - component: {fileID: 1355697867}
+  m_Layer: 0
+  m_Name: SceneTransicionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1355697867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355697866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 143468a4295e79c4cb5a278651b34855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritesCorriendo: []
+  framerateAnimacion: 0.15
+  escalaJugador: 2
+  datosCuriosos:
+  - "Una botella PET tarda hasta 500 a\xF1os en degradarse."
+  - "Cada a\xF1o, 8 millones de toneladas de pl\xE1stico llegan al oc\xE9ano."
+  - "Reciclar una tonelada de papel salva 17 \xE1rboles."
+  - "Un cepillo de dientes de pl\xE1stico tarda 500 a\xF1os en desaparecer."
+  - Colombia recicla solo el 17% de sus residuos.
+  - Una lata de aluminio puede reciclarse infinitamente.
+  - "Los popotes de pl\xE1stico tardan 200 a\xF1os en degradarse."
+  - "Cada minuto se compran 1 mill\xF3n de botellas de pl\xE1stico en el mundo."
+  - "Reciclar vidrio ahorra un 30% de energ\xEDa comparado con hacerlo nuevo."
+  - "El 91% del pl\xE1stico producido no se ha reciclado nunca."
+  - "Un pa\xF1al desechable tarda 450 a\xF1os en degradarse."
+  - "Por cada 3 botellas recicladas, se evita la emisi\xF3n de 1 kg de CO\u2082."
+  duracionMinima: 2
+--- !u!4 &1355697868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355697866}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.376273, y: -6.780964, z: 1.2180563}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1401270090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9968,3 +10029,4 @@ SceneRoots:
   - {fileID: 1401270090}
   - {fileID: 1411354040}
   - {fileID: 1942061163}
+  - {fileID: 1355697868}
