@@ -9,8 +9,6 @@ public static class SetupManagers
     [MenuItem("Tools/Setup Managers en MenuPrincipal")]
     static void Ejecutar()
     {
-        SetupFonts.GenerarFontAssets();
-
         string scenePath = "Assets/Scenes/menuprincipal.unity";
         EditorSceneManager.OpenScene(scenePath);
 
@@ -66,15 +64,32 @@ public static class SetupManagers
 
     static void CrearGameOverManager()
     {
-        var existente = Object.FindFirstObjectByType<GameOverManager>();
-        if (existente != null)
+        var stm = Object.FindFirstObjectByType<GameOverManager>();
+        bool esNuevo = false;
+
+        if (stm == null)
         {
-            Debug.Log("GameOverManager ya existe en la escena.");
-            return;
+            GameObject go = new GameObject("GameOverManager");
+            stm = go.AddComponent<GameOverManager>();
+            Undo.RegisterCreatedObjectUndo(go, "Crear GameOverManager");
+            esNuevo = true;
         }
 
-        GameObject go = new GameObject("GameOverManager");
-        go.AddComponent<GameOverManager>();
-        Undo.RegisterCreatedObjectUndo(go, "Crear GameOverManager");
+        // Generar y asignar prefab de GameOver
+        if (AssetDatabase.LoadAssetAtPath<GameObject>(SetupGameOverPrefab.ObtenerRutaPrefab()) == null)
+            SetupGameOverPrefab.GenerarPrefab();
+
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(SetupGameOverPrefab.ObtenerRutaPrefab());
+        if (prefab != null)
+        {
+            stm.panelGameOverPrefab = prefab;
+            EditorUtility.SetDirty(stm);
+            Debug.Log("Prefab GameOver asignado al GameOverManager.");
+        }
+
+        if (esNuevo)
+            Debug.Log("GameOverManager creado en la escena.");
+        else
+            Debug.Log("GameOverManager actualizado (prefab asignado).");
     }
 }

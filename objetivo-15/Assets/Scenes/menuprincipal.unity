@@ -818,8 +818,8 @@ MonoBehaviour:
   - "Reciclar vidrio ahorra un 30% de energ\xEDa comparado con hacerlo nuevo."
   - "El 91% del pl\xE1stico producido no se ha reciclado nunca."
   - "Un pa\xF1al desechable tarda 450 a\xF1os en degradarse."
-  - "Por cada 3 botellas recicladas, se evita la emisi\xF3n de 1 kg de CO\u2082."
-  fontCarga: {fileID: 11400000, guid: 1973b4ffd005b8c468b40f6c70373432, type: 2}
+  - "Por cada 3 botellas recicladas, se evita la emisi\xF3n de 1 kg de CO2."
+  fontCarga: {fileID: 11400000, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
   duracionMinima: 10
 --- !u!4 &1311126396
 Transform:
@@ -945,6 +945,7 @@ MonoBehaviour:
   colorTextoGameOver: {r: 0.9, g: 0.2, b: 0.2, a: 1}
   textoReintentar: Reintentar
   textoMenuPrincipal: "Men\xFA Principal"
+  panelGameOverPrefab: {fileID: 7195808078827548905, guid: 11a85bccb453a7448bd406bfb970b230, type: 3}
 --- !u!4 &1474178384
 Transform:
   m_ObjectHideFlags: 0

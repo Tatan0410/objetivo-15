@@ -9,10 +9,13 @@ public class GameOverManager : MonoBehaviour
 
     [Header("UI")]
     public string textoGameOver = "GAME OVER";
-    public Color colorFondo = new Color(0f, 0f, 0f, 0.7f);
+    public Color colorFondo = new Color(0f, 0f, 0f, 0.78f);
     public Color colorTextoGameOver = new Color(0.9f, 0.2f, 0.2f);
     public string textoReintentar = "Reintentar";
     public string textoMenuPrincipal = "Menú Principal";
+
+    [Header("Panel prefab editable")]
+    public GameObject panelGameOverPrefab;
 
     private GameObject canvasGameOver;
     private string escenaActual;
@@ -40,7 +43,45 @@ public class GameOverManager : MonoBehaviour
             DontDestroyOnLoad(canvasGameOver);
             return;
         }
+
+        if (panelGameOverPrefab != null)
+        {
+            canvasGameOver = Instantiate(panelGameOverPrefab);
+            canvasGameOver.name = "CanvasGameOver";
+            canvasGameOver.transform.SetParent(null);
+            DontDestroyOnLoad(canvasGameOver);
+
+            // Conectar botones por nombre
+            Button btnReintentar = BuscarBoton(canvasGameOver.transform, "Btn_Reintentar");
+            if (btnReintentar != null) btnReintentar.onClick.AddListener(Reintentar);
+
+            Button btnMenu = BuscarBoton(canvasGameOver.transform, "Btn_Menú Principal");
+            if (btnMenu != null) btnMenu.onClick.AddListener(IrAlMenu);
+
+            return;
+        }
+
         CrearCanvasGameOver();
+    }
+
+    Transform BuscarTransformEn(Transform parent, string nombre)
+    {
+        Transform t = parent.Find(nombre);
+        if (t == null)
+        {
+            foreach (Transform child in parent)
+            {
+                t = BuscarTransformEn(child, nombre);
+                if (t != null) break;
+            }
+        }
+        return t;
+    }
+
+    Button BuscarBoton(Transform parent, string nombre)
+    {
+        Transform t = BuscarTransformEn(parent, nombre);
+        return t?.GetComponent<Button>();
     }
 
     void CrearCanvasGameOver()
