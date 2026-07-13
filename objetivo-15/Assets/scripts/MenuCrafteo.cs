@@ -36,7 +36,8 @@ public class MenuCrafteo : MonoBehaviour
 
     void CrearMenuUI()
     {
-        Canvas canvas = FindObjectOfType<Canvas>();
+        Canvas canvas = GameObject.Find("Canvas")?.GetComponent<Canvas>();
+        if (canvas == null) canvas = FindObjectOfType<Canvas>();
 
         // Panel principal
         panelCrafteo = new GameObject("PanelCrafteo");
