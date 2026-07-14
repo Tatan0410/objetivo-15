@@ -818,8 +818,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
+  m_sharedMaterial: {fileID: 9115855274950725475, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1024,13 +1024,20 @@ MonoBehaviour:
   botonSkip: {fileID: 14000000043}
   audioSource: {fileID: 14000000038}
   dialogos:
-  - texto: "Has llegado a la \xFAltima parada: la empresa. El sector industrial\ntiene un papel clave en la protecci\xF3n de los ecosistemas. La econom\xEDa\ncircular busca que ning\xFAn residuo termine contaminando la tierra."
-    vozAudio: {fileID: 0}
-  - texto: "El ODS 15 promueve la gesti\xF3n sostenible de los bosques y la lucha\ncontra la desertificaci\xF3n. Las empresas pueden adoptar pr\xE1cticas\nm\xE1s limpias y reducir su impacto ambiental."
-    vozAudio: {fileID: 0}
-  - texto: "Has recorrido un gran camino, de Soledad al mundo. Recuerda: la\nnaturaleza es la base de nuestra vida en la Tierra. Proteger los\necosistemas terrestres es proteger nuestro propio futuro. \xA1Gracias!"
-    vozAudio: {fileID: 0}
+  - texto: "Has llegado a la \xFAltima parada: la empresa. El sector industrial\ntiene
+      un papel clave en la protecci\xF3n de los ecosistemas. La econom\xEDa\ncircular
+      busca que ning\xFAn residuo termine contaminando la tierra."
+    vozAudio: {fileID: 8300000, guid: de53faca7b899a84e9c978c58c4407d8, type: 3}
+  - texto: "El ODS 15 promueve la gesti\xF3n sostenible de los bosques y la lucha\ncontra
+      la desertificaci\xF3n. Las empresas pueden adoptar pr\xE1cticas\nm\xE1s limpias
+      y reducir su impacto ambiental."
+    vozAudio: {fileID: 8300000, guid: 51c6787cff92e8246b42ab8391818776, type: 3}
+  - texto: "Has recorrido un gran camino, de Soledad al mundo. Recuerda: la\nnaturaleza
+      es la base de nuestra vida en la Tierra. Proteger los\necosistemas terrestres
+      es proteger nuestro propio futuro. \xA1Gracias!"
+    vozAudio: {fileID: 8300000, guid: b0eff4292c8387e4f90ce3b6baad28da, type: 3}
   escenaDestino: nivel6_empresa
+  textoSiguienteUltimo: "\xA1Jugar!"
   velocidadTexto: 0.08
 --- !u!82 &14000000038
 AudioSource:

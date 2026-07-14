@@ -818,8 +818,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
+  m_sharedMaterial: {fileID: 9115855274950725475, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1035,7 +1035,7 @@ MonoBehaviour:
   - texto: "El ODS 15 nos llama a luchar contra la desertificaci\xF3n y detener la\ndegradaci\xF3n
       de las tierras. Reciclar y reducir nuestros residuos\nson pasos fundamentales.
       \xA1Cada acci\xF3n cuenta!"
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 63f553de25ec5dc4496df01048d72920, type: 3}
   escenaDestino: nivel4_basurero
   textoSiguienteUltimo: "\xA1Jugar!"
   velocidadTexto: 0.08

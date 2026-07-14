@@ -55,13 +55,15 @@ public class VidasManager : MonoBehaviour
 
     public void PerderVida()
     {
-        if (esInvencible) return;
+        if (esInvencible) { Debug.Log("[Vidas DEBUG] PerderVida BLOQUEADO por esInvencible"); return; }
 
         PlayerController pc = GameManager.instancia?.jugador?
             .GetComponent<PlayerController>();
-        if (pc != null && pc.EsInmortal()) return;
+        if (pc != null && pc.EsInmortal()) { Debug.Log("[Vidas DEBUG] PerderVida BLOQUEADO por inmortalidad"); return; }
 
+        Debug.Log($"[Vidas DEBUG] PerderVida: vidasActuales ANTES={vidasActuales}");
         vidasActuales--;
+        Debug.Log($"[Vidas DEBUG] PerderVida: vidasActuales DESPUÉS={vidasActuales}");
         ActualizarUI();
 
         if (vidasActuales <= 0)
@@ -113,12 +115,16 @@ public class VidasManager : MonoBehaviour
 
     void OnEscenaCargada(Scene escena, LoadSceneMode modo)
     {
+        Debug.Log($"[Vidas DEBUG] OnEscenaCargada: '{escena.name}' | vidasActuales ANTES={vidasActuales}");
         GameObject contenedor = GameObject.Find("ContenedorCorazones");
         if (contenedor != null)
         {
             Image[] images = contenedor.GetComponentsInChildren<Image>();
             AsignarCorazones(images);
         }
+        vidasActuales = vidasIniciales;
+        Debug.Log($"[Vidas DEBUG] OnEscenaCargada: vidasActuales DESPUÉS={vidasActuales}");
+        ActualizarUI();
     }
 
     void ActualizarUI()

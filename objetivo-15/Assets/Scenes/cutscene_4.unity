@@ -818,8 +818,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
+  m_sharedMaterial: {fileID: 9115855274950725475, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1024,13 +1024,20 @@ MonoBehaviour:
   botonSkip: {fileID: 13000000043}
   audioSource: {fileID: 13000000038}
   dialogos:
-  - texto: "\xA1Vas muy bien! Ahora exploraremos el mundo subterr\xE1neo.\nLos pl\xE1sticos tardan hasta 500 a\xF1os en degradarse y, al hacerlo,\nliberan qu\xEDmicos t\xF3xicos que contaminan las aguas subterr\xE1neas."
-    vozAudio: {fileID: 0}
-  - texto: "La contaminaci\xF3n del suelo afecta la capacidad de los ecosistemas\npara proveernos de alimentos y agua limpia. El ODS 15 busca proteger\nla biodiversidad que habita bajo nuestros pies."
-    vozAudio: {fileID: 0}
-  - texto: "En Colombia, m\xE1s del 70% de los residuos s\xF3lidos terminan en\nvertederos o rellenos sanitarios. Reducir, reutilizar y reciclar\nson nuestras mejores herramientas. \xA1No te rindas!"
-    vozAudio: {fileID: 0}
+  - texto: "\xA1Vas muy bien! Ahora exploraremos el mundo subterr\xE1neo.\nLos pl\xE1sticos
+      tardan hasta 500 a\xF1os en degradarse y, al hacerlo,\nliberan qu\xEDmicos
+      t\xF3xicos que contaminan las aguas subterr\xE1neas."
+    vozAudio: {fileID: 8300000, guid: c53415f51f1f4ae4baafe30b95a0ea5c, type: 3}
+  - texto: "La contaminaci\xF3n del suelo afecta la capacidad de los ecosistemas\npara
+      proveernos de alimentos y agua limpia. El ODS 15 busca proteger\nla biodiversidad
+      que habita bajo nuestros pies."
+    vozAudio: {fileID: 8300000, guid: 1bd3c21195160dd42a35dbf456042b22, type: 3}
+  - texto: "En Colombia, m\xE1s del 70% de los residuos s\xF3lidos terminan en\nvertederos
+      o rellenos sanitarios. Reducir, reutilizar y reciclar\nson nuestras mejores
+      herramientas. \xA1No te rindas!"
+    vozAudio: {fileID: 8300000, guid: 9e01aa37b2753084a84d1b777f1e4920, type: 3}
   escenaDestino: nivel5_subterraneo
+  textoSiguienteUltimo: "\xA1Jugar!"
   velocidadTexto: 0.08
 --- !u!82 &13000000038
 AudioSource:

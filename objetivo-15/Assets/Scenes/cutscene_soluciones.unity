@@ -739,8 +739,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 4.499878, y: -24}
+  m_SizeDelta: {x: 9.0002, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &752893056
 MonoBehaviour:
@@ -1093,7 +1093,7 @@ MonoBehaviour:
   imagenPlaneta: {fileID: 1630285739}
   spriteBocaCerrada: {fileID: 21300000, guid: ba4302ad565de2740ac101856defe981, type: 3}
   spriteBocaAbierta: {fileID: 21300000, guid: 9ed4572746d73ca4fb557bece29ee8fa, type: 3}
-  velocidadBoca: 0.12
+  velocidadBoca: 0.17
   textoDialogo: {fileID: 2067528577}
   botonSiguiente: {fileID: 141945286}
   textoBotonSiguiente: {fileID: 1521649250}
@@ -1103,54 +1103,54 @@ MonoBehaviour:
   - texto: "\xA1Hola! Soy Ambientalin. El ODS 15 busca proteger la vida de ecosistemas
       terrestres. En la region Caribe colombiana, enfrentamos graves problemas de
       contaminacion plastica y deforestacion. \xA1Pero hay soluciones!"
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: aa737a763ae17c2418634bf402d09bce, type: 3}
   - texto: "REDUCE los plasticos de un solo uso. En el Atlantico, cada persona genera
       mas de 1 kg de residuos al dia. Usa bolsas reutilizables, botellas de vidrio
       y evita los envases desechables. \xA1Peque\xF1os cambios, grandes resultados!"
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 9e72fa4f764069e4295dd4005a770537, type: 3}
   - texto: RECICLA correctamente. Separa el plastico, el vidrio y el papel en tu
       hogar. En Soledad, el reciclaje adecuado evita que los residuos terminen contaminando
       el suelo y las fuentes de agua.
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: ccd5624eb5c818d48af279f804f20e76, type: 3}
   - texto: APOYA la ganaderia sostenible. El proyecto Ganaderia Colombiana Sostenible
       integra arboles nativos en la produccion ganadera, protegiendo los bosques
       secos tropicales del Caribe y capturando carbono.
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 1c3ad35247e3c1b4e9da7700715cbb01, type: 3}
   - texto: "RESTAURA los ecosistemas. La siembra de arboles nativos en el Atlantico
       ayuda a recuperar el bosque seco tropical. Mas del 70% de estos bosques han
       desaparecido en la region. \xA1Planta un arbol!"
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 94abc8f2d991023429590195fbb7d91a, type: 3}
   - texto: ADOPTA la economia circular. Transforma los residuos en nuevos productos
       en lugar de desecharlos. En el Caribe, iniciativas de reciclaje comunitario
       convierten plasticos en materiales utiles.
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 93957695c11c97f46a77a12f0a8374f7, type: 3}
   - texto: ELIGE agricultura sostenible. Los sistemas agroecologicos conservan la
       biodiversidad y protegen el suelo de la degradacion. Consume alimentos locales
       y de temporada en Soledad.
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: ce9617821b77dad459fac6356e3b2756, type: 3}
   - texto: PROMUEVE la bioeconomia. Los bioplasticos y la bioenergia son alternativas
       a los derivados del petroleo. La region Caribe tiene un gran potencial para
       desarrollar productos biologicos renovables.
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 2f665f2a824a06f438a8b6c51c3df006, type: 3}
   - texto: PROTEGE la biodiversidad del Caribe. El bosque seco tropical alberga especies
       unicas que solo existen en Colombia. Cuidar estos ecosistemas es proteger nuestro
       patrimonio natural.
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 16388669e3198bb4490adb8a48643680, type: 3}
   - texto: CONSUME responsablemente. Reduce tu huella ecologica eligiendo productos
       con menos empaques y menor impacto ambiental. Cada decision de compra es un
       voto por el planeta.
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: a2ca59691ff8f2040bd6d1b2fc8b0190, type: 3}
   - texto: PARTICIPA en tu comunidad. En Soledad y el Atlantico, hay jornadas de
       limpieza, reciclaje y reforestacion. El cambio comienza cuando la comunidad
       se une por un mismo objetivo.
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: f8948dc892422904db9d70eca123db5c, type: 3}
   - texto: "Recuerda: la naturaleza es la base de nuestra vida en la Tierra. En el
       Caribe colombiano, tu eres parte del cambio. \xA1Protege los ecosistemas terrestres
       y juntos lograremos el ODS 15!"
-    vozAudio: {fileID: 0}
+    vozAudio: {fileID: 8300000, guid: 70dae02d2c587254383eef758a9e475f, type: 3}
   escenaDestino: menuprincipal
   textoSiguienteUltimo: "Volver al Menu \u2192"
-  velocidadTexto: 0.06
+  velocidadTexto: 0.07
 --- !u!4 &1511794488
 Transform:
   m_ObjectHideFlags: 0
@@ -1335,7 +1335,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -268, y: -89}
+  m_AnchoredPosition: {x: -271, y: -87}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1630285738
@@ -1411,8 +1411,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 198, y: -26.00698}
-  m_SizeDelta: {x: 944.259, y: 699.153}
+  m_AnchoredPosition: {x: 194, y: -13.362}
+  m_SizeDelta: {x: 944.259, y: 749.105}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1647234588
 MonoBehaviour:
@@ -1486,8 +1486,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -120, y: -200}
+  m_AnchoredPosition: {x: 13.559, y: 22.563}
+  m_SizeDelta: {x: -203.42, y: -406.448}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2067528576
 CanvasRenderer:
@@ -1519,8 +1519,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
+  m_sharedMaterial: {fileID: 9115855274950725475, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1544,13 +1544,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 10
+  m_fontStyle: 3
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1580,7 +1580,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 48.540833, y: 84.30762, z: 40.87622, w: 148.17708}
+  m_margin: {x: -2.968811, y: 2.6120148, z: 15.415131, w: 5.5786133}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
