@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour
     private float velocidadNormal;
     private bool inmortal = false;
     private bool potenciadorActivo = false;
+    private float coyoteTime = 0.12f;
+    private float coyoteTimeContador = 0f;
 
     [Header("Respawn")]
     public bool respawnPendiente = false;
@@ -74,8 +76,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        estaEnSuelo = Physics2D.OverlapCircle(
-            puntoSuelo.position, radioSuelo, capaSuelo);
+        estaEnSuelo = Physics2D.OverlapCircle(puntoSuelo.position, radioSuelo, capaSuelo)
+               || Physics2D.Raycast(puntoSuelo.position + Vector3.left * 0.15f, Vector2.down, radioSuelo + 0.05f, capaSuelo)
+               || Physics2D.Raycast(puntoSuelo.position + Vector3.right * 0.15f, Vector2.down, radioSuelo + 0.05f, capaSuelo);
 
         if (!controlActivo) return;
 
@@ -92,10 +95,16 @@ public class PlayerController : MonoBehaviour
             if (direccionDash == 0) direccionDash = 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && estaEnSuelo)
+        if (estaEnSuelo)
+            coyoteTimeContador = coyoteTime;
+        else
+            coyoteTimeContador -= Time.deltaTime;
+
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && coyoteTimeContador > 0f)
+        {
             saltoPendiente = true;
-        if (Input.GetKeyDown(KeyCode.W) && estaEnSuelo)
-            saltoPendiente = true;
+            coyoteTimeContador = 0f;
+        }
 
         if ((Input.GetKeyDown(teclaDisparo) || Input.GetMouseButtonDown(0)) &&
             temporizadorCooldownDisparo <= 0)
@@ -226,7 +235,8 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("corriendo", movimiento != 0);
             animator.SetBool("enSuelo", estaEnSuelo);
-            animator.SetFloat("velocidadVertical", rb.velocity.y);
+            float velocidadVerticalAnim = estaEnSuelo ? 0f : rb.velocity.y;
+            animator.SetFloat("velocidadVertical", velocidadVerticalAnim);
         }
     }
 
