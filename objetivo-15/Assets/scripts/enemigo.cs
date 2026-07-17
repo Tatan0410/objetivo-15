@@ -25,6 +25,7 @@ public class Enemigo : MonoBehaviour
     private Color colorOriginal;
     private bool yaProcesadoEsteFrame = false;
     private float direccionVisual = 1f;
+    private Animator animator; // ← NUEVO
 
     void Start()
     {
@@ -37,6 +38,7 @@ public class Enemigo : MonoBehaviour
         }
         sr = GetComponentInChildren<SpriteRenderer>();
         if (sr != null) colorOriginal = sr.color;
+        animator = GetComponentInChildren<Animator>(); // ← NUEVO
     }
 
     void Update()
@@ -53,6 +55,10 @@ public class Enemigo : MonoBehaviour
         {
             movement = Vector2.zero;
         }
+
+        // Actualizar animación de caminar
+        if (animator != null)
+            animator.SetBool("atacando", movement.x != 0f);
     }
 
     void FixedUpdate()
@@ -63,6 +69,10 @@ public class Enemigo : MonoBehaviour
         if (movement.x != 0f)
         {
             direccionVisual = movement.x > 0f ? 1f : -1f;
+
+            // Voltear sprite según dirección
+            if (sr != null)
+                sr.flipX = direccionVisual > 0f;
 
             if (!HaySueloAdelante(direccionVisual))
                 movement = Vector2.zero;
@@ -99,6 +109,10 @@ public class Enemigo : MonoBehaviour
         if (muerto) return;
         muerto = true;
 
+        // ← NUEVO: activar animación de morir
+        if (animator != null)
+            animator.SetBool("muerto", true);
+
         if (rb != null)
         {
             rb.velocity = Vector2.zero;
@@ -110,7 +124,7 @@ public class Enemigo : MonoBehaviour
 
         if (sr != null) sr.color = Color.gray;
         SoltarPlasticos();
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 1f); // ⚠️ La animación de morir debe durar menos de 1 segundo
     }
 
     public void RecibirDanio(int cantidad)
