@@ -11,6 +11,11 @@ public class Enemigo : MonoBehaviour
     public float distanciaBorde = 0.4f;
     public float alturaBorde = 0.3f;
 
+    [Header("Obstáculos y patrulla")]
+    public LayerMask capaObstaculos;
+    public float distanciaObstaculo = 0.6f;
+    public float distanciaPatrulla = 3f;
+
     [Header("Drop de plasticos")]
     public GameObject[] prefabsPlasticos;
     public int cantidadDrop = 1;
@@ -25,7 +30,14 @@ public class Enemigo : MonoBehaviour
     private Color colorOriginal;
     private bool yaProcesadoEsteFrame = false;
     private float direccionVisual = 1f;
-    private Animator animator; // ← NUEVO
+    private Animator animator;
+    private Vector2 puntoInicio;
+    private bool moviendoDerecha = true;
+    private float pausaPatrulla;
+    private bool enPausa = false;
+
+    private enum Modo { Quieto, Perseguir, Patrullar }
+    private Modo modo = Modo.Quieto;
 
     void Start()
     {
@@ -38,27 +50,41 @@ public class Enemigo : MonoBehaviour
         }
         sr = GetComponentInChildren<SpriteRenderer>();
         if (sr != null) colorOriginal = sr.color;
-        animator = GetComponentInChildren<Animator>(); // ← NUEVO
+        animator = GetComponentInChildren<Animator>();
+        puntoInicio = transform.position;
     }
 
     void Update()
     {
         if (player == null || muerto || congelado) return;
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distanceToPlayer < detectionRadius)
+        float dist = Vector2.Distance(transform.position, player.position);
+
+        if (dist < detectionRadius)
         {
-            Vector2 direction = (player.position - transform.position).normalized;
-            movement = new Vector2(direction.x, 0f);
+            bool jugadorArriba = (player.position.y - transform.position.y) > 0.5f;
+
+            if (!jugadorArriba && TrayectoriaDespejada())
+            {
+                modo = Modo.Perseguir;
+                Vector2 dir = (player.position - transform.position).normalized;
+                movement = new Vector2(dir.x, 0f);
+            }
+            else
+            {
+                if (modo == Modo.Quieto)
+                    IniciarPatrulla();
+                modo = Modo.Patrullar;
+            }
         }
         else
         {
+            modo = Modo.Quieto;
             movement = Vector2.zero;
         }
 
-        // Actualizar animación de caminar
         if (animator != null)
-            animator.SetBool("atacando", movement.x != 0f);
+            animator.SetBool("atacando", movement.x != 0f || modo == Modo.Patrullar);
     }
 
     void FixedUpdate()
@@ -66,19 +92,104 @@ public class Enemigo : MonoBehaviour
         yaProcesadoEsteFrame = false;
         if (rb == null || muerto || congelado) return;
 
-        if (movement.x != 0f)
+        switch (modo)
         {
-            direccionVisual = movement.x > 0f ? 1f : -1f;
+            case Modo.Perseguir:
+                if (movement.x != 0f)
+                {
+                    direccionVisual = movement.x > 0f ? 1f : -1f;
+                    if (sr != null) sr.flipX = direccionVisual > 0f;
 
-            // Voltear sprite según dirección
-            if (sr != null)
-                sr.flipX = direccionVisual > 0f;
+                    if (HayObstaculoAdelante(direccionVisual))
+                    {
+                        IniciarPatrulla();
+                        modo = Modo.Patrullar;
+                        break;
+                    }
+                    if (!HaySueloAdelante(direccionVisual))
+                        movement = Vector2.zero;
+                }
+                break;
 
-            if (!HaySueloAdelante(direccionVisual))
+            case Modo.Patrullar:
+                Patrullar();
+                break;
+
+            case Modo.Quieto:
                 movement = Vector2.zero;
+                break;
         }
 
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+    }
+
+    void Patrullar()
+    {
+        if (enPausa)
+        {
+            pausaPatrulla -= Time.fixedDeltaTime;
+            if (pausaPatrulla <= 0f)
+            {
+                enPausa = false;
+                Voltear();
+            }
+            else
+            {
+                movement = Vector2.zero;
+                return;
+            }
+        }
+
+        float dir = moviendoDerecha ? 1f : -1f;
+
+        if (HayObstaculoAdelante(dir) || !HaySueloAdelante(dir))
+        {
+            enPausa = true;
+            pausaPatrulla = 0.3f;
+            movement = Vector2.zero;
+            return;
+        }
+
+        float limite = moviendoDerecha
+            ? puntoInicio.x + distanciaPatrulla
+            : puntoInicio.x - distanciaPatrulla;
+
+        if ((moviendoDerecha && transform.position.x >= limite) ||
+            (!moviendoDerecha && transform.position.x <= limite))
+        {
+            enPausa = true;
+            pausaPatrulla = 0.3f;
+            movement = Vector2.zero;
+            return;
+        }
+
+        direccionVisual = dir;
+        if (sr != null) sr.flipX = direccionVisual > 0f;
+        movement = new Vector2(dir, 0f);
+    }
+
+    void IniciarPatrulla()
+    {
+        modo = Modo.Patrullar;
+        puntoInicio = transform.position;
+        enPausa = false;
+    }
+
+    void Voltear()
+    {
+        moviendoDerecha = !moviendoDerecha;
+    }
+
+    bool TrayectoriaDespejada()
+    {
+        if (player == null) return true;
+        LayerMask mask = capaObstaculos != 0 ? capaObstaculos : capaSuelo;
+        if (mask == 0) return true;
+
+        Vector2 origen = transform.position;
+        Vector2 destino = player.position;
+        RaycastHit2D hit = Physics2D.Linecast(origen, destino, mask);
+        return hit.collider == null;
     }
 
     bool HaySueloAdelante(float dir)
@@ -87,6 +198,16 @@ public class Enemigo : MonoBehaviour
 
         Vector3 origen = transform.position + new Vector3(dir * distanciaBorde, -alturaBorde, 0f);
         RaycastHit2D hit = Physics2D.Raycast(origen, Vector2.down, alturaBorde + 0.1f, capaSuelo);
+        return hit.collider != null;
+    }
+
+    bool HayObstaculoAdelante(float dir)
+    {
+        LayerMask mask = capaObstaculos != 0 ? capaObstaculos : capaSuelo;
+        if (mask == 0) return false;
+
+        Vector2 origen = transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(origen, Vector2.right * dir, distanciaObstaculo, mask);
         return hit.collider != null;
     }
 
@@ -109,7 +230,6 @@ public class Enemigo : MonoBehaviour
         if (muerto) return;
         muerto = true;
 
-        // ← NUEVO: activar animación de morir
         if (animator != null)
             animator.SetBool("muerto", true);
 
@@ -124,7 +244,7 @@ public class Enemigo : MonoBehaviour
 
         if (sr != null) sr.color = Color.gray;
         SoltarPlasticos();
-        Destroy(gameObject, 1f); // ⚠️ La animación de morir debe durar menos de 1 segundo
+        Destroy(gameObject, 1f);
     }
 
     public void RecibirDanio(int cantidad)
@@ -235,6 +355,22 @@ public class Enemigo : MonoBehaviour
             Gizmos.DrawLine(origen, origen + Vector3.down * (alturaBorde + 0.1f));
             origen = transform.position + new Vector3(-distanciaBorde, -alturaBorde, 0f);
             Gizmos.DrawLine(origen, origen + Vector3.down * (alturaBorde + 0.1f));
+        }
+
+        LayerMask maskGizmo = capaObstaculos != 0 ? capaObstaculos : capaSuelo;
+        if (maskGizmo != 0 && player != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, player.position);
+        }
+
+        if (maskGizmo != 0)
+        {
+            Gizmos.color = Color.magenta;
+            Vector3 der = transform.position + Vector3.right * distanciaObstaculo;
+            Gizmos.DrawLine(transform.position, der);
+            Vector3 izq = transform.position + Vector3.left * distanciaObstaculo;
+            Gizmos.DrawLine(transform.position, izq);
         }
     }
 }

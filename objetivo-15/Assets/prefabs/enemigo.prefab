@@ -213,6 +213,11 @@ MonoBehaviour:
     m_Bits: 8
   distanciaBorde: 0.4
   alturaBorde: 0.3
+  capaObstaculos:
+    serializedVersion: 2
+    m_Bits: 0
+  distanciaObstaculo: 0.6
+  distanciaPatrulla: 6
   prefabsPlasticos:
   - {fileID: 4326275224554361473, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
   - {fileID: 8834090006834012522, guid: d42dc879f5d984f4d8b15c10ff028c03, type: 3}
@@ -252,7 +257,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.10907328, y: 0.5}
+  m_Offset: {x: -0.10907346, y: 1.068094}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.2}
@@ -263,7 +268,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5756805, y: 0.29999995}
+  m_Size: {x: 2.4856853, y: 0.35624695}
   m_EdgeRadius: 0
 --- !u!95 &7668775181446170138
 Animator:

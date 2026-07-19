@@ -38,9 +38,12 @@ public class VidasManager : MonoBehaviour
 
     void Start()
     {
-        if (corazonLleno == null)
+        // TODO: sprite original con GUID 3bfbd9e4fa06759448640d2691c73eff se perdio.
+        // Buscar/reimportar el archivo real y reconectarlo.
+        // Estos placeholders son temporales.
+        if (corazonLleno == null || corazonLleno.GetInstanceID() == 0)
             corazonLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
-        if (corazonVacio == null)
+        if (corazonVacio == null || corazonVacio.GetInstanceID() == 0)
             corazonVacio = IconoUtils.GenerarCorazon(32, 100, new Color(0.3f, 0.3f, 0.3f));
 
         vidasActuales = vidasIniciales;
