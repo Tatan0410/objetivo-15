@@ -16,13 +16,25 @@ public class MenuPausa : MonoBehaviour
     {
         panelPausa.SetActive(false);
 
-        float volumenGuardado = PlayerPrefs.GetFloat("Volumen", 1f);
-        AudioListener.volume = volumenGuardado;
+        float volumenGuardado = PlayerPrefs.GetFloat("VolumenMusica", 1f);
+
+        AplicarVolumen(volumenGuardado);
 
         if (sliderVolumen != null)
         {
             sliderVolumen.value = volumenGuardado;
             sliderVolumen.onValueChanged.AddListener(CambiarVolumen);
+        }
+    }
+
+    void AplicarVolumen(float valor)
+    {
+        GameObject musicGO = GameObject.Find("musicafondo");
+        if (musicGO != null)
+        {
+            AudioSource[] audios = musicGO.GetComponents<AudioSource>();
+            foreach (var a in audios)
+                a.volume = valor;
         }
     }
 
@@ -69,8 +81,8 @@ public class MenuPausa : MonoBehaviour
 
     public void CambiarVolumen(float valor)
     {
-        AudioListener.volume = valor;
-        PlayerPrefs.SetFloat("Volumen", valor);
+        AplicarVolumen(valor);
+        PlayerPrefs.SetFloat("VolumenMusica", valor);
         PlayerPrefs.Save();
     }
 

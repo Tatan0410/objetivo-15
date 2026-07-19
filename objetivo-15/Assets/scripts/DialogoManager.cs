@@ -43,7 +43,6 @@ public class DialogoManager : MonoBehaviour
 
     void Start()
     {
-        AudioListener.volume = PlayerPrefs.GetFloat("Volumen", 1f);
         botonSiguiente.SetActive(false);
         botonSkip.SetActive(true);
         if (imagenPlaneta != null && spriteBocaCerrada != null)

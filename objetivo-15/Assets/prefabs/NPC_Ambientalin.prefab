@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1119225989106781640
+--- !u!1 &5104073181026472674
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8602498553521991247}
-  - component: {fileID: 8279906577145419441}
-  - component: {fileID: 836241743738564837}
+  - component: {fileID: 7392805380021571251}
+  - component: {fileID: 7317699988597298767}
+  - component: {fileID: 5415706260632634918}
   m_Layer: 0
   m_Name: NPC_Ambientalin
   m_TagString: Untagged
@@ -18,13 +18,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8602498553521991247
+--- !u!4 &7392805380021571251
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119225989106781640}
+  m_GameObject: {fileID: 5104073181026472674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,13 +33,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8279906577145419441
+--- !u!212 &7317699988597298767
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119225989106781640}
+  m_GameObject: {fileID: 5104073181026472674}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -85,29 +85,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &836241743738564837
+--- !u!114 &5415706260632634918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119225989106781640}
+  m_GameObject: {fileID: 5104073181026472674}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2005c3abd17e374290923855e62ae10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textoNPC: '!Recuerda separar los residuos: organicos, reciclables y no aprovechables.
-    Cada material cuenta!'
-  textoJugador: Tienes razon, !empecemos!
-  retratoNPC: {fileID: 21300000, guid: ba4302ad565de2740ac101856defe981, type: 3}
-  spritePanelDialogo: {fileID: 21300000, guid: c6a9a3d9d49729a4f93c9031f5a849b9, type: 3}
+  dialogos:
+  - esJugador: 0
+    texto: '!Hola, joven! Me alegra que quieras aprender sobre el ODS 15. Yo soy
+      Ambientalin.'
+  - esJugador: 1
+    texto: Encantado! Por donde empezamos?
+  - esJugador: 0
+    texto: Sigue el camino y recolecta plasticos. Cada uno te ensenara algo nuevo
+      sobre como cuidar nuestro planeta.
+  retratoNPC: {fileID: 0}
   fontAsset: {fileID: 11400000, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
   radioDeteccion: 3
   cooldownReaparicion: 2
-  velocidadTexto: 0.03
   altoBarra: 200
   altoAreaDialogo: 300
+  tamanoRetrato: 150
+  margenRetratoLateral: 40
+  margenRetratoAbajo: 30
+  margenTextoJugador: 60
+  margenTextoNPC: 60
+  posYTexto: 170
+  anchoTextoJugador: 850
+  anchoTextoNPC: 850
+  altoTexto: 200
+  velocidadTexto: 0.03
   tamanioFuente: 25
-  anchoPanelDialogo: 800
-  altoPanelDialogo: 120

@@ -423,7 +423,11 @@ public class SetupEscenas : EditorWindow
         // Find musicafondo in the scene and connect
         var musicGO = GameObject.Find("musicafondo");
         if (musicGO != null)
+        {
             nav.musicaFondo = musicGO.GetComponent<AudioSource>();
+            if (musicGO.GetComponent<AplicarVolumenMusica>() == null)
+                musicGO.AddComponent<AplicarVolumenMusica>();
+        }
 
         // Connect OnClick
         UnityEventTools.AddPersistentListener(bVolver.GetComponent<Button>().onClick, nav.VolverAlMenu);
@@ -638,6 +642,34 @@ public class SetupEscenas : EditorWindow
         slider.handleRect = hand.GetComponent<RectTransform>();
 
         return go;
+    }
+
+    // ─────── APLICAR VOLUMEN MUSICA ───────
+
+    [MenuItem("Tools/11. Agregar AplicarVolumenMusica a TODOS los niveles")]
+    static void AgregarAplicarVolumenANiveles()
+    {
+        string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
+                            "nivel4_basurero", "nivel5_subterraneo", "nivel6_empresa",
+                            "Mapamundial" };
+        int agregados = 0;
+        foreach (var lv in levels)
+        {
+            string path = $"Assets/Scenes/{lv}.unity";
+            if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); continue; }
+
+            EditorSceneManager.OpenScene(path);
+            var musicGO = GameObject.Find("musicafondo");
+            if (musicGO != null && musicGO.GetComponent<AplicarVolumenMusica>() == null)
+            {
+                musicGO.AddComponent<AplicarVolumenMusica>();
+                agregados++;
+                Debug.Log($"AplicarVolumenMusica agregado a {lv}");
+            }
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+        }
+        Debug.Log($"AplicarVolumenMusica agregado a {agregados} escenas.");
+        if (Application.isBatchMode) EditorApplication.Exit(0);
     }
 
     // ─────── BATCH MODE ENTRY POINT ───────
@@ -880,6 +912,7 @@ public class SetupEscenas : EditorWindow
         AjustarEnemigos();
         ColocarMunicion();
         ReconstruirHUD();
+        AgregarAplicarVolumenANiveles();
 
         Debug.Log("=== TODAS LAS ESCENAS CONFIGURADAS ===");
         if (Application.isBatchMode) EditorApplication.Exit(0);

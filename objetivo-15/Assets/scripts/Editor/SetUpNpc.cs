@@ -19,16 +19,15 @@ public class SetUpNpc
         sr.sortingOrder = 0;
 
         NPCDialogoJRPG npc = go.AddComponent<NPCDialogoJRPG>();
-        npc.textoNPC = "!Recuerda separar los residuos: organicos, reciclables y no aprovechables. Cada material cuenta!";
-        npc.textoJugador = "Tienes razon, !empecemos!";
+        npc.dialogos = new DialogoNPC[]
+        {
+            new DialogoNPC { esJugador = false, texto = "!Hola, joven! Me alegra que quieras aprender sobre el ODS 15. Yo soy Ambientalin." },
+            new DialogoNPC { esJugador = true, texto = "Encantado! Por donde empezamos?" },
+            new DialogoNPC { esJugador = false, texto = "Sigue el camino y recolecta plasticos. Cada uno te ensenara algo nuevo sobre como cuidar nuestro planeta." },
+        };
         npc.radioDeteccion = 3f;
-        npc.cooldownReaparicion = 2f;
-        npc.retratoNPC = spriteAmbientalin;
 
         var spritePanel = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/nubecitadialogo-removebg-preview.png");
-        if (spritePanel != null)
-            npc.spritePanelDialogo = spritePanel;
-
         var guids = AssetDatabase.FindAssets("t:TMP_FontAsset");
         if (guids.Length > 0)
         {
