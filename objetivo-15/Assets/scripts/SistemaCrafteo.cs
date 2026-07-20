@@ -5,6 +5,9 @@ public class SistemaCrafteo : MonoBehaviour
     [Header("Prefabs de armas")]
     public GameObject prefabLanzador;
 
+    [Header("Posicion en la mano")]
+    public Vector2 offsetMano = new Vector2(0.5f, 0.4f);
+
     public static SistemaCrafteo instancia;
 
     void Awake()
@@ -42,7 +45,7 @@ public class SistemaCrafteo : MonoBehaviour
                 Destroy(child.gameObject);
         }
 
-        Instantiate(prefabArma, jugador.transform.position,
-            Quaternion.identity, jugador.transform);
+        GameObject arma = Instantiate(prefabArma, jugador.transform);
+        arma.transform.localPosition = offsetMano;
     }
 }

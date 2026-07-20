@@ -2,7 +2,8 @@ using UnityEngine;
 
 public enum TipoArma
 {
-    Lanzador
+    Ninguna = -1,
+    Lanzador = 0
 }
 
 public class ArmaPlaceholder : MonoBehaviour

@@ -110,18 +110,17 @@ public class PlayerController : MonoBehaviour
             temporizadorCooldownDisparo <= 0)
         {
             TipoArma arma = GetArmaEquipada();
-            if (arma == TipoArma.Lanzador)
+            if (arma == TipoArma.Ninguna) return;
+
+            if (MunicionManager.instancia != null &&
+                !MunicionManager.instancia.ConsumirMunicion())
             {
-                if (MunicionManager.instancia != null &&
-                    !MunicionManager.instancia.ConsumirMunicion())
-                {
-                    // Sin municion, no dispara
-                }
-                else
-                {
-                    Disparar(arma);
-                    temporizadorCooldownDisparo = cooldownDisparo;
-                }
+                // Sin municion, no dispara
+            }
+            else
+            {
+                Disparar(arma);
+                temporizadorCooldownDisparo = cooldownDisparo;
             }
         }
     }
@@ -259,7 +258,7 @@ public class PlayerController : MonoBehaviour
             if (arma != null)
                 return arma.tipo;
         }
-        return TipoArma.Lanzador;
+        return TipoArma.Ninguna;
     }
 
     void Disparar(TipoArma arma)
