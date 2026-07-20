@@ -7,15 +7,12 @@ public class Inventario : MonoBehaviour
     [Header("Cantidades")]
     public int botellasPET = 0;
     public int bolsasPlasticas = 0;
-    public int tarros = 0;
-    public int tubosPVC = 0;
+    public int icopor = 0;
 
     [Header("UI - Contadores")]
-    // TODO: reemplazar iconos placeholder con sprites reales
     public ContadorHUD contadorPET;
     public ContadorHUD contadorBolsa;
-    public ContadorHUD contadorTarro;
-    public ContadorHUD contadorTubo;
+    public ContadorHUD contadorIcopor;
 
     void Awake()
     {
@@ -41,11 +38,8 @@ public class Inventario : MonoBehaviour
             case TipoPlastico.BolsaPlastica:
                 bolsasPlasticas++;
                 break;
-            case TipoPlastico.Tarro:
-                tarros++;
-                break;
-            case TipoPlastico.TuboPVC:
-                tubosPVC++;
+            case TipoPlastico.Icopor:
+                icopor++;
                 break;
         }
 
@@ -53,20 +47,18 @@ public class Inventario : MonoBehaviour
         Debug.Log("Recogiste: " + tipo.ToString());
     }
 
-    public bool TieneIngredientes(int pet, int bolsas, int t, int tubos)
+    public bool TieneIngredientes(int pet, int bolsas, int ico)
     {
         return botellasPET >= pet &&
                bolsasPlasticas >= bolsas &&
-               tarros >= t &&
-               tubosPVC >= tubos;
+               icopor >= ico;
     }
 
-    public void GastarIngredientes(int pet, int bolsas, int t, int tubos)
+    public void GastarIngredientes(int pet, int bolsas, int ico)
     {
         botellasPET -= pet;
         bolsasPlasticas -= bolsas;
-        tarros -= t;
-        tubosPVC -= tubos;
+        icopor -= ico;
         ActualizarUI();
     }
 
@@ -74,7 +66,6 @@ public class Inventario : MonoBehaviour
     {
         if (contadorPET != null) contadorPET.Actualizar(botellasPET);
         if (contadorBolsa != null) contadorBolsa.Actualizar(bolsasPlasticas);
-        if (contadorTarro != null) contadorTarro.Actualizar(tarros);
-        if (contadorTubo != null) contadorTubo.Actualizar(tubosPVC);
+        if (contadorIcopor != null) contadorIcopor.Actualizar(icopor);
     }
 }

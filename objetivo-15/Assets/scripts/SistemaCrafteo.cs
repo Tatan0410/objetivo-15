@@ -4,9 +4,6 @@ public class SistemaCrafteo : MonoBehaviour
 {
     [Header("Prefabs de armas")]
     public GameObject prefabLanzador;
-    public GameObject prefabRed;
-    public GameObject prefabEscudo;
-    public GameObject prefabLanzaTubos;
 
     public static SistemaCrafteo instancia;
 
@@ -18,49 +15,15 @@ public class SistemaCrafteo : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // Llama estas funciones desde la UI del crafteo
     public void CraftearLanzador()
     {
-        if (Inventario.instancia.TieneIngredientes(3, 0, 0, 0))
+        if (Inventario.instancia.TieneIngredientes(3, 2, 1))
         {
-            Inventario.instancia.GastarIngredientes(3, 0, 0, 0);
+            Inventario.instancia.GastarIngredientes(3, 2, 1);
             EquiparArma(prefabLanzador);
-            Debug.Log("�Lanzador crafteado!");
+            Debug.Log("Lanzador crafteado!");
         }
-        else Debug.Log("Necesitas 3 botellas PET");
-    }
-
-    public void CraftearRed()
-    {
-        if (Inventario.instancia.TieneIngredientes(0, 5, 0, 0))
-        {
-            Inventario.instancia.GastarIngredientes(0, 5, 0, 0);
-            EquiparArma(prefabRed);
-            Debug.Log("�Red crafteada!");
-        }
-        else Debug.Log("Necesitas 5 bolsas");
-    }
-
-    public void CraftearEscudo()
-    {
-        if (Inventario.instancia.TieneIngredientes(1, 0, 2, 0))
-        {
-            Inventario.instancia.GastarIngredientes(1, 0, 2, 0);
-            EquiparArma(prefabEscudo);
-            Debug.Log("�Escudo crafteado!");
-        }
-        else Debug.Log("Necesitas 2 tarros y 1 botella");
-    }
-
-    public void CraftearLanzaTubos()
-    {
-        if (Inventario.instancia.TieneIngredientes(0, 0, 0, 3))
-        {
-            Inventario.instancia.GastarIngredientes(0, 0, 0, 3);
-            EquiparArma(prefabLanzaTubos);
-            Debug.Log("�LanzaTubos crafteado!");
-        }
-        else Debug.Log("Necesitas 3 tubos PVC");
+        else Debug.Log("Necesitas 3 PET + 2 Bolsas + 1 Icopor");
     }
 
     void EquiparArma(GameObject prefabArma)
@@ -73,7 +36,6 @@ public class SistemaCrafteo : MonoBehaviour
         GameObject jugador = GameObject.FindGameObjectWithTag("Player");
         if (jugador == null) return;
 
-        // Remover arma anterior si existe
         foreach (Transform child in jugador.transform)
         {
             if (child.GetComponent<ArmaPlaceholder>() != null)

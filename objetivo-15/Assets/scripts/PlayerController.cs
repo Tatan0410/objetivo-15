@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
             temporizadorCooldownDisparo <= 0)
         {
             TipoArma arma = GetArmaEquipada();
-            if (arma == TipoArma.Lanzador || arma == TipoArma.Red || arma == TipoArma.LanzaTubos)
+            if (arma == TipoArma.Lanzador)
             {
                 if (MunicionManager.instancia != null &&
                     !MunicionManager.instancia.ConsumirMunicion())
@@ -259,7 +259,7 @@ public class PlayerController : MonoBehaviour
             if (arma != null)
                 return arma.tipo;
         }
-        return TipoArma.Escudo;
+        return TipoArma.Lanzador;
     }
 
     void Disparar(TipoArma arma)
@@ -274,11 +274,7 @@ public class PlayerController : MonoBehaviour
         Vector3 spawnPos = transform.position + new Vector3(dirX * 0.6f, 0, 0);
         GameObject proy = Instantiate(prefabProyectil, spawnPos, Quaternion.identity);
 
-        TipoProyectil tipo = TipoProyectil.Lanzador;
-        if (arma == TipoArma.Red) tipo = TipoProyectil.Red;
-        else if (arma == TipoArma.LanzaTubos) tipo = TipoProyectil.LanzaTubos;
-
-        proy.GetComponent<ProyectilArma>().Iniciar(new Vector2(dirX, 0), tipo);
+        proy.GetComponent<ProyectilArma>().Iniciar(new Vector2(dirX, 0), TipoProyectil.Lanzador);
     }
 
     public void AplicarPotenciador(TipoPotenciador tipo)

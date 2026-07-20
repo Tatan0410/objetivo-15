@@ -39,7 +39,6 @@ public class MenuCrafteo : MonoBehaviour
         Canvas canvas = GameObject.Find("Canvas")?.GetComponent<Canvas>();
         if (canvas == null) canvas = FindObjectOfType<Canvas>();
 
-        // Panel principal
         panelCrafteo = new GameObject("PanelCrafteo");
         panelCrafteo.transform.SetParent(canvas.transform, false);
         Image bg = panelCrafteo.AddComponent<Image>();
@@ -48,37 +47,19 @@ public class MenuCrafteo : MonoBehaviour
         rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
         rt.pivot = new Vector2(0.5f, 0.5f);
         rt.anchoredPosition = Vector2.zero;
-        rt.sizeDelta = new Vector2(400, 380);
+        rt.sizeDelta = new Vector2(400, 250);
 
-        // Título
-        CrearTexto(panelCrafteo, "⚙ CRAFTEO", 20, new Vector2(0, 160),
+        CrearTexto(panelCrafteo, "CRAFTEO", 20, new Vector2(0, 80),
                    new Vector2(380, 40), Color.white);
 
-        // Separador
         CrearTexto(panelCrafteo, "Presiona TAB para cerrar",
-                   12, new Vector2(0, 135),
+                   12, new Vector2(0, 55),
                    new Vector2(380, 25), new Color(0.7f, 0.7f, 0.7f));
 
-        // Botones de armas
         CrearBotonArma(panelCrafteo,
-            "🏹 Lanzador", "Costo: 3 PET",
-            new Vector2(0, 70), Color.cyan,
+            "Lanzador", "Costo: 3 PET + 2 Bolsas + 1 Icopor",
+            new Vector2(0, -10), Color.cyan,
             () => { SistemaCrafteo.instancia.CraftearLanzador(); CerrarMenu(); });
-
-        CrearBotonArma(panelCrafteo,
-            "🕸 Red", "Costo: 5 Bolsas",
-            new Vector2(0, 0), new Color(0.5f, 1f, 0.5f),
-            () => { SistemaCrafteo.instancia.CraftearRed(); CerrarMenu(); });
-
-        CrearBotonArma(panelCrafteo,
-            "🛡 Escudo", "Costo: 1 PET + 2 Tarros",
-            new Vector2(0, -70), Color.yellow,
-            () => { SistemaCrafteo.instancia.CraftearEscudo(); CerrarMenu(); });
-
-        CrearBotonArma(panelCrafteo,
-            "💥 LanzaTubos", "Costo: 3 Tubos",
-            new Vector2(0, -140), new Color(1f, 0.5f, 0.2f),
-            () => { SistemaCrafteo.instancia.CraftearLanzaTubos(); CerrarMenu(); });
 
         panelCrafteo.SetActive(false);
     }
@@ -101,10 +82,8 @@ public class MenuCrafteo : MonoBehaviour
         b.colors = cb;
         b.onClick.AddListener(accion);
 
-        // Nombre arma
         CrearTexto(btn, nombre, 16, new Vector2(-60, 8),
                    new Vector2(240, 25), color);
-        // Costo
         CrearTexto(btn, costo, 12, new Vector2(-60, -10),
                    new Vector2(240, 20), new Color(0.8f, 0.8f, 0.8f));
     }

@@ -65,8 +65,8 @@ public class SetupEscenas : EditorWindow
 
         EditorGUILayout.Space();
 
-        if (GUILayout.Button("9. Reconstruir HUD (corazones + iconos)", GUILayout.Height(40)))
-            ReconstruirHUD();
+        if (GUILayout.Button("9. Reparar HUD (corazones + iconos)", GUILayout.Height(40)))
+            RepararHUD();
 
         EditorGUILayout.Space();
 
@@ -746,147 +746,267 @@ public class SetupEscenas : EditorWindow
 
     // ─────── RECONSTRUIR HUD ───────
 
-    static void ReconstruirHUD()
+    // ─────── LIMPIAR Y ACTUALIZAR SISTEMA DE ITEMS ───────
+
+    [MenuItem("Tools/12. Limpiar items y armas obsoletos (nivel1_colegio)")]
+    static void LimpiarItemsObsoletos()
+    {
+        string path = "Assets/Scenes/nivel1_colegio.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+
+        int eliminados = 0;
+        var toDestroy = new System.Collections.Generic.List<GameObject>();
+        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
+            if (go.name.StartsWith("tarroplastico") || go.name.StartsWith("tuboplastico") ||
+                go.name.StartsWith("Red") || go.name.StartsWith("Escudo") || go.name.StartsWith("LanzaTubos"))
+            {
+                toDestroy.Add(go);
+                eliminados++;
+            }
+        }
+        foreach (var go in toDestroy) Object.DestroyImmediate(go);
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        Debug.Log($"Items obsoletos eliminados: {eliminados}");
+    }
+
+    [MenuItem("Tools/13. Crear prefab de Icopor")]
+    static void CrearPrefabIcopor()
+    {
+        GameObject go = new GameObject("icopor");
+
+        SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+        var spriteIcopor = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/icopor-removebg-preview.png");
+        if (spriteIcopor != null) sr.sprite = spriteIcopor;
+
+        PlasticoItem item = go.AddComponent<PlasticoItem>();
+        item.tipo = TipoPlastico.Icopor;
+
+        PrefabUtility.SaveAsPrefabAsset(go, "Assets/prefabs/icopor.prefab");
+        Object.DestroyImmediate(go);
+
+        Debug.Log("Prefab de icopor creado en Assets/prefabs/icopor.prefab");
+    }
+
+    [MenuItem("Tools/14. Asignar skin al Lanzador prefab")]
+    static void AsignarSkinLanzador()
+    {
+        string prefabPath = "Assets/prefabs/Lanzador.prefab";
+        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        if (prefab == null) { Debug.LogError("No existe Lanzador.prefab"); return; }
+
+        var arma = prefab.GetComponent<ArmaPlaceholder>();
+        if (arma == null) arma = prefab.AddComponent<ArmaPlaceholder>();
+
+        var skin = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/pitolaloco-removebg-preview.png");
+        if (skin == null) { Debug.LogError("No se encontro pitolaloco sprite"); return; }
+
+        arma.skinSprite = skin;
+        var sr = prefab.GetComponent<SpriteRenderer>();
+        if (sr == null) sr = prefab.AddComponent<SpriteRenderer>();
+        sr.sprite = skin;
+
+        EditorUtility.SetDirty(prefab);
+        AssetDatabase.SaveAssets();
+        Debug.Log("Skin pitolaloco asignada a Lanzador.prefab");
+    }
+
+    [MenuItem("Tools/15. Eliminar prefabs obsoletos (tarro, tubo, red, escudo, lanzatubos)")]
+    static void EliminarPrefabsObsoletos()
+    {
+        string[] prefabs = {
+            "Assets/prefabs/tarroplastico.prefab",
+            "Assets/prefabs/tuboplastico.prefab",
+            "Assets/prefabs/Red.prefab",
+            "Assets/prefabs/Escudo.prefab",
+            "Assets/prefabs/LanzaTubos.prefab",
+        };
+        int eliminados = 0;
+        foreach (var p in prefabs)
+        {
+            if (File.Exists(p)) { AssetDatabase.DeleteAsset(p); eliminados++; Debug.Log($"Eliminado: {p}"); }
+            else Debug.Log($"No existe: {p}");
+        }
+        AssetDatabase.Refresh();
+        Debug.Log($"Prefabs eliminados: {eliminados}");
+    }
+
+    // ─────── REPARAR HUD ───────
+
+    [MenuItem("Tools/Reparar HUD (nivel1_colegio)")]
+    static void RepararHUD()
     {
         string path = "Assets/Scenes/nivel1_colegio.unity";
         if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
 
         EditorSceneManager.OpenScene(path);
         var font = FindFont();
+
         var canvas = Object.FindFirstObjectByType<Canvas>();
-        if (canvas == null)
+        if (!canvas)
         {
-            Debug.LogError("No hay Canvas en la escena.");
+            Debug.LogError("No hay Canvas en la escena");
             return;
         }
 
-        // Remove old HUD elements if exist
-        var toRemove = new System.Collections.Generic.List<GameObject>();
-        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
-        {
-            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
-            if (go.name.StartsWith("TextVidas") || go.name.StartsWith("textovidas") ||
-                go.name.StartsWith("TextMunicion") || go.name.StartsWith("textomunicion") ||
-                go.name == "TextoBolsa" || go.name == "TextoBotella" ||
-                go.name == "TextTubo" || go.name == "TextTarro" ||
-                go.name == "PanelInventario" ||
-                go.name == "ContenedorCorazones" || go.name == "ContenedorRecursos")
-            {
-                toRemove.Add(go);
-            }
-        }
-        foreach (var go in toRemove) Object.DestroyImmediate(go);
+        // ─── Eliminar HUD viejo ───
+        var oldHeart = GameObject.Find("ContenedorCorazones");
+        if (oldHeart != null) Object.DestroyImmediate(oldHeart);
+        var oldRes = GameObject.Find("ContenedorRecursos");
+        if (oldRes != null) Object.DestroyImmediate(oldRes);
 
-        // ─── 1. HEARTS (VIDAS) ───
+        // ─── Cargar sprites ───
+        var sprLleno = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/corazonmaincra-removebg-preview.png");
+        var sprPET = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/botellasinfondo.png");
+        var sprBolsa = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/bolsasinfondo.png");
+        var sprIcopor = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/icopor-removebg-preview.png");
+        var sprMunicion = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/pitolaloco-removebg-preview.png");
+
+        // Fallback procedural si falta algun sprite
+        if (sprLleno == null) sprLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
+        if (sprPET == null) sprPET = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.8f, 0.2f));
+        if (sprBolsa == null) sprBolsa = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.5f, 0.9f));
+        if (sprIcopor == null) sprIcopor = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.8f, 0.2f));
+        if (sprMunicion == null) sprMunicion = IconoUtils.GenerarCirculo(16, 100, new Color(1f, 0.6f, 0.1f));
+
+        // ─── CONTENEDOR DE CORAZONES (los corazones se crean dinamicamente en runtime) ───
         var heartParent = MakeUI("ContenedorCorazones", canvas.transform,
             new Vector2(0f, 1f), new Vector2(0f, 1f),
             new Vector2(10, -10), new Vector2(180, 36), new Vector2(0f, 1f));
 
-        Image[] heartImages = new Image[5];
-        for (int i = 0; i < 5; i++)
-        {
-            var h = MakeUI($"Corazon{i + 1}", heartParent.transform,
-                new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
-                new Vector2(i * 36, 0), new Vector2(32, 32), new Vector2(0.5f, 0.5f));
-            var img = h.AddComponent<Image>();
-            heartImages[i] = img;
-        }
-
-        // Save persistent heart sprites and connect to VidasManager
-        var dir = "Assets/sprites/generados";
-        if (!AssetDatabase.IsValidFolder("Assets/sprites"))
-            AssetDatabase.CreateFolder("Assets", "sprites");
-        if (!AssetDatabase.IsValidFolder(dir))
-            AssetDatabase.CreateFolder("Assets/sprites", "generados");
-
-        var texLleno = IconoUtils.GenerarCorazonTexture(32, new Color(1f, 0.2f, 0.2f));
-        var texVacio = IconoUtils.GenerarCorazonTexture(32, new Color(0.3f, 0.3f, 0.3f));
-        GuardarTexturaComoPNG(dir + "/corazon_lleno.png", texLleno);
-        GuardarTexturaComoPNG(dir + "/corazon_vacio.png", texVacio);
-        AssetDatabase.Refresh();
-
-        var sprLleno = AssetDatabase.LoadAssetAtPath<Sprite>(dir + "/corazon_lleno.png");
-        var sprVacio = AssetDatabase.LoadAssetAtPath<Sprite>(dir + "/corazon_vacio.png");
-
         var vm = Object.FindFirstObjectByType<VidasManager>();
-        if (vm != null)
+        if (vm == null)
         {
-            vm.corazonLleno = sprLleno;
-            vm.corazonVacio = sprVacio;
-            vm.corazones = heartImages;
-            for (int i = 0; i < heartImages.Length; i++)
-                heartImages[i].sprite = i < vm.vidasActuales ? sprLleno : sprVacio;
-            Debug.Log("Corazones conectados a VidasManager.");
+            var vmGO = new GameObject("VidasManager");
+            vm = vmGO.AddComponent<VidasManager>();
+            Debug.Log("VidasManager creado en la escena");
         }
-        else Debug.LogError("No se encontro VidasManager en la escena.");
+        vm.corazonLleno = sprLleno;
+        Debug.Log("Corazon sprite asignado a VidasManager");
 
-        // ─── 2. RESOURCE COUNTERS (Inventario + Municion) ───
+        // ─── CONTADORES DE RECURSOS ───
         var resParent = MakeUI("ContenedorRecursos", canvas.transform,
             new Vector2(0f, 1f), new Vector2(0f, 1f),
-            new Vector2(10, -55), new Vector2(200, 150), new Vector2(0f, 1f));
+            new Vector2(10, -55), new Vector2(200, 120), new Vector2(0f, 1f));
 
-        // Helper to create a ContadorHUD row
-        System.Func<string, Color, int, ContadorHUD> crearContador =
-            (nombre, color, index) =>
+        System.Func<string, Sprite, int, ContadorHUD> crearContador =
+            (nombre, iconSprite, index) =>
         {
             var row = MakeUI(nombre, resParent.transform,
                 new Vector2(0f, 1f), new Vector2(0f, 1f),
                 new Vector2(0, -index * 28), new Vector2(200, 24), new Vector2(0f, 1f));
-
-            // TODO: reemplazar icono placeholder con sprite real
             var iconGO = MakeUI("Icono", row.transform,
                 new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
                 new Vector2(0, 0), new Vector2(20, 20), new Vector2(0.5f, 0.5f));
             var iconImg = iconGO.AddComponent<Image>();
-            iconImg.sprite = IconoUtils.GenerarCirculo(16, 100, color);
-
+            iconImg.sprite = iconSprite;
+            iconImg.preserveAspect = true;
             var txtGO = MakeUI("Numero", row.transform,
                 new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
                 new Vector2(26, 0), new Vector2(80, 24), new Vector2(0f, 0.5f));
             var tmp = txtGO.AddComponent<TextMeshProUGUI>();
             tmp.text = "0";
             tmp.fontSize = 18;
-            tmp.color = color;
+            tmp.color = Color.white;
             tmp.alignment = TextAlignmentOptions.Left;
             if (font) tmp.font = font;
-
             var cont = row.AddComponent<ContadorHUD>();
             cont.icono = iconImg;
             cont.texto = tmp;
             return cont;
         };
 
-        // Create ContadorHUDs for each resource
-        var contPET = crearContador("ContPET", new Color(0.2f, 0.8f, 0.2f), 0);
-        var contBolsa = crearContador("ContBolsa", new Color(0.2f, 0.5f, 0.9f), 1);
-        var contTarro = crearContador("ContTarro", new Color(0.9f, 0.8f, 0.2f), 2);
-        var contTubo = crearContador("ContTubo", new Color(0.7f, 0.7f, 0.7f), 3);
-        var contMunicion = crearContador("ContMunicion", new Color(1f, 0.6f, 0.1f), 4);
+        var contPET = crearContador("ContPET", sprPET, 0);
+        var contBolsa = crearContador("ContBolsa", sprBolsa, 1);
+        var contIcopor = crearContador("ContIcopor", sprIcopor, 2);
+        var contMunicion = crearContador("ContMunicion", sprMunicion, 3);
 
-        // Connect to Inventario (use FindObjectByType, not .instancia — Editor mode)
         var inv = Object.FindFirstObjectByType<Inventario>();
         if (inv != null)
         {
             inv.contadorPET = contPET;
             inv.contadorBolsa = contBolsa;
-            inv.contadorTarro = contTarro;
-            inv.contadorTubo = contTubo;
-            Debug.Log("Contadores de recursos conectados a Inventario.");
+            inv.contadorIcopor = contIcopor;
+            Debug.Log("Contadores conectados a Inventario");
         }
-        else Debug.LogError("No se encontro Inventario en la escena.");
+        else Debug.LogError("No se encontro Inventario");
 
-        // Connect to MunicionManager
         var mm = Object.FindFirstObjectByType<MunicionManager>();
         if (mm != null)
         {
             mm.AsignarContador(contMunicion);
-            Debug.Log("Contador de municion conectado.");
+            Debug.Log("Contador de municion conectado");
         }
-        else Debug.LogError("No se encontro MunicionManager en la escena.");
+        else Debug.LogError("No se encontro MunicionManager");
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
-        Debug.Log("HUD reconstruido: corazones + contadores de recursos.");
+        Debug.Log("HUD reparado correctamente");
+    }
+
+    // ─────── ACTUALIZAR CONTADORES INVENTARIO ───────
+
+    static void ActualizarContadoresInventario()
+    {
+        string path = "Assets/Scenes/nivel1_colegio.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+
+        var inv = Object.FindFirstObjectByType<Inventario>();
+        if (inv == null) { Debug.LogError("No hay Inventario en la escena"); return; }
+
+        // Buscar ContadorHUD por nombre, NO destruir nada
+        var todos = Resources.FindObjectsOfTypeAll<ContadorHUD>();
+        foreach (var c in todos)
+        {
+            if (c.gameObject.scene != EditorSceneManager.GetActiveScene()) continue;
+            string name = c.gameObject.name;
+            if (name == "ContPET") inv.contadorPET = c;
+            else if (name == "ContBolsa") inv.contadorBolsa = c;
+            else if (name == "ContIcopor") inv.contadorIcopor = c;
+        }
+
+        // Si no existe ContIcopor, crearlo
+        if (inv.contadorIcopor == null)
+        {
+            var resParent = GameObject.Find("ContenedorRecursos") ?? GameObject.Find("Canvas");
+            if (resParent != null)
+            {
+                var idx = 2;
+                var row = MakeUI("ContIcopor", resParent.transform,
+                    new Vector2(0f, 1f), new Vector2(0f, 1f),
+                    new Vector2(0, -idx * 28), new Vector2(200, 24), new Vector2(0f, 1f));
+                var iconGO = MakeUI("Icono", row.transform,
+                    new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                    new Vector2(0, 0), new Vector2(20, 20), new Vector2(0.5f, 0.5f));
+                var iconImg = iconGO.AddComponent<Image>();
+                iconImg.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/icopor-removebg-preview.png");
+                var txtGO = MakeUI("Numero", row.transform,
+                    new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                    new Vector2(26, 0), new Vector2(80, 24), new Vector2(0f, 0.5f));
+                var tmp = txtGO.AddComponent<TextMeshProUGUI>();
+                tmp.text = "0";
+                tmp.fontSize = 18;
+                tmp.color = new Color(0.9f, 0.8f, 0.2f);
+                tmp.alignment = TextAlignmentOptions.Left;
+                var font = FindFont();
+                if (font) tmp.font = font;
+                var cont = row.AddComponent<ContadorHUD>();
+                cont.icono = iconImg;
+                cont.texto = tmp;
+                inv.contadorIcopor = cont;
+            }
+        }
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        Debug.Log("Contadores del Inventario actualizados");
     }
 
     static void GuardarTexturaComoPNG(string path, Texture2D tex)
@@ -911,8 +1031,12 @@ public class SetupEscenas : EditorWindow
         LimpiarPotenciadoresDirectos();
         AjustarEnemigos();
         ColocarMunicion();
-        ReconstruirHUD();
         AgregarAplicarVolumenANiveles();
+
+        EliminarPrefabsObsoletos();
+        CrearPrefabIcopor();
+        AsignarSkinLanzador();
+        RepararHUD();
 
         Debug.Log("=== TODAS LAS ESCENAS CONFIGURADAS ===");
         if (Application.isBatchMode) EditorApplication.Exit(0);

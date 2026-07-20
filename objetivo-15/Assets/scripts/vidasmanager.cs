@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class VidasManager : MonoBehaviour
 {
@@ -10,17 +11,19 @@ public class VidasManager : MonoBehaviour
     public int vidasMaximas = 5;
     public int vidasIniciales = 3;
     public int vidasActuales;
+    public float separacionCorazones = 36f;
+    public Vector2 tamanoCorazon = new Vector2(32, 32);
 
     [Header("Invencibilidad temporal")]
     public float tiempoInvencible = 1.5f;
     private bool esInvencible = false;
 
-    [Header("UI - Corazones")]
-    public Image[] corazones;
-
+    [Header("UI - Corazon")]
     public Sprite corazonLleno;
-    public Sprite corazonVacio;
+    public string rutaCorazonResources = "Sprites/corazonmaincra";
     public GameObject panelHUD;
+
+    private List<Image> corazones = new List<Image>();
 
     void Awake()
     {
@@ -38,19 +41,37 @@ public class VidasManager : MonoBehaviour
 
     void Start()
     {
-        if (corazonLleno == null)
-            corazonLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
-        if (corazonVacio == null)
-            corazonVacio = IconoUtils.GenerarCorazon(32, 100, new Color(0.3f, 0.3f, 0.3f));
-
+        CargarSpriteCorazon();
         vidasActuales = vidasIniciales;
         ActualizarUI();
     }
 
-    public void AsignarCorazones(Image[] imagenes)
+    void CargarSpriteCorazon()
     {
-        corazones = imagenes;
-        ActualizarUI();
+        if (corazonLleno != null) return;
+
+        // 1. Resources.Load<Sprite>
+        if (!string.IsNullOrEmpty(rutaCorazonResources))
+            corazonLleno = Resources.Load<Sprite>(rutaCorazonResources);
+
+        // 2. Resources.LoadAll<Sprite> (mas confiable en algunas versiones de Unity)
+        if (corazonLleno == null && !string.IsNullOrEmpty(rutaCorazonResources))
+        {
+            Sprite[] all = Resources.LoadAll<Sprite>(rutaCorazonResources);
+            if (all != null && all.Length > 0)
+                corazonLleno = all[0];
+        }
+
+        // 3. Fallback procedural
+        if (corazonLleno == null)
+        {
+            corazonLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
+            Debug.LogWarning("[Vidas] Usando corazon procedural (Resources.Load fallo para: " + rutaCorazonResources + ")");
+        }
+        else
+        {
+            Debug.Log("[Vidas] Sprite cargado: " + corazonLleno.name);
+        }
     }
 
     public void PerderVida()
@@ -115,26 +136,69 @@ public class VidasManager : MonoBehaviour
 
     void OnEscenaCargada(Scene escena, LoadSceneMode modo)
     {
-        Debug.Log($"[Vidas DEBUG] OnEscenaCargada: '{escena.name}' | vidasActuales ANTES={vidasActuales}");
-        GameObject contenedor = GameObject.Find("ContenedorCorazones");
-        if (contenedor != null)
-        {
-            Image[] images = contenedor.GetComponentsInChildren<Image>();
-            AsignarCorazones(images);
-        }
+        corazones.Clear();
         vidasActuales = vidasIniciales;
-        Debug.Log($"[Vidas DEBUG] OnEscenaCargada: vidasActuales DESPUÉS={vidasActuales}");
         ActualizarUI();
     }
 
     void ActualizarUI()
     {
-        if (corazones == null) return;
-
-        for (int i = 0; i < corazones.Length; i++)
+        Canvas canvas = Object.FindFirstObjectByType<Canvas>();
+        if (canvas == null)
         {
-            if (corazones[i] == null) continue;
-            corazones[i].sprite = i < vidasActuales ? corazonLleno : corazonVacio;
+            Debug.LogWarning("[Vidas] No se encontro Canvas");
+            return;
+        }
+
+        // ─── Limpiar corazones viejos que esten colgando directo del Canvas (sistema anterior) ───
+        for (int i = canvas.transform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = canvas.transform.GetChild(i);
+            if (child.name.StartsWith("Corazon"))
+            {
+                child.gameObject.SetActive(false);
+                Destroy(child.gameObject);
+            }
+        }
+
+        // ─── Contenedor ───
+        GameObject contenedor = GameObject.Find("ContenedorCorazones");
+        if (contenedor == null)
+        {
+            contenedor = new GameObject("ContenedorCorazones", typeof(RectTransform));
+            contenedor.transform.SetParent(canvas.transform, false);
+            RectTransform rt = contenedor.GetComponent<RectTransform>();
+            rt.anchorMin = new Vector2(0f, 1f);
+            rt.anchorMax = new Vector2(0f, 1f);
+            rt.pivot = new Vector2(0f, 1f);
+            rt.anchoredPosition = new Vector2(10, -10);
+            rt.sizeDelta = new Vector2(180, 36);
+        }
+
+        for (int i = contenedor.transform.childCount - 1; i >= 0; i--)
+            Destroy(contenedor.transform.GetChild(i).gameObject);
+
+        CargarSpriteCorazon();
+        corazones.Clear();
+
+        // ─── Crear corazones dinámicos ───
+        for (int i = 0; i < vidasActuales; i++)
+        {
+            GameObject go = new GameObject("Corazon" + (i + 1), typeof(RectTransform), typeof(CanvasRenderer));
+            go.transform.SetParent(contenedor.transform, false);
+            RectTransform rt = go.GetComponent<RectTransform>();
+            rt.anchorMin = new Vector2(0f, 0.5f);
+            rt.anchorMax = new Vector2(0f, 0.5f);
+            rt.pivot = new Vector2(0.5f, 0.5f);
+            rt.anchoredPosition = new Vector2(i * separacionCorazones, 0);
+            rt.sizeDelta = tamanoCorazon;
+
+            Image img = go.AddComponent<Image>();
+            img.sprite = corazonLleno;
+            img.preserveAspect = true;
+            img.color = Color.white;
+
+            corazones.Add(img);
         }
     }
 }

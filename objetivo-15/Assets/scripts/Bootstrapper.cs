@@ -16,5 +16,11 @@ public static class Bootstrapper
             GameObject gom = new GameObject("GameOverManager");
             gom.AddComponent<GameOverManager>();
         }
+
+        if (Object.FindFirstObjectByType<VidasManager>() == null)
+        {
+            GameObject vm = new GameObject("VidasManager");
+            vm.AddComponent<VidasManager>();
+        }
     }
 }

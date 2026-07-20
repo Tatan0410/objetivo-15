@@ -2,9 +2,7 @@ using UnityEngine;
 
 public enum TipoProyectil
 {
-    Lanzador,
-    Red,
-    LanzaTubos
+    Lanzador
 }
 
 public class ProyectilArma : MonoBehaviour
@@ -13,7 +11,6 @@ public class ProyectilArma : MonoBehaviour
     public float velocidad = 12f;
     public int danio = 1;
     public float tiempoVida = 3f;
-    public float radioExplosion = 2f;
     private Vector2 direccion;
     private Rigidbody2D rb;
 
@@ -64,42 +61,17 @@ public class ProyectilArma : MonoBehaviour
         Enemigo enemigo = col.GetComponent<Enemigo>();
         EnemigoVolador volador = col.GetComponent<EnemigoVolador>();
 
-        if (enemigo != null || volador != null)
+        if (enemigo != null)
+            enemigo.RecibirDanio(danio);
+        else if (volador != null)
+            volador.RecibirDanio(danio);
+        else if (!col.CompareTag("Player") && !col.CompareTag("Plastico"))
         {
-            switch (tipoArma)
-            {
-                case TipoProyectil.Red:
-                    if (enemigo != null)
-                        enemigo.Congelar();
-                    else
-                        volador.Congelar();
-                    break;
-
-                case TipoProyectil.LanzaTubos:
-                    Collider2D[] hits = Physics2D.OverlapCircleAll(
-                        transform.position, radioExplosion);
-                    foreach (Collider2D hit in hits)
-                    {
-                        Enemigo e = hit.GetComponent<Enemigo>();
-                        if (e != null) e.RecibirDanio(danio);
-                        EnemigoVolador v = hit.GetComponent<EnemigoVolador>();
-                        if (v != null) v.RecibirDanio(danio);
-                    }
-                    break;
-
-                default:
-                    if (enemigo != null)
-                        enemigo.RecibirDanio(danio);
-                    else
-                        volador.RecibirDanio(danio);
-                    break;
-            }
-
             Destroy(gameObject);
             return;
         }
 
-        if (!col.CompareTag("Player") && !col.CompareTag("Plastico"))
+        if (enemigo != null || volador != null)
             Destroy(gameObject);
     }
 
@@ -111,23 +83,9 @@ public class ProyectilArma : MonoBehaviour
         Texture2D tex = new Texture2D(size, size, TextureFormat.ARGB32, false);
         tex.filterMode = FilterMode.Bilinear;
 
-        Color c;
-        switch (tipoArma)
-        {
-            case TipoProyectil.Red:
-                c = new Color(0.2f, 0.6f, 1f);
-                break;
-            case TipoProyectil.LanzaTubos:
-                c = new Color(0.2f, 1f, 0.3f);
-                break;
-            default:
-                c = new Color(1f, 0.9f, 0.2f);
-                break;
-        }
-
         for (int y = 0; y < size; y++)
             for (int x = 0; x < size; x++)
-                tex.SetPixel(x, y, c);
+                tex.SetPixel(x, y, new Color(1f, 0.9f, 0.2f));
 
         tex.Apply();
         return Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f), ppu);

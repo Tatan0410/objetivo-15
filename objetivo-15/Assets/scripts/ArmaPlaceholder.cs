@@ -2,10 +2,7 @@ using UnityEngine;
 
 public enum TipoArma
 {
-    Lanzador,
-    Red,
-    Escudo,
-    LanzaTubos
+    Lanzador
 }
 
 public class ArmaPlaceholder : MonoBehaviour
@@ -14,6 +11,7 @@ public class ArmaPlaceholder : MonoBehaviour
     public Color color = Color.blue;
     public float ancho = 0.5f;
     public float alto = 0.3f;
+    public Sprite skinSprite;
 
     void Start()
     {
@@ -21,7 +19,9 @@ public class ArmaPlaceholder : MonoBehaviour
         if (sr == null)
             sr = gameObject.AddComponent<SpriteRenderer>();
 
-        if (sr.sprite == null)
+        if (skinSprite != null)
+            sr.sprite = skinSprite;
+        else if (sr.sprite == null)
             sr.sprite = GenerarSprite();
     }
 
