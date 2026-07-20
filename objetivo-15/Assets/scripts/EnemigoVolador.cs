@@ -69,9 +69,13 @@ public class EnemigoVolador : MonoBehaviour
 
         posicionMuerte = transform.position;
 
+        GameObject[] selecciones = new GameObject[cantidadDrop];
+        for (int i = 0; i < cantidadDrop; i++)
+            selecciones[i] = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+
         GameObject runner = new GameObject("PlasticoSpawnRunnerVolador");
         runner.AddComponent<PlasticoSpawnRunner>().Iniciar(
-            prefabsPlasticos,
+            selecciones,
             cantidadDrop,
             posicionMuerte,
             0.5f

@@ -15,11 +15,10 @@ public class PlasticoSpawnRunner : MonoBehaviour
 
     IEnumerator EjecutarSpawn(GameObject[] prefabs, int cantidad, Vector3 posicion, float intervalo)
     {
-        for (int i = 0; i < cantidad; i++)
+        for (int i = 0; i < cantidad && i < prefabs.Length; i++)
         {
-            GameObject seleccion = prefabs[Random.Range(0, prefabs.Length)];
             Vector3 offset = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
-            Instantiate(seleccion, posicion + offset, Quaternion.identity);
+            Instantiate(prefabs[i], posicion + offset, Quaternion.identity);
             yield return new WaitForSeconds(intervalo);
         }
         Destroy(gameObject);

@@ -216,9 +216,13 @@ public class Enemigo : MonoBehaviour
         if (Random.value > probabilidadDrop) return;
         if (prefabsPlasticos == null || prefabsPlasticos.Length == 0) return;
 
+        GameObject[] selecciones = new GameObject[cantidadDrop];
+        for (int i = 0; i < cantidadDrop; i++)
+            selecciones[i] = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+
         GameObject runner = new GameObject("PlasticoSpawnRunnerEnemigo");
         runner.AddComponent<PlasticoSpawnRunner>().Iniciar(
-            prefabsPlasticos,
+            selecciones,
             cantidadDrop,
             transform.position,
             0.5f
