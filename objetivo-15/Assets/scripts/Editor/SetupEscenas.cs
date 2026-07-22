@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Events;
 using System.IO;
+using System.Collections.Generic;
 
 public class SetupEscenas : EditorWindow
 {
@@ -902,7 +903,7 @@ public class SetupEscenas : EditorWindow
                 new Vector2(0, -index * 28), new Vector2(200, 24), new Vector2(0f, 1f));
             var iconGO = MakeUI("Icono", row.transform,
                 new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
-                new Vector2(0, 0), new Vector2(20, 20), new Vector2(0.5f, 0.5f));
+                new Vector2(0, 0), new Vector2(80, 80), new Vector2(0.5f, 0.5f));
             var iconImg = iconGO.AddComponent<Image>();
             iconImg.sprite = iconSprite;
             iconImg.preserveAspect = true;
@@ -947,6 +948,164 @@ public class SetupEscenas : EditorWindow
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
         Debug.Log("HUD reparado correctamente");
+    }
+
+    static void RepararNivel(string path, string nombre)
+    {
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+        var font = FindFont();
+
+        // ─── 1. Eliminar items obsoletos ───
+        int eliminados = 0;
+        var toDestroy = new System.Collections.Generic.List<GameObject>();
+        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
+            if (go.name.StartsWith("tarroplastico") || go.name.StartsWith("tuboplastico") ||
+                go.name.StartsWith("Red") || go.name.StartsWith("Escudo") || go.name.StartsWith("LanzaTubos"))
+            {
+                toDestroy.Add(go);
+                eliminados++;
+            }
+        }
+        foreach (var go in toDestroy) Object.DestroyImmediate(go);
+        if (eliminados > 0) Debug.Log($"{nombre}: Items obsoletos eliminados: {eliminados}");
+
+        // ─── 2. Cargar sprites ───
+        var sprLleno = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/corazonmaincra-removebg-preview.png");
+        var sprPET = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/botellasinfondo.png");
+        var sprBolsa = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/bolsasinfondo.png");
+        var sprIcopor = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/icopor-removebg-preview.png");
+        var sprMunicion = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/pitolaloco-removebg-preview.png");
+
+        if (sprLleno == null) sprLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
+        if (sprPET == null) sprPET = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.8f, 0.2f));
+        if (sprBolsa == null) sprBolsa = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.5f, 0.9f));
+        if (sprIcopor == null) sprIcopor = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.8f, 0.2f));
+        if (sprMunicion == null) sprMunicion = IconoUtils.GenerarCirculo(16, 100, new Color(1f, 0.6f, 0.1f));
+
+        var canvas = Object.FindFirstObjectByType<Canvas>();
+        if (canvas == null) { Debug.LogError($"{nombre}: No hay Canvas"); return; }
+
+        // ─── 3. VidasManager ───
+        var vm = Object.FindFirstObjectByType<VidasManager>();
+        if (vm == null)
+        {
+            var vmGO = new GameObject("VidasManager");
+            vm = vmGO.AddComponent<VidasManager>();
+            Debug.Log($"{nombre}: VidasManager creado en la escena");
+        }
+        vm.corazonLleno = sprLleno;
+
+        // ─── 4. ContenedorCorazones (solo si no existe) ───
+        var heartParent = GameObject.Find("ContenedorCorazones");
+        if (heartParent == null)
+        {
+            heartParent = MakeUI("ContenedorCorazones", canvas.transform,
+                new Vector2(0f, 1f), new Vector2(0f, 1f),
+                new Vector2(10, -10), new Vector2(180, 36), new Vector2(0f, 1f));
+        }
+
+        // ─── 5. ContenedorRecursos (solo si no existe) ───
+        var resParent = GameObject.Find("ContenedorRecursos");
+        if (resParent == null)
+        {
+            resParent = MakeUI("ContenedorRecursos", canvas.transform,
+                new Vector2(0f, 1f), new Vector2(0f, 1f),
+                new Vector2(10, -55), new Vector2(200, 120), new Vector2(0f, 1f));
+
+            System.Func<string, Sprite, int, ContadorHUD> crearContador =
+                (nom, iconSprite, index) =>
+            {
+                var row = MakeUI(nom, resParent.transform,
+                    new Vector2(0f, 1f), new Vector2(0f, 1f),
+                    new Vector2(0, -index * 28), new Vector2(200, 24), new Vector2(0f, 1f));
+                var iconGO = MakeUI("Icono", row.transform,
+                    new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                    new Vector2(0, 0), new Vector2(80, 80), new Vector2(0.5f, 0.5f));
+                var iconImg = iconGO.AddComponent<Image>();
+                iconImg.sprite = iconSprite;
+                iconImg.preserveAspect = true;
+                var txtGO = MakeUI("Numero", row.transform,
+                    new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                    new Vector2(26, 0), new Vector2(80, 24), new Vector2(0f, 0.5f));
+                var tmp = txtGO.AddComponent<TextMeshProUGUI>();
+                tmp.text = "0";
+                tmp.fontSize = 18;
+                tmp.color = Color.white;
+                tmp.alignment = TextAlignmentOptions.Left;
+                if (font) tmp.font = font;
+                var cont = row.AddComponent<ContadorHUD>();
+                cont.icono = iconImg;
+                cont.texto = tmp;
+                return cont;
+            };
+
+            var contPET = crearContador("ContPET", sprPET, 0);
+            var contBolsa = crearContador("ContBolsa", sprBolsa, 1);
+            var contIcopor = crearContador("ContIcopor", sprIcopor, 2);
+            var contMunicion = crearContador("ContMunicion", sprMunicion, 3);
+
+            var inv = Object.FindFirstObjectByType<Inventario>();
+            if (inv != null)
+            {
+                inv.contadorPET = contPET;
+                inv.contadorBolsa = contBolsa;
+                inv.contadorIcopor = contIcopor;
+            }
+            else Debug.LogError($"{nombre}: No se encontro Inventario");
+
+            var mm = Object.FindFirstObjectByType<MunicionManager>();
+            if (mm != null) mm.AsignarContador(contMunicion);
+            else Debug.LogError($"{nombre}: No se encontro MunicionManager");
+        }
+
+        // ─── 6. Agregar AplicarVolumenMusica si falta ───
+        var musicGO = GameObject.Find("musicafondo");
+        if (musicGO != null && musicGO.GetComponent<AplicarVolumenMusica>() == null)
+        {
+            musicGO.AddComponent<AplicarVolumenMusica>();
+            Debug.Log($"{nombre}: AplicarVolumenMusica agregado");
+        }
+
+        // ─── 7. Reparar prefabsPlasticos de enemigos ───
+        var prefabBotella = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/botella.prefab");
+        var prefabBolsa = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/bolsaplastica.prefab");
+        var prefabIcopor = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/prefabs/icopor.prefab");
+        GameObject[] plasticosActuales = { prefabBotella, prefabBolsa, prefabIcopor };
+
+        int enemigosArreglados = 0;
+        foreach (var enemigo in Object.FindObjectsByType<Enemigo>(FindObjectsSortMode.None))
+        {
+            enemigo.prefabsPlasticos = plasticosActuales;
+            enemigosArreglados++;
+        }
+        foreach (var volador in Object.FindObjectsByType<EnemigoVolador>(FindObjectsSortMode.None))
+        {
+            volador.prefabsPlasticos = plasticosActuales;
+            enemigosArreglados++;
+        }
+        if (enemigosArreglados > 0)
+            Debug.Log($"{nombre}: Prefabs de plasticos asignados a {enemigosArreglados} enemigos");
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        Debug.Log($"=== {nombre} REPARADO COMPLETAMENTE ===");
+    }
+
+    [MenuItem("Tools/Reparar Nivel2 Completo")]
+    static void RepararNivel2() => RepararNivel("Assets/Scenes/nivel2_hipodromo.unity", "nivel2_hipodromo");
+
+    [MenuItem("Tools/Reparar Niveles 2-6 (todos)")]
+    static void RepararNiveles2a6()
+    {
+        string[] levels = { "nivel2_hipodromo", "nivel3_mercado", "nivel4_basurero",
+                            "nivel5_subterraneo", "nivel6_empresa" };
+        foreach (var lv in levels)
+            RepararNivel($"Assets/Scenes/{lv}.unity", lv);
+        Debug.Log("=== TODOS LOS NIVELES 2-6 REPARADOS ===");
     }
 
     // ─────── ACTUALIZAR CONTADORES INVENTARIO ───────
@@ -1040,6 +1199,95 @@ public class SetupEscenas : EditorWindow
 
         Debug.Log("=== TODAS LAS ESCENAS CONFIGURADAS ===");
         if (Application.isBatchMode) EditorApplication.Exit(0);
+    }
+
+    [MenuItem("Tools/Copiar Layout HUD de nivel1 a niveles 2-6")]
+    public static void CopiarLayoutHUD()
+    {
+        string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
+                            "nivel4_basurero", "nivel5_subterraneo", "nivel6_empresa" };
+
+        // ─── 1. Leer layout de nivel1 ───
+        string n1 = $"Assets/Scenes/{levels[0]}.unity";
+        EditorSceneManager.OpenScene(n1);
+
+        var canvas1 = Object.FindFirstObjectByType<Canvas>();
+        if (canvas1 == null) { Debug.LogError("No hay Canvas en nivel1"); return; }
+
+        var rootData = new Dictionary<string, LayoutData>();
+        RecolectarLayout(canvas1.transform, canvas1.name, rootData);
+
+        // ─── 2. Aplicar a niveles 2-6 ───
+        for (int i = 1; i < levels.Length; i++)
+        {
+            string path = $"Assets/Scenes/{levels[i]}.unity";
+            EditorSceneManager.OpenScene(path);
+
+            var canvas = Object.FindFirstObjectByType<Canvas>();
+            if (canvas == null) { Debug.LogWarning($"No Canvas en {levels[i]}"); continue; }
+
+            int aplicados = 0;
+            foreach (var kv in rootData)
+            {
+                var target = FindByPath(canvas.transform, kv.Key);
+                if (target != null)
+                {
+                    var rt = target.GetComponent<RectTransform>();
+                    var d = kv.Value;
+                    rt.anchorMin = d.anchorMin;
+                    rt.anchorMax = d.anchorMax;
+                    rt.anchoredPosition = d.anchoredPosition;
+                    rt.sizeDelta = d.sizeDelta;
+                    rt.pivot = d.pivot;
+                    aplicados++;
+                }
+            }
+
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+            Debug.Log($"{levels[i]}: {aplicados} elementos actualizados");
+        }
+
+        Debug.Log("=== LAYOUT COPIADO A NIVELES 2-6 ===");
+    }
+
+    struct LayoutData
+    {
+        public Vector2 anchorMin, anchorMax, anchoredPosition, sizeDelta, pivot;
+    }
+
+    static void RecolectarLayout(Transform parent, string path, Dictionary<string, LayoutData> data)
+    {
+        var rt = parent.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            data[path] = new LayoutData
+            {
+                anchorMin = rt.anchorMin,
+                anchorMax = rt.anchorMax,
+                anchoredPosition = rt.anchoredPosition,
+                sizeDelta = rt.sizeDelta,
+                pivot = rt.pivot
+            };
+        }
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            var child = parent.GetChild(i);
+            RecolectarLayout(child, path + "/" + child.name, data);
+        }
+    }
+
+    static Transform FindByPath(Transform root, string path)
+    {
+        var parts = path.Split('/');
+        var current = root;
+        for (int i = 1; i < parts.Length; i++)
+        {
+            var child = current.Find(parts[i]);
+            if (child == null) return null;
+            current = child;
+        }
+        return current;
     }
 
     [MenuItem("Tools/Setup Solo Pausa")]

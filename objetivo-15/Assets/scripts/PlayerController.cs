@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
             respawnPendiente = false;
 
             Vector3 destino = posicionRespawn;
-            Debug.Log("Respawn en: " + destino);
+            Debug.Log("[PlayerController] Respawn destino=" + destino);
 
             rb.velocity = Vector2.zero;
             rb.position = destino;

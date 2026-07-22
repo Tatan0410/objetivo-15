@@ -5,9 +5,6 @@ public class MuerteJugador : MonoBehaviour
     [Header("Límite de caída")]
     public float limiteY = -20f;
 
-    [Header("Respawn")]
-    public float respawnYOffset = 15f;
-
     private bool muriendo = false;
     private Rigidbody2D rb;
     private PlayerController pc;
@@ -55,7 +52,8 @@ public class MuerteJugador : MonoBehaviour
         {
             if (pc != null)
             {
-                Vector3 destino = posicionRespawn + Vector3.up * respawnYOffset;
+                Vector3 destino = posicionRespawn;
+                Debug.Log("[MuerteJugador] posicionRespawn=" + posicionRespawn + " destino=" + destino);
                 pc.posicionRespawn = destino;
                 pc.respawnPendiente = true;
             }
