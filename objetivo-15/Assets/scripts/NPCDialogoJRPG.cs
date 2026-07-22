@@ -24,40 +24,28 @@ public class NPCDialogoJRPG : MonoBehaviour
     public float radioDeteccion = 3f;
     public float cooldownReaparicion = 2f;
 
-    [Header("Barras de cine")]
-    public float altoBarra = 200f;
-    public float altoAreaDialogo = 300f;
+    [Header("Burbuja de dialogo")]
+    public Sprite spriteNubeDialogo;
+    public float alturaBurbuja = 1.8f;
+    public Vector2 tamanoBurbuja = new Vector2(3f, 0.8f);
 
-    [Header("Retratos")]
-    public float tamanoRetrato = 150f;
-    public float margenRetratoLateral = 40f;
-    public float margenRetratoAbajo = 30f;
-
-    [Header("Texto")]
-    public float margenTextoJugador = 60f;
-    public float margenTextoNPC = 60f;
-    public float posYTexto = 170f;
-    public float anchoTextoJugador = 850f;
-    public float anchoTextoNPC = 850f;
-    public float altoTexto = 200f;
+    [Header("Zoom de camara")]
+    [Range(0.1f, 1f)]
+    public float factorZoomDialogo = 0.8f;
 
     [Header("Configuracion")]
     public float velocidadTexto = 0.03f;
-    public float tamanioFuente = 25f;
-
-    [Header("Previsualizacion (solo Editor)")]
-    public bool previsualizar = false;
+    public float tamanioFuente = 28f;
 
     private Transform player;
     private PlayerController playerController;
-    private Canvas canvas;
+    private CamaraSeguidora camara;
 
-    private Image retratoJugadorImg;
-    private Image retratoNPCImg;
-    private RectTransform barraSuperior;
-    private RectTransform barraInferior;
-    private TMP_Text textoDialogo;
-    private GameObject indicadorAvance;
+    private GameObject burbuja;
+    private Image burbujaFondo;
+    private TMP_Text burbujaTexto;
+    private Transform duenoBurbuja;
+
     private int indiceActual = 0;
 
     private Coroutine animTexto;
@@ -66,17 +54,6 @@ public class NPCDialogoJRPG : MonoBehaviour
     private bool cooldownActivo = false;
     private bool dialogoCompletado = false;
     private float cooldownRestante = 0f;
-
-    void OnValidate()
-    {
-        if (Application.isPlaying) return;
-        if (!gameObject.activeInHierarchy) return;
-
-        if (previsualizar && canvas == null)
-            CrearCanvas(true);
-        else if (!previsualizar && canvas != null)
-            DestruirCanvas();
-    }
 
     void Start()
     {
@@ -92,13 +69,16 @@ public class NPCDialogoJRPG : MonoBehaviour
         if (retratoNPC == null)
             retratoNPC = GetComponent<SpriteRenderer>()?.sprite;
 
-        CrearCanvas(true);
+        if (Camera.main != null)
+            camara = Camera.main.GetComponent<CamaraSeguidora>();
+
+        CrearBurbuja();
     }
 
     void OnDestroy()
     {
-        if (canvas != null)
-            DestruirCanvas();
+        if (burbuja != null)
+            Destroy(burbuja);
     }
 
     void Update()
@@ -130,6 +110,43 @@ public class NPCDialogoJRPG : MonoBehaviour
             IniciarDialogo();
     }
 
+    void CrearBurbuja()
+    {
+        burbuja = new GameObject("BurbujaDialogo_" + gameObject.name);
+        burbuja.transform.SetParent(null);
+        burbuja.transform.localScale = Vector3.one * 0.005f;
+        burbuja.SetActive(false);
+
+        Canvas canvas = burbuja.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+
+        GameObject fondo = new GameObject("Fondo");
+        fondo.transform.SetParent(burbuja.transform, false);
+        burbujaFondo = fondo.AddComponent<Image>();
+        if (spriteNubeDialogo != null)
+            burbujaFondo.sprite = spriteNubeDialogo;
+        burbujaFondo.type = Image.Type.Sliced;
+        burbujaFondo.color = new Color(1, 1, 1, 0.92f);
+        burbujaFondo.raycastTarget = false;
+        RectTransform rtFondo = burbujaFondo.GetComponent<RectTransform>();
+        rtFondo.sizeDelta = tamanoBurbuja * 100f;
+        rtFondo.anchoredPosition = Vector2.zero;
+
+        GameObject txt = new GameObject("Texto");
+        txt.transform.SetParent(burbuja.transform, false);
+        burbujaTexto = txt.AddComponent<TextMeshProUGUI>();
+        burbujaTexto.font = fontAsset;
+        burbujaTexto.fontSize = tamanioFuente;
+        burbujaTexto.color = Color.black;
+        burbujaTexto.alignment = TextAlignmentOptions.Center;
+        burbujaTexto.enableWordWrapping = true;
+        burbujaTexto.overflowMode = TextOverflowModes.Overflow;
+        burbujaTexto.raycastTarget = false;
+        RectTransform rtTexto = burbujaTexto.GetComponent<RectTransform>();
+        rtTexto.sizeDelta = new Vector2(tamanoBurbuja.x * 90f, tamanoBurbuja.y * 70f);
+        rtTexto.anchoredPosition = Vector2.zero;
+    }
+
     void IniciarDialogo()
     {
         if (dialogos == null || dialogos.Length == 0) return;
@@ -140,17 +157,12 @@ public class NPCDialogoJRPG : MonoBehaviour
         if (playerController != null)
             playerController.DesactivarControl();
 
-        canvas.gameObject.SetActive(true);
-
-        if (retratoJugadorImg != null && player != null)
+        if (camara != null)
         {
-            SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
-            if (sr != null && sr.sprite != null)
-                retratoJugadorImg.sprite = sr.sprite;
+            Vector3 midpoint = (player.position + transform.position) * 0.5f;
+            camara.ForzarPosicion(midpoint);
+            camara.ForzarZoom(factorZoomDialogo);
         }
-
-        if (retratoNPCImg != null && retratoNPC != null)
-            retratoNPCImg.sprite = retratoNPC;
 
         MostrarDialogo(indiceActual);
     }
@@ -159,36 +171,19 @@ public class NPCDialogoJRPG : MonoBehaviour
     {
         if (indice >= dialogos.Length) { CerrarDialogo(); return; }
 
-        PosicionarTexto(dialogos[indice].esJugador);
+        Transform target = dialogos[indice].esJugador ? player : transform;
+        PosicionarBurbuja(target);
 
         if (animTexto != null)
             StopCoroutine(animTexto);
         animTexto = StartCoroutine(EscribirTexto(dialogos[indice].texto));
     }
 
-    void PosicionarTexto(bool esJugador)
+    void PosicionarBurbuja(Transform target)
     {
-        if (textoDialogo == null) return;
-
-        textoDialogo.alignment = esJugador ? TextAlignmentOptions.Left : TextAlignmentOptions.Right;
-        RectTransform rt = textoDialogo.GetComponent<RectTransform>();
-
-        if (esJugador)
-        {
-            rt.anchorMin = new Vector2(0, 0);
-            rt.anchorMax = new Vector2(0, 0);
-            rt.pivot = new Vector2(0, 0.5f);
-            rt.anchoredPosition = new Vector2(margenTextoJugador, posYTexto);
-            rt.sizeDelta = new Vector2(anchoTextoJugador, altoTexto);
-        }
-        else
-        {
-            rt.anchorMin = new Vector2(1, 0);
-            rt.anchorMax = new Vector2(1, 0);
-            rt.pivot = new Vector2(1, 0.5f);
-            rt.anchoredPosition = new Vector2(-margenTextoNPC, posYTexto);
-            rt.sizeDelta = new Vector2(anchoTextoNPC, altoTexto);
-        }
+        duenoBurbuja = target;
+        burbuja.transform.position = target.position + Vector3.up * alturaBurbuja;
+        burbuja.SetActive(true);
     }
 
     void AvanzarDialogo()
@@ -197,9 +192,8 @@ public class NPCDialogoJRPG : MonoBehaviour
         {
             if (animTexto != null)
                 StopCoroutine(animTexto);
-            textoDialogo.text = dialogos[indiceActual].texto;
+            burbujaTexto.text = dialogos[indiceActual].texto;
             escribiendo = false;
-            MostrarIndicadorAvance(true);
             return;
         }
 
@@ -210,17 +204,15 @@ public class NPCDialogoJRPG : MonoBehaviour
     IEnumerator EscribirTexto(string texto)
     {
         escribiendo = true;
-        MostrarIndicadorAvance(false);
-        textoDialogo.text = "";
+        burbujaTexto.text = "";
 
         foreach (char letra in texto)
         {
-            textoDialogo.text += letra;
+            burbujaTexto.text += letra;
             yield return new WaitForSeconds(velocidadTexto);
         }
 
         escribiendo = false;
-        MostrarIndicadorAvance(true);
         animTexto = null;
     }
 
@@ -235,7 +227,10 @@ public class NPCDialogoJRPG : MonoBehaviour
             animTexto = null;
         }
 
-        canvas.gameObject.SetActive(false);
+        burbuja.SetActive(false);
+
+        camara?.RestaurarPosicion();
+        camara?.RestaurarZoom();
 
         if (playerController != null)
             playerController.ActivarControl();
@@ -243,163 +238,6 @@ public class NPCDialogoJRPG : MonoBehaviour
         cooldownActivo = true;
         cooldownRestante = cooldownReaparicion;
     }
-
-    void MostrarIndicadorAvance(bool visible)
-    {
-        if (indicadorAvance != null)
-            indicadorAvance.SetActive(visible);
-    }
-
-    void DestruirCanvas()
-    {
-        if (canvas == null) return;
-        if (Application.isPlaying)
-            Destroy(canvas.gameObject);
-        else
-            DestroyImmediate(canvas.gameObject);
-        canvas = null;
-        retratoJugadorImg = null;
-        retratoNPCImg = null;
-        barraSuperior = null;
-        barraInferior = null;
-        textoDialogo = null;
-        indicadorAvance = null;
-    }
-
-    #region Creacion de UI
-
-    void CrearCanvas(bool conTexto)
-    {
-        GameObject go = new GameObject("Canvas_DialogoJRPG_" + gameObject.name);
-        go.transform.SetParent(transform);
-        canvas = go.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 100;
-        canvas.additionalShaderChannels |= AdditionalCanvasShaderChannels.TexCoord1;
-
-        CanvasScaler scaler = go.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920, 1080);
-        scaler.matchWidthOrHeight = 0.5f;
-
-        go.AddComponent<GraphicRaycaster>();
-
-        if (!Application.isPlaying)
-        {
-            go.hideFlags = HideFlags.DontSave;
-            go.SetActive(true);
-        }
-        else
-        {
-            go.hideFlags = HideFlags.None;
-            go.SetActive(false);
-            AsignarFont();
-        }
-
-        CrearBarras(go.transform);
-        CrearRetratos(go.transform);
-
-        if (conTexto)
-            CrearTexto(go.transform);
-    }
-
-    void AsignarFont()
-    {
-        if (fontAsset == null)
-        {
-            TMP_FontAsset[] fonts = Resources.FindObjectsOfTypeAll<TMP_FontAsset>();
-            if (fonts.Length > 0) fontAsset = fonts[0];
-        }
-    }
-
-    GameObject CrearImagen(Transform parent, string nombre, Color color)
-    {
-        GameObject img = new GameObject(nombre);
-        img.transform.SetParent(parent, false);
-        Image i = img.AddComponent<Image>();
-        i.color = color;
-        i.raycastTarget = false;
-        return img;
-    }
-
-    void CrearBarras(Transform parent)
-    {
-        GameObject sup = CrearImagen(parent, "BarraSuperior", Color.black);
-        barraSuperior = sup.GetComponent<RectTransform>();
-        barraSuperior.anchorMin = new Vector2(0, 1);
-        barraSuperior.anchorMax = new Vector2(1, 1);
-        barraSuperior.pivot = new Vector2(0.5f, 1);
-        barraSuperior.sizeDelta = new Vector2(0, altoBarra);
-
-        GameObject inf = CrearImagen(parent, "BarraInferior", Color.black);
-        barraInferior = inf.GetComponent<RectTransform>();
-        barraInferior.anchorMin = new Vector2(0, 0);
-        barraInferior.anchorMax = new Vector2(1, 0);
-        barraInferior.pivot = new Vector2(0.5f, 0);
-        barraInferior.sizeDelta = new Vector2(0, altoAreaDialogo);
-    }
-
-    void CrearRetratos(Transform parent)
-    {
-        GameObject jug = CrearImagen(parent, "RetratoJugador", Color.white);
-        retratoJugadorImg = jug.GetComponent<Image>();
-        RectTransform rtJ = jug.GetComponent<RectTransform>();
-        rtJ.anchorMin = new Vector2(0, 0);
-        rtJ.anchorMax = new Vector2(0, 0);
-        rtJ.pivot = new Vector2(0, 0);
-        rtJ.anchoredPosition = new Vector2(margenRetratoLateral, margenRetratoAbajo);
-        rtJ.sizeDelta = new Vector2(tamanoRetrato, tamanoRetrato);
-
-        GameObject npc = CrearImagen(parent, "RetratoNPC", Color.white);
-        retratoNPCImg = npc.GetComponent<Image>();
-        RectTransform rtN = npc.GetComponent<RectTransform>();
-        rtN.anchorMin = new Vector2(1, 0);
-        rtN.anchorMax = new Vector2(1, 0);
-        rtN.pivot = new Vector2(1, 0);
-        rtN.anchoredPosition = new Vector2(-margenRetratoLateral, margenRetratoAbajo);
-        rtN.sizeDelta = new Vector2(tamanoRetrato, tamanoRetrato);
-    }
-
-    void CrearTexto(Transform parent)
-    {
-        GameObject txt = new GameObject("TextoDialogo");
-        txt.transform.SetParent(parent, false);
-        textoDialogo = txt.AddComponent<TextMeshProUGUI>();
-        textoDialogo.font = fontAsset;
-        textoDialogo.fontSize = tamanioFuente;
-        textoDialogo.enableAutoSizing = false;
-        textoDialogo.enableWordWrapping = true;
-        textoDialogo.overflowMode = TextOverflowModes.Truncate;
-        textoDialogo.color = Color.white;
-        textoDialogo.raycastTarget = false;
-
-        RectTransform rt = textoDialogo.GetComponent<RectTransform>();
-        rt.anchorMin = new Vector2(0, 0);
-        rt.anchorMax = new Vector2(0, 0);
-        rt.pivot = new Vector2(0, 0.5f);
-        rt.anchoredPosition = new Vector2(margenTextoJugador, posYTexto);
-        rt.sizeDelta = new Vector2(anchoTextoJugador, altoTexto);
-
-        GameObject indicador = new GameObject("IndicadorAvance");
-        indicador.transform.SetParent(parent, false);
-        indicadorAvance = indicador;
-        TextMeshProUGUI tmp = indicador.AddComponent<TextMeshProUGUI>();
-        tmp.font = fontAsset;
-        tmp.text = "Presiona ESPACIO  \u25B6";
-        tmp.fontSize = 16;
-        tmp.color = new Color(1, 1, 1, 0.7f);
-        tmp.alignment = TextAlignmentOptions.Right;
-        tmp.raycastTarget = false;
-        RectTransform rtI = indicador.GetComponent<RectTransform>();
-        rtI.anchorMin = new Vector2(0.5f, 0);
-        rtI.anchorMax = new Vector2(0.5f, 0);
-        rtI.pivot = new Vector2(0.5f, 0.5f);
-        rtI.anchoredPosition = new Vector2(700, 50f);
-        rtI.sizeDelta = new Vector2(250, 30);
-        indicador.SetActive(false);
-    }
-
-    #endregion
 
     void OnDrawGizmosSelected()
     {
