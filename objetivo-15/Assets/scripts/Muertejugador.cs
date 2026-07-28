@@ -21,13 +21,13 @@ public class MuerteJugador : MonoBehaviour
     {
         if (muriendo) return;
         if (transform.position.y < limiteY)
-            Morir();
+            Morir(true); // caida al vacio
     }
 
     public void MorirPorEnemigo()
     {
         if (muriendo) return;
-        Morir();
+        Morir(false); // enemigo: respeta inmortalidad
     }
 
     public void GuardarRespawn(Vector3 pos)
@@ -35,7 +35,7 @@ public class MuerteJugador : MonoBehaviour
         posicionRespawn = pos;
     }
 
-    void Morir()
+    void Morir(bool esCaidaAlVacio)
     {
         if (muriendo) return;
         muriendo = true;
@@ -44,7 +44,7 @@ public class MuerteJugador : MonoBehaviour
         if (rb != null) rb.velocity = Vector2.zero;
 
         if (VidasManager.instancia != null)
-            VidasManager.instancia.PerderVida();
+            VidasManager.instancia.PerderVida(esCaidaAlVacio);
 
         if (this == null) return;
 

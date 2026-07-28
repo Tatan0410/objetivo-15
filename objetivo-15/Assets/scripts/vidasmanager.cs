@@ -39,11 +39,27 @@ public class VidasManager : MonoBehaviour
         }
     }
 
+    private bool corazonesCreados = false;
+
     void Start()
     {
         CargarSpriteCorazon();
         vidasActuales = vidasIniciales;
-        ActualizarUI();
+        if (EsNivelDeJuego())
+            ActualizarUI();
+    }
+
+    void Update()
+    {
+        if (!corazonesCreados && EsNivelDeJuego())
+        {
+            Canvas canvas = Object.FindFirstObjectByType<Canvas>();
+            if (canvas != null)
+            {
+                ActualizarUI();
+                corazonesCreados = true;
+            }
+        }
     }
 
     void CargarSpriteCorazon()
@@ -74,15 +90,18 @@ public class VidasManager : MonoBehaviour
         }
     }
 
-    public void PerderVida()
+    public void PerderVida(bool ignorarInmortalidad = false)
     {
         if (esInvencible) { Debug.Log("[Vidas DEBUG] PerderVida BLOQUEADO por esInvencible"); return; }
 
-        PlayerController pc = GameManager.instancia?.jugador?
-            .GetComponent<PlayerController>();
-        if (pc != null && pc.EsInmortal()) { Debug.Log("[Vidas DEBUG] PerderVida BLOQUEADO por inmortalidad"); return; }
+        if (!ignorarInmortalidad)
+        {
+            PlayerController pc = GameManager.instancia?.jugador?
+                .GetComponent<PlayerController>();
+            if (pc != null && pc.EsInmortal()) { Debug.Log("[Vidas DEBUG] PerderVida BLOQUEADO por inmortalidad"); return; }
+        }
 
-        Debug.Log($"[Vidas DEBUG] PerderVida: vidasActuales ANTES={vidasActuales}");
+        Debug.Log($"[Vidas DEBUG] PerderVida: vidasActuales ANTES={vidasActuales} ignorarInmortalidad={ignorarInmortalidad}");
         vidasActuales--;
         Debug.Log($"[Vidas DEBUG] PerderVida: vidasActuales DESPUÉS={vidasActuales}");
         ActualizarUI();
@@ -136,9 +155,37 @@ public class VidasManager : MonoBehaviour
 
     void OnEscenaCargada(Scene escena, LoadSceneMode modo)
     {
+        corazonesCreados = false;
+        if (!EsNivelDeJuego())
+        {
+            LimpiarCorazones(); return;
+        }
         corazones.Clear();
         vidasActuales = vidasIniciales;
         ActualizarUI();
+        corazonesCreados = true;
+    }
+
+    bool EsNivelDeJuego()
+    {
+        return EsNivelDeJuego(SceneManager.GetActiveScene());
+    }
+
+    bool EsNivelDeJuego(Scene escena)
+    {
+        return escena.name.StartsWith("nivel");
+    }
+
+    void LimpiarCorazones()
+    {
+        Canvas canvas = Object.FindFirstObjectByType<Canvas>();
+        if (canvas == null) return;
+        for (int i = canvas.transform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = canvas.transform.GetChild(i);
+            if (child.name.StartsWith("Corazon"))
+                Destroy(child.gameObject);
+        }
     }
 
     void ActualizarUI()

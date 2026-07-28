@@ -8,9 +8,6 @@ public class PlayerController : MonoBehaviour
     [Header("Movimiento")]
     public float velocidad = 6f;
     public float fuerzaSalto = 7.5f;
-    public float velocidadDash = 15f;
-    public float duracionDash = 0.15f;
-    public float cooldownDash = 1f;
 
     [Header("Detección de suelo")]
     public Transform puntoSuelo;
@@ -34,11 +31,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sr;
 
     private bool estaEnSuelo;
-    private bool estaDashing;
-    private float temporizadorDash;
-    private float temporizadorCooldown;
     private float temporizadorCooldownDisparo;
-    private float direccionDash;
     private float escalaOriginalX;
     private bool saltoPendiente = false;
     private bool controlActivo = true;
@@ -82,18 +75,7 @@ public class PlayerController : MonoBehaviour
 
         if (!controlActivo) return;
 
-        temporizadorCooldown -= Time.deltaTime;
         temporizadorCooldownDisparo -= Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) &&
-            temporizadorCooldown <= 0 && !estaDashing)
-        {
-            estaDashing = true;
-            temporizadorDash = duracionDash;
-            temporizadorCooldown = cooldownDash;
-            direccionDash = Input.GetAxisRaw("Horizontal");
-            if (direccionDash == 0) direccionDash = 1;
-        }
 
         if (estaEnSuelo)
             coyoteTimeContador = coyoteTime;
@@ -199,18 +181,6 @@ public class PlayerController : MonoBehaviour
                     transform.position.z);
         }
 
-        if (estaDashing)
-        {
-            rb.velocity = new Vector2(
-                direccionDash * velocidadDash, rb.velocity.y);
-            temporizadorDash -= Time.fixedDeltaTime;
-            if (temporizadorDash <= 0) estaDashing = false;
-
-            if (animator != null)
-                animator.SetBool("corriendo", true);
-            return;
-        }
-
         float movimiento = Input.GetAxisRaw("Horizontal");
 
         if (saltoPendiente)
@@ -242,7 +212,6 @@ public class PlayerController : MonoBehaviour
     public void DesactivarControl()
     {
         controlActivo = false;
-        estaDashing = false;
     }
 
     public void ActivarControl()
