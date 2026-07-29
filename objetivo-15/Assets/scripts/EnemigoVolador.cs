@@ -21,6 +21,7 @@ public class EnemigoVolador : MonoBehaviour
     private Color colorOriginal;
     private SpriteRenderer sr;
     private bool yaProcesadoEsteFrame = false;
+    private float escalaOriginalX;
 
     void Start()
     {
@@ -29,6 +30,8 @@ public class EnemigoVolador : MonoBehaviour
         if (rb != null) rb.bodyType = RigidbodyType2D.Kinematic;
         sr = GetComponent<SpriteRenderer>();
         if (sr != null) colorOriginal = sr.color;
+        escalaOriginalX = Mathf.Abs(transform.localScale.x);
+        AplicarOrientacion();
     }
 
     void FixedUpdate()
@@ -55,11 +58,19 @@ public class EnemigoVolador : MonoBehaviour
     void Voltear()
     {
         moviendoDerecha = !moviendoDerecha;
+        AplicarOrientacion();
+        puntoInicio = transform.position;
+    }
+
+    // Aplica la escala según la dirección actual de movimiento,
+    // en vez de solo invertir (evita que quede mirando al lado contrario)
+    void AplicarOrientacion()
+    {
+        float signo = moviendoDerecha ? -1f : 1f; // sprite mira a la izquierda por defecto
         transform.localScale = new Vector3(
-            -transform.localScale.x,
+            escalaOriginalX * signo,
             transform.localScale.y,
             transform.localScale.z);
-        puntoInicio = transform.position;
     }
 
     void SoltarPlasticos()
