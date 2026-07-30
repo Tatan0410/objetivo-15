@@ -17,6 +17,7 @@ public class PlasticoSpawnRunner : MonoBehaviour
     {
         for (int i = 0; i < cantidad && i < prefabs.Length; i++)
         {
+            if (prefabs[i] == null) continue;
             Vector3 offset = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
             Instantiate(prefabs[i], posicion + offset, Quaternion.identity);
             yield return new WaitForSeconds(intervalo);

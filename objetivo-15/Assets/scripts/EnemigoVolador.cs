@@ -62,7 +62,7 @@ public class EnemigoVolador : MonoBehaviour
         puntoInicio = transform.position;
     }
 
-    // Aplica la escala según la dirección actual de movimiento,
+    // Aplica la escala segï¿½n la direcciï¿½n actual de movimiento,
     // en vez de solo invertir (evita que quede mirando al lado contrario)
     void AplicarOrientacion()
     {
@@ -80,14 +80,26 @@ public class EnemigoVolador : MonoBehaviour
 
         posicionMuerte = transform.position;
 
-        GameObject[] selecciones = new GameObject[cantidadDrop];
+        int validos = 0;
         for (int i = 0; i < cantidadDrop; i++)
-            selecciones[i] = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+        {
+            GameObject p = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+            if (p != null) validos++;
+        }
+        if (validos == 0) return;
+
+        GameObject[] selecciones = new GameObject[validos];
+        int idx = 0;
+        while (idx < validos)
+        {
+            GameObject p = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+            if (p != null) selecciones[idx++] = p;
+        }
 
         GameObject runner = new GameObject("PlasticoSpawnRunnerVolador");
         runner.AddComponent<PlasticoSpawnRunner>().Iniciar(
             selecciones,
-            cantidadDrop,
+            validos,
             posicionMuerte,
             0.5f
         );

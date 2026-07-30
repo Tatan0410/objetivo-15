@@ -6,12 +6,12 @@ public class rata : MonoBehaviour
     public float detectionRadius = 5f;
     public float speed = 2f;
 
-    [Header("Detección de bordes")]
+    [Header("Detecciï¿½n de bordes")]
     public LayerMask capaSuelo;
     public float distanciaBorde = 0.4f;
     public float alturaBorde = 0.3f;
 
-    [Header("Obstáculos y patrulla")]
+    [Header("Obstï¿½culos y patrulla")]
     public LayerMask capaObstaculos;
     public float distanciaObstaculo = 0.6f;
     public float distanciaPatrulla = 3f;
@@ -216,14 +216,26 @@ public class rata : MonoBehaviour
         if (Random.value > probabilidadDrop) return;
         if (prefabsPlasticos == null || prefabsPlasticos.Length == 0) return;
 
-        GameObject[] selecciones = new GameObject[cantidadDrop];
+        int validos = 0;
         for (int i = 0; i < cantidadDrop; i++)
-            selecciones[i] = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+        {
+            GameObject p = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+            if (p != null) validos++;
+        }
+        if (validos == 0) return;
+
+        GameObject[] selecciones = new GameObject[validos];
+        int idx = 0;
+        while (idx < validos)
+        {
+            GameObject p = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+            if (p != null) selecciones[idx++] = p;
+        }
 
         GameObject runner = new GameObject("PlasticoSpawnRunnerEnemigo");
         runner.AddComponent<PlasticoSpawnRunner>().Iniciar(
             selecciones,
-            cantidadDrop,
+            validos,
             transform.position,
             0.5f
         );
