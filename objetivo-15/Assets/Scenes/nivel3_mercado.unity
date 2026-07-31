@@ -1153,7 +1153,8 @@ MonoBehaviour:
   puntosMovimiento:
   - {fileID: 1299591369}
   - {fileID: 1949185259}
-  velocidadMovimiento: 5
+  - {fileID: 257378103}
+  velocidadMovimiento: 3
 --- !u!1001 &136228945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2110,6 +2111,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adc9878c2ed404a4d8169f2bc5d4005d, type: 3}
+--- !u!1 &257378102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 257378103}
+  m_Layer: 0
+  m_Name: puntomovimiento3
+  m_TagString: Untagged
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &257378103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257378102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.39, y: -2.37, z: 0.023372099}
+  m_LocalScale: {x: 1.1202, y: 1.1202, z: 1.1202}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &271285573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15417,3 +15449,4 @@ SceneRoots:
   - {fileID: 122939106}
   - {fileID: 1299591369}
   - {fileID: 1949185259}
+  - {fileID: 257378103}

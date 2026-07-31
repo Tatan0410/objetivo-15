@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class plataformamovil : MonoBehaviour
@@ -8,44 +6,61 @@ public class plataformamovil : MonoBehaviour
     [SerializeField] private float velocidadMovimiento;
     private int siguientePlataforma = 1;
     private bool ordenPlataformas = true;
-    private void Update()
-    {
-        if (ordenPlataformas && siguientePlataforma + 1>= puntosMovimiento.Length)
-        {
-            ordenPlataformas = false;
-        }
 
-        if (!ordenPlataformas && siguientePlataforma <=0)
-        {
+    private Vector3 posicionAnterior;
+    private bool jugadorEncima = false;
+    private Transform jugador;
+
+    void Start()
+    {
+        posicionAnterior = transform.position;
+    }
+
+    void Update()
+    {
+        if (puntosMovimiento == null || puntosMovimiento.Length == 0) return;
+
+        if (ordenPlataformas && siguientePlataforma + 1 >= puntosMovimiento.Length)
+            ordenPlataformas = false;
+
+        if (!ordenPlataformas && siguientePlataforma <= 0)
             ordenPlataformas = true;
-        }
+
         if (Vector2.Distance(transform.position, puntosMovimiento[siguientePlataforma].position) < 0.1f)
         {
             if (ordenPlataformas)
-            {
                 siguientePlataforma += 1;
-            }
             else
-            {
                 siguientePlataforma -= 1;
-            }
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, puntosMovimiento[siguientePlataforma].position, velocidadMovimiento * Time.deltaTime);
+        Vector3 posAnteriorFrame = transform.position;
+        transform.position = Vector2.MoveTowards(transform.position,
+            puntosMovimiento[siguientePlataforma].position,
+            velocidadMovimiento * Time.deltaTime);
 
+        Vector3 delta = transform.position - posAnteriorFrame;
+        if (jugadorEncima && jugador != null)
+            jugador.position += delta;
     }
-    private void OnCollisionEnter2D(Collision2D other){
-        if (other.gameObject.CompareTag("Player")) 
-            {
-            other.transform.SetParent(this.transform);
-        }
-    }
-    private void OnCollisionExit2D(Collision2D other)
-    
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (!other.gameObject.CompareTag("Player")) return;
+        if (other.contactCount == 0) return;
+
+        ContactPoint2D contacto = other.GetContact(0);
+        if (contacto.normal.y < -0.5f)
         {
-            if (other.gameObject.CompareTag("Player"))
-            {
-                other.transform.SetParent(null);
-            }
+            jugadorEncima = true;
+            jugador = other.transform;
         }
     }
+
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if (!other.gameObject.CompareTag("Player")) return;
+        jugadorEncima = false;
+        jugador = null;
+    }
+}
