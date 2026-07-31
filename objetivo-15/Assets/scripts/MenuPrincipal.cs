@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuPrincipal : MonoBehaviour
 {
@@ -9,7 +10,17 @@ public class MenuPrincipal : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f;
-        panelMenuPrincipal.SetActive(true);
+        if (panelMenuPrincipal != null)
+            panelMenuPrincipal.SetActive(true);
+
+        Transform panel = panelMenuPrincipal != null ? panelMenuPrincipal.transform : null;
+        var bJugar = panel?.Find("BotonJugar")?.gameObject;
+        if (bJugar != null)
+            bJugar.GetComponent<Button>().onClick.AddListener(Jugar);
+
+        var bSol = panel?.Find("BotonSoluciones")?.gameObject;
+        if (bSol != null)
+            bSol.GetComponent<Button>().onClick.AddListener(AbrirSoluciones);
     }
 
     public void Jugar()
