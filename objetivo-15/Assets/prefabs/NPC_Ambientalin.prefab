@@ -110,16 +110,9 @@ MonoBehaviour:
   fontAsset: {fileID: 11400000, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
   radioDeteccion: 3
   cooldownReaparicion: 2
-  altoBarra: 200
-  altoAreaDialogo: 300
-  tamanoRetrato: 150
-  margenRetratoLateral: 40
-  margenRetratoAbajo: 30
-  margenTextoJugador: 60
-  margenTextoNPC: 60
-  posYTexto: 170
-  anchoTextoJugador: 850
-  anchoTextoNPC: 850
-  altoTexto: 200
+  spriteNubeDialogo: {fileID: 0}
+  alturaBurbuja: 1.8
+  tamanoBurbuja: {x: 3, y: 0.8}
+  factorZoomDialogo: 0.8
   velocidadTexto: 0.03
   tamanioFuente: 25
