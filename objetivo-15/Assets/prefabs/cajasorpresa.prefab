@@ -72,8 +72,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 178396069
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.735849, g: 0.5978068, b: 0.0541473, a: 1}
@@ -147,10 +147,4 @@ MonoBehaviour:
   - {fileID: 3118478264410281531, guid: c3174909dfac5da44aae99b53413201d, type: 3}
   - {fileID: 4726822289825454733, guid: 982306b72ccb43441ab267cdc400f1b7, type: 3}
   - {fileID: 3929599155056340902, guid: 18123bcae01f6ce4d8765184f49b2fdb, type: 3}
-  cajaEnSuelo: 0
-  spriteActiva: {fileID: 0}
-  spriteUsada: {fileID: 0}
-  colorActiva: {r: 1, g: 0.85, b: 0, a: 1}
-  colorUsada: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  alturaRebote: 0.3
-  velocidadRebote: 8
+  cajaEnSuelo: 1

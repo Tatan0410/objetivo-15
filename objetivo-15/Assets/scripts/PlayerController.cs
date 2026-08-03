@@ -42,6 +42,10 @@ public class PlayerController : MonoBehaviour
     private float coyoteTime = 0.12f;
     private float coyoteTimeContador = 0f;
 
+    [Header("Partículas")]
+    public ParticleSystem particulas;
+    private float escalaXAnterior;
+
     [Header("Respawn")]
     public bool respawnPendiente = false;
     public Vector3 posicionRespawn;
@@ -60,6 +64,7 @@ public class PlayerController : MonoBehaviour
             animator = GetComponent<Animator>();
 
         escalaOriginalX = Mathf.Abs(transform.localScale.x);
+        escalaXAnterior = transform.localScale.x;
         velocidadNormal = velocidad;
         gravedadNormal = rb.gravityScale;
 
@@ -187,6 +192,8 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(movimiento * velocidad, fuerzaSalto);
             saltoPendiente = false;
+            if (particulas != null)
+                particulas.Play();
         }
         else
         {
@@ -199,6 +206,13 @@ public class PlayerController : MonoBehaviour
         else if (movimiento < 0)
             transform.localScale = new Vector3(
                 -escalaOriginalX, transform.localScale.y, 1);
+
+        if (Mathf.Sign(transform.localScale.x) != Mathf.Sign(escalaXAnterior))
+        {
+            escalaXAnterior = transform.localScale.x;
+            if (particulas != null)
+                particulas.Play();
+        }
 
         if (animator != null)
         {
