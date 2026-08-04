@@ -1,19 +1,7 @@
 fileFormatVersion: 2
-guid: a8be9d80391091641bb9404b3f4dd067
+guid: 53aaf2d3c14eedb4a9ad2f383894a93d
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -7184453141422777021
-    second: On (32x10)_0
-  - first:
-      213: -478649534418853393
-    second: On (32x10)_1
-  - first:
-      213: -3554031824873935288
-    second: On (32x10)_2
-  - first:
-      213: -5902476256046710882
-    second: On (32x10)_3
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 25
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,16 +63,16 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -97,7 +85,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,85 +97,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: On (32x10)_0
+      name: mosquito-removebg-preview_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 19
+        y: 36
+        width: 163
+        height: 153
+      alignment: 9
+      pivot: {x: 0.5111307, y: 0.6653813}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8da9eb9b34855e04c8989dfd97414b27
-      internalID: -7184453141422777021
+      spriteID: 96c23b8bbe4851c459425fa9517a724b
+      internalID: 848778370
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: On (32x10)_1
+      name: mosquito-removebg-preview_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 220
+        y: 35
+        width: 163
+        height: 153
+      alignment: 9
+      pivot: {x: 0.52657163, y: 0.646261}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb7a6d9095a1e3c439248e3c54e6e2f2
-      internalID: -478649534418853393
+      spriteID: 02d0ddf2813c93d4697274b97741494c
+      internalID: -798403583
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: On (32x10)_2
+      name: mosquito-removebg-preview_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 415
+        y: 34
+        width: 163
+        height: 153
+      alignment: 9
+      pivot: {x: 0.5885727, y: 0.5990797}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99bbe60fdd57fe04e8720ac2e2836dea
-      internalID: -3554031824873935288
+      spriteID: c86260a3db41dc947b601658b2e09ef5
+      internalID: 1273358457
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: On (32x10)_3
+      name: mosquito-removebg-preview_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 627
+        y: 36
+        width: 163
+        height: 153
+      alignment: 9
+      pivot: {x: 0.5442861, y: 0.58020747}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0406af3073e586440838b3851924105f
-      internalID: -5902476256046710882
+      spriteID: f386f7803db9ce5428c36fb98fb8632b
+      internalID: -1766598142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mosquito-removebg-preview_4
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 37
+        width: 163
+        height: 153
+      alignment: 9
+      pivot: {x: 0.57085806, y: 0.5896437}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa26e905886d089428e7f74b1870718d
+      internalID: -833706591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mosquito-removebg-preview_5
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 37
+        width: 163
+        height: 153
+      alignment: 9
+      pivot: {x: 0.53099984, y: 0.6368245}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12f11b570969f8f44b9757beca9ffbff
+      internalID: -107310619
       vertices: []
       indices: 
       edges: []
@@ -203,10 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      On (32x10)_0: -7184453141422777021
-      On (32x10)_1: -478649534418853393
-      On (32x10)_2: -3554031824873935288
-      On (32x10)_3: -5902476256046710882
+      mosquito-removebg-preview_0: 848778370
+      mosquito-removebg-preview_1: -798403583
+      mosquito-removebg-preview_2: 1273358457
+      mosquito-removebg-preview_3: -1766598142
+      mosquito-removebg-preview_4: -833706591
+      mosquito-removebg-preview_5: -107310619
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

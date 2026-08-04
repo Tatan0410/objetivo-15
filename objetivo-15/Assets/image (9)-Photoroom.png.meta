@@ -1,19 +1,7 @@
 fileFormatVersion: 2
-guid: a8be9d80391091641bb9404b3f4dd067
+guid: d732370d59294bb45a214195eb772940
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -7184453141422777021
-    second: On (32x10)_0
-  - first:
-      213: -478649534418853393
-    second: On (32x10)_1
-  - first:
-      213: -3554031824873935288
-    second: On (32x10)_2
-  - first:
-      213: -5902476256046710882
-    second: On (32x10)_3
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 25
+  spritePixelsToUnits: 360
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,16 +63,16 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -97,7 +85,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: On (32x10)_0
+      name: image (9)-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 10
+        x: 103
+        y: 120
+        width: 394
+        height: 381
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -123,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8da9eb9b34855e04c8989dfd97414b27
-      internalID: -7184453141422777021
+      spriteID: 31618c10d527858449ac0b5a69df8b25
+      internalID: 1898666920
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: On (32x10)_1
+      name: image (9)-Photoroom_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 10
+        x: 707
+        y: 118
+        width: 394
+        height: 381
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb7a6d9095a1e3c439248e3c54e6e2f2
-      internalID: -478649534418853393
+      spriteID: d0698b71a9fa6ea42b80a972349e4541
+      internalID: 1476619810
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: On (32x10)_2
+      name: image (9)-Photoroom_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 10
+        x: 1302
+        y: 116
+        width: 394
+        height: 381
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99bbe60fdd57fe04e8720ac2e2836dea
-      internalID: -3554031824873935288
+      spriteID: 3cc3ecd9a79bcc146b0b2e7e5c3f8d62
+      internalID: 1016427078
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: On (32x10)_3
+      name: image (9)-Photoroom_12
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 10
+        x: 1898
+        y: 118
+        width: 391
+        height: 381
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0406af3073e586440838b3851924105f
-      internalID: -5902476256046710882
+      spriteID: dc6f6d265e9e9344aa6f13f623073f27
+      internalID: -1201281652
       vertices: []
       indices: 
       edges: []
@@ -203,10 +191,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      On (32x10)_0: -7184453141422777021
-      On (32x10)_1: -478649534418853393
-      On (32x10)_2: -3554031824873935288
-      On (32x10)_3: -5902476256046710882
+      image (9)-Photoroom_0: 1898666920
+      image (9)-Photoroom_1: 1476619810
+      image (9)-Photoroom_10: -1114374076
+      image (9)-Photoroom_11: -1530344244
+      image (9)-Photoroom_12: -1201281652
+      image (9)-Photoroom_13: 1706773476
+      image (9)-Photoroom_14: 711863138
+      image (9)-Photoroom_15: -1154140619
+      image (9)-Photoroom_2: 1016427078
+      image (9)-Photoroom_3: 696880929
+      image (9)-Photoroom_4: 1488948043
+      image (9)-Photoroom_5: 27682796
+      image (9)-Photoroom_6: 1127254496
+      image (9)-Photoroom_7: -1360281156
+      image (9)-Photoroom_8: 150514
+      image (9)-Photoroom_9: -111878030
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
