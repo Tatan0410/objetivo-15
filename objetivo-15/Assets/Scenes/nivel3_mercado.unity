@@ -5258,7 +5258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e26eccac3640ff478cad85184e28ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numeroNivel: 1
+  numeroNivel: 3
   bandera: {fileID: 736355599}
   puntoAsta: {fileID: 82285869}
   velocidadSubida: 2
@@ -10924,6 +10924,7 @@ MonoBehaviour:
   prefabProyectil: {fileID: 100000, guid: 55555555555555555555555555555555, type: 3}
   teclaDisparo: 101
   cooldownDisparo: 0.5
+  particulas: {fileID: 0}
   respawnPendiente: 0
   posicionRespawn: {x: 0, y: 0, z: 0}
   caidaLentaActiva: 0
@@ -11073,7 +11074,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.52611697, y: 0.46881014}
-    oldSize: {x: 1.4166666, y: 2.225}
+    oldSize: {x: 1.4166666, y: 2.1333334}
     newSize: {x: 0.85, y: 1.49}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

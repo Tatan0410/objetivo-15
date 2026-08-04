@@ -66,11 +66,11 @@
     <Compile Include="Assets\scripts\enemigo.cs" />
     <Compile Include="Assets\scripts\PlasticoItem.cs" />
     <Compile Include="Assets\scripts\Potenciador.cs" />
-    <Compile Include="Assets\scripts\JugadorMapa.cs" />
     <Compile Include="Assets\scripts\NubeIndividual.cs" />
     <Compile Include="Assets\scripts\FondoMovimiento.cs" />
     <Compile Include="Assets\scripts\IconoUtils.cs" />
     <Compile Include="Assets\plataformamovil.cs" />
+    <Compile Include="Assets\scripts\SelectorNivelesMapa.cs" />
     <Compile Include="Assets\scripts\FinNivel.cs" />
     <Compile Include="Assets\scripts\NPCSaltoFondo.cs" />
     <Compile Include="Assets\scripts\AjustarMapa.cs" />
