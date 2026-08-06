@@ -75,16 +75,17 @@ public static class SetupManagers
             esNuevo = true;
         }
 
-        // Generar y asignar prefab de GameOver
-        if (AssetDatabase.LoadAssetAtPath<GameObject>(SetupGameOverPrefab.ObtenerRutaPrefab()) == null)
-            SetupGameOverPrefab.GenerarPrefab();
-
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(SetupGameOverPrefab.ObtenerRutaPrefab());
+        string prefabPath = "Assets/prefabs/GameOverPanel.prefab";
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
         if (prefab != null)
         {
             stm.panelGameOverPrefab = prefab;
             EditorUtility.SetDirty(stm);
             Debug.Log("Prefab GameOver asignado al GameOverManager.");
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el prefab GameOverPanel en Assets/prefabs/. Crea el prefab manualmente o usa la escena existente.");
         }
 
         if (esNuevo)

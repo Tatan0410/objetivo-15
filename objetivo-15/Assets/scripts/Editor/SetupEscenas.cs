@@ -172,7 +172,7 @@ public class SetupEscenas : EditorWindow
 
     // ─────────────────────── PAUSA ───────────────────────
 
-    static void ConfigurarPausa(string level)
+    public static void ConfigurarPausa(string level)
     {
         string path = $"Assets/Scenes/{level}.unity";
         if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
@@ -198,8 +198,7 @@ public class SetupEscenas : EditorWindow
         var canvas = Object.FindFirstObjectByType<Canvas>();
         if (!canvas)
         {
-            Debug.Log($"Creando Canvas para {level}");
-            var evGO = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
             var cvsGO = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             canvas = cvsGO.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -250,7 +249,7 @@ public class SetupEscenas : EditorWindow
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
-        Debug.Log($"Pausa agregada a {level}");
+        Debug.Log($"Pausa fija agregada a {level}");
     }
 
     // ─────────────────────── CUTSCENE SOLUCIONES ───────────────────────

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class MenuPausa : MonoBehaviour
 {
-    [Header("Panel de pausa")]
+    [Header("Panel de pausa (en escena, editable)")]
     public GameObject panelPausa;
 
     [Header("Volumen")]
@@ -14,10 +14,10 @@ public class MenuPausa : MonoBehaviour
 
     void Start()
     {
-        panelPausa.SetActive(false);
+        if (panelPausa != null)
+            panelPausa.SetActive(false);
 
         float volumenGuardado = PlayerPrefs.GetFloat("VolumenMusica", 1f);
-
         AplicarVolumen(volumenGuardado);
 
         if (sliderVolumen != null)
@@ -49,14 +49,14 @@ public class MenuPausa : MonoBehaviour
 
     public void Pausar()
     {
-        panelPausa.SetActive(true);
+        if (panelPausa != null) panelPausa.SetActive(true);
         Time.timeScale = 0f;
         pausado = true;
     }
 
     public void Reanudar()
     {
-        panelPausa.SetActive(false);
+        if (panelPausa != null) panelPausa.SetActive(false);
         Time.timeScale = 1f;
         pausado = false;
     }

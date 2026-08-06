@@ -1,18 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class MenuCrafteo : MonoBehaviour
 {
     public static MenuCrafteo instancia;
     public KeyCode teclaCrafteo = KeyCode.Tab;
 
+    [Header("Panel prefab editable")]
+    public GameObject panelCrafteoPrefab;
+
     private GameObject panelCrafteo;
     private bool menuAbierto = false;
 
     void Awake() => instancia = this;
 
-    void Start() => CrearMenuUI();
+    void Start()
+    {
+        InstanciarPanel();
+        if (panelCrafteo != null)
+            panelCrafteo.SetActive(false);
+    }
 
     void Update()
     {
@@ -22,6 +29,7 @@ public class MenuCrafteo : MonoBehaviour
 
     void ToggleMenu()
     {
+        if (panelCrafteo == null) return;
         menuAbierto = !menuAbierto;
         panelCrafteo.SetActive(menuAbierto);
         Time.timeScale = menuAbierto ? 0f : 1f;
@@ -30,76 +38,57 @@ public class MenuCrafteo : MonoBehaviour
     public void CerrarMenu()
     {
         menuAbierto = false;
-        panelCrafteo.SetActive(false);
+        if (panelCrafteo != null)
+            panelCrafteo.SetActive(false);
         Time.timeScale = 1f;
     }
 
-    void CrearMenuUI()
+    void InstanciarPanel()
     {
-        Canvas canvas = GameObject.Find("Canvas")?.GetComponent<Canvas>();
-        if (canvas == null) canvas = FindObjectOfType<Canvas>();
+        if (panelCrafteoPrefab == null)
+        {
+            Debug.LogError("MenuCrafteo: No se asignó panelCrafteoPrefab en el Inspector.");
+            return;
+        }
 
-        panelCrafteo = new GameObject("PanelCrafteo");
-        panelCrafteo.transform.SetParent(canvas.transform, false);
-        Image bg = panelCrafteo.AddComponent<Image>();
-        bg.color = new Color(0.1f, 0.1f, 0.1f, 0.95f);
-        RectTransform rt = panelCrafteo.GetComponent<RectTransform>();
-        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-        rt.pivot = new Vector2(0.5f, 0.5f);
-        rt.anchoredPosition = Vector2.zero;
-        rt.sizeDelta = new Vector2(400, 250);
+        panelCrafteo = Instantiate(panelCrafteoPrefab);
+        panelCrafteo.name = "PanelCrafteo";
 
-        CrearTexto(panelCrafteo, "CRAFTEO", 20, new Vector2(0, 80),
-                   new Vector2(380, 40), Color.white);
-
-        CrearTexto(panelCrafteo, "Presiona TAB para cerrar",
-                   12, new Vector2(0, 55),
-                   new Vector2(380, 25), new Color(0.7f, 0.7f, 0.7f));
-
-        CrearBotonArma(panelCrafteo,
-            "Lanzador", "Costo: 3 PET + 2 Bolsas + 1 Icopor",
-            new Vector2(0, -10), Color.cyan,
-            () => { SistemaCrafteo.instancia.CraftearLanzador(); CerrarMenu(); });
-
-        panelCrafteo.SetActive(false);
+        Button btnLanzador = BuscarBoton(panelCrafteo.transform, "Btn_CrafteoLanzador");
+        if (btnLanzador != null)
+        {
+            btnLanzador.onClick.AddListener(CraftearYCerrar);
+        }
+        else
+        {
+            Debug.LogWarning("MenuCrafteo: No se encontró el botón Btn_CrafteoLanzador en el prefab.");
+        }
     }
 
-    void CrearBotonArma(GameObject padre, string nombre, string costo,
-                        Vector2 pos, Color color, UnityEngine.Events.UnityAction accion)
+    void CraftearYCerrar()
     {
-        GameObject btn = new GameObject(nombre);
-        btn.transform.SetParent(padre.transform, false);
-        Image img = btn.AddComponent<Image>();
-        img.color = new Color(color.r * 0.3f, color.g * 0.3f, color.b * 0.3f, 1f);
-
-        RectTransform rt = btn.GetComponent<RectTransform>();
-        rt.anchoredPosition = pos;
-        rt.sizeDelta = new Vector2(360, 55);
-
-        Button b = btn.AddComponent<Button>();
-        ColorBlock cb = b.colors;
-        cb.highlightedColor = color;
-        b.colors = cb;
-        b.onClick.AddListener(accion);
-
-        CrearTexto(btn, nombre, 16, new Vector2(-60, 8),
-                   new Vector2(240, 25), color);
-        CrearTexto(btn, costo, 12, new Vector2(-60, -10),
-                   new Vector2(240, 20), new Color(0.8f, 0.8f, 0.8f));
+        if (SistemaCrafteo.instancia != null)
+            SistemaCrafteo.instancia.CraftearLanzador();
+        CerrarMenu();
     }
 
-    void CrearTexto(GameObject padre, string texto, int size,
-                    Vector2 pos, Vector2 tam, Color color)
+    Transform BuscarTransformEn(Transform parent, string nombre)
     {
-        GameObject obj = new GameObject("txt");
-        obj.transform.SetParent(padre.transform, false);
-        TMP_Text t = obj.AddComponent<TextMeshProUGUI>();
-        t.text = texto;
-        t.fontSize = size;
-        t.color = color;
-        t.alignment = TextAlignmentOptions.MidlineLeft;
-        RectTransform rt = obj.GetComponent<RectTransform>();
-        rt.anchoredPosition = pos;
-        rt.sizeDelta = tam;
+        Transform t = parent.Find(nombre);
+        if (t == null)
+        {
+            foreach (Transform child in parent)
+            {
+                t = BuscarTransformEn(child, nombre);
+                if (t != null) break;
+            }
+        }
+        return t;
+    }
+
+    Button BuscarBoton(Transform parent, string nombre)
+    {
+        Transform t = BuscarTransformEn(parent, nombre);
+        return t?.GetComponent<Button>();
     }
 }
