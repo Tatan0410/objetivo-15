@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class MenuPausa : MonoBehaviour
 {
+    public static MenuPausa instancia;
+
     [Header("Panel de pausa (en escena, editable)")]
     public GameObject panelPausa;
 
@@ -11,6 +13,12 @@ public class MenuPausa : MonoBehaviour
     public Slider sliderVolumen;
 
     private bool pausado = false;
+
+    void Awake()
+    {
+        if (instancia != null) { Destroy(gameObject); return; }
+        instancia = this;
+    }
 
     void Start()
     {

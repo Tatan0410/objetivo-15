@@ -51,6 +51,15 @@ public class SetupEscenas : EditorWindow
 
         EditorGUILayout.Space();
 
+        if (GUILayout.Button("5b. Agregar botones Crafteo/Pausa + panel crafteo fijo en TODOS los niveles", GUILayout.Height(40)))
+        {
+            string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
+                                "nivel4_basurero", "nivel5_subterraneo", "nivel6_empresa" };
+            foreach (var lv in levels) ConfigurarBotonesUI(lv);
+        }
+
+        EditorGUILayout.Space();
+
         if (GUILayout.Button("6. Limpiar power-ups directos de nivel1_colegio", GUILayout.Height(40)))
             LimpiarPotenciadoresDirectos();
 
@@ -250,6 +259,109 @@ public class SetupEscenas : EditorWindow
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
         Debug.Log($"Pausa fija agregada a {level}");
+    }
+
+    public static void ConfigurarBotonesUI(string level)
+    {
+        string path = $"Assets/Scenes/{level}.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+        var font = FindFont();
+
+        // ─── Limpiar objetos previos de esta configuracion ───
+        var toDestroy = new System.Collections.Generic.List<GameObject>();
+        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
+            if (go.name == "BtnPausa" || go.name == "BtnCrafteo" ||
+                go.name == "PanelCrafteo" || go.name == "PanelCrafteoFijo")
+            {
+                toDestroy.Add(go);
+            }
+        }
+        foreach (var go in toDestroy) Object.DestroyImmediate(go);
+
+        var canvas = Object.FindFirstObjectByType<Canvas>();
+        if (!canvas)
+        {
+            new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            var cvsGO = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+            canvas = cvsGO.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        }
+
+        // ─── Boton PAUSA (arriba-derecha) ───
+        var bPausa = MakeButton("BtnPausa", canvas.transform,
+            new Vector2(1f, 1f), new Vector2(1f, 1f),
+            new Vector2(-10, -10), new Vector2(60, 60), new Vector2(1f, 1f),
+            new Color(0.2f, 0.2f, 0.5f, 0.9f), "PAUSA", font);
+
+        // ─── Boton CRAFTEO (abajo-izquierda) ───
+        var bCrafteo = MakeButton("BtnCrafteo", canvas.transform,
+            new Vector2(0f, 0f), new Vector2(0f, 0f),
+            new Vector2(10, 10), new Vector2(60, 60), new Vector2(0f, 0f),
+            new Color(0.2f, 0.6f, 0.3f, 0.9f), "CRAFT", font);
+
+        // ─── Panel Crafteo FIJO (fullscreen overlay, hijo del canvas) ───
+        var panel = MakeUI("PanelCrafteoFijo", canvas.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, Vector2.one * 0.5f);
+        panel.AddComponent<Image>().color = new Color(0, 0, 0, 0.85f);
+
+        var btnLanzador = MakeButton("Btn_CrafteoLanzador", panel.transform,
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, 40), new Vector2(260, 70), Vector2.one * 0.5f,
+            new Color(0.2f, 0.6f, 0.3f, 1f), "CREAR LANZADOR", font);
+
+        var btnCerrar = MakeButton("BtnCerrarCrafteo", panel.transform,
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, -60), new Vector2(260, 55), Vector2.one * 0.5f,
+            new Color(0.6f, 0.18f, 0.18f, 1f), "CERRAR", font);
+
+        var titulo = MakeUI("TextoSubtitulo", panel.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, 130), new Vector2(400, 30), Vector2.one * 0.5f);
+        var tmpTitulo = titulo.AddComponent<TextMeshProUGUI>();
+        tmpTitulo.text = "MENU DE CRAFTEO";
+        tmpTitulo.fontSize = 30;
+        tmpTitulo.color = Color.white;
+        tmpTitulo.alignment = TextAlignmentOptions.Center;
+        if (font) tmpTitulo.font = font;
+
+        var costo = MakeUI("TextoCosto", panel.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, -5), new Vector2(400, 25), Vector2.one * 0.5f);
+        var tmpCosto = costo.AddComponent<TextMeshProUGUI>();
+        tmpCosto.text = "Costo: 3 PET + 2 Bolsas + 1 Icopor";
+        tmpCosto.fontSize = 16;
+        tmpCosto.color = new Color(0.9f, 0.9f, 0.9f, 1f);
+        tmpCosto.alignment = TextAlignmentOptions.Center;
+        if (font) tmpCosto.font = font;
+
+        panel.SetActive(false); // starts hidden
+
+        // ─── Conectar con MenuCrafteo (ya existente en la escena) ───
+        var mc = Object.FindFirstObjectByType<MenuCrafteo>();
+        if (mc == null)
+        {
+            var mcGO = new GameObject("MenuCrafteo");
+            mc = mcGO.AddComponent<MenuCrafteo>();
+        }
+        mc.panelCrafteo = panel;
+        mc.gameObject.name = "MenuCrafteo";
+
+        // Conectar botones
+        UnityEventTools.AddPersistentListener(bPausa.GetComponent<Button>().onClick, PausarJuego);
+        UnityEventTools.AddPersistentListener(bCrafteo.GetComponent<Button>().onClick, mc.AbrirCrafteo);
+        UnityEventTools.AddPersistentListener(btnLanzador.GetComponent<Button>().onClick, mc.CraftearYCerrar);
+        UnityEventTools.AddPersistentListener(btnCerrar.GetComponent<Button>().onClick, mc.CerrarMenu);
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        Debug.Log($"Botones UI y panel crafteo agregados a {level}");
+    }
+
+    static void PausarJuego()
+    {
+        if (MenuPausa.instancia != null)
+            MenuPausa.instancia.Pausar();
     }
 
     // ─────────────────────── CUTSCENE SOLUCIONES ───────────────────────

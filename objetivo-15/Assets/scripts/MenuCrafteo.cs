@@ -6,17 +6,16 @@ public class MenuCrafteo : MonoBehaviour
     public static MenuCrafteo instancia;
     public KeyCode teclaCrafteo = KeyCode.Tab;
 
-    [Header("Panel prefab editable")]
-    public GameObject panelCrafteoPrefab;
+    [Header("Panel fijo en escena (editable)")]
+    public GameObject panelCrafteo;
 
-    private GameObject panelCrafteo;
     private bool menuAbierto = false;
 
     void Awake() => instancia = this;
 
     void Start()
     {
-        InstanciarPanel();
+        ConectarBotonesPanel();
         if (panelCrafteo != null)
             panelCrafteo.SetActive(false);
     }
@@ -35,6 +34,14 @@ public class MenuCrafteo : MonoBehaviour
         Time.timeScale = menuAbierto ? 0f : 1f;
     }
 
+    public void AbrirCrafteo()
+    {
+        if (panelCrafteo == null) return;
+        menuAbierto = true;
+        panelCrafteo.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
     public void CerrarMenu()
     {
         menuAbierto = false;
@@ -43,16 +50,13 @@ public class MenuCrafteo : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    void InstanciarPanel()
+    void ConectarBotonesPanel()
     {
-        if (panelCrafteoPrefab == null)
+        if (panelCrafteo == null)
         {
-            Debug.LogError("MenuCrafteo: No se asignó panelCrafteoPrefab en el Inspector.");
+            Debug.LogError("MenuCrafteo: No se asignó panelCrafteo en el Inspector.");
             return;
         }
-
-        panelCrafteo = Instantiate(panelCrafteoPrefab);
-        panelCrafteo.name = "PanelCrafteo";
 
         Button btnLanzador = BuscarBoton(panelCrafteo.transform, "Btn_CrafteoLanzador");
         if (btnLanzador != null)
@@ -61,11 +65,21 @@ public class MenuCrafteo : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("MenuCrafteo: No se encontró el botón Btn_CrafteoLanzador en el prefab.");
+            Debug.LogWarning("MenuCrafteo: No se encontró el botón Btn_CrafteoLanzador en el panel.");
+        }
+
+        Button btnCerrar = BuscarBoton(panelCrafteo.transform, "BtnCerrarCrafteo");
+        if (btnCerrar != null)
+        {
+            btnCerrar.onClick.AddListener(CerrarMenu);
+        }
+        else
+        {
+            Debug.LogWarning("MenuCrafteo: No se encontró el botón BtnCerrarCrafteo en el panel.");
         }
     }
 
-    void CraftearYCerrar()
+    public void CraftearYCerrar()
     {
         if (SistemaCrafteo.instancia != null)
             SistemaCrafteo.instancia.CraftearLanzador();
