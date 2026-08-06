@@ -11,8 +11,11 @@ public class ProyectilArma : MonoBehaviour
     public float velocidad = 12f;
     public int danio = 1;
     public float tiempoVida = 3f;
+    public float radioDeteccion = 0.3f;
+
     private Vector2 direccion;
     private Rigidbody2D rb;
+    private bool destruido = false;
 
     void Start()
     {
@@ -50,34 +53,62 @@ public class ProyectilArma : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (destruido) return;
+
         if (rb != null)
             rb.MovePosition(rb.position + direccion * velocidad * Time.fixedDeltaTime);
         else
             transform.Translate(direccion * velocidad * Time.deltaTime);
+
+        DetectarImpacto();
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void DetectarImpacto()
     {
-        Enemigo enemigo = col.GetComponent<Enemigo>();
-        EnemigoVolador volador = col.GetComponent<EnemigoVolador>();
+        Collider2D[] colisiones = Physics2D.OverlapCircleAll(transform.position, radioDeteccion);
 
-        if (enemigo != null)
-            enemigo.RecibirDanio(danio);
-        else if (volador != null)
-            volador.RecibirDanio(danio);
-        else if (!col.CompareTag("Player") && !col.CompareTag("Plastico"))
+        foreach (Collider2D col in colisiones)
         {
-            Destroy(gameObject);
-            return;
-        }
+            if (col.gameObject == gameObject) continue;
+            if (col.CompareTag("Player") || col.CompareTag("Plastico")) continue;
 
-        if (enemigo != null || volador != null)
-            Destroy(gameObject);
+            Enemigo enemigo = col.GetComponentInParent<Enemigo>();
+            if (enemigo != null)
+            {
+                enemigo.RecibirDanio(danio);
+                Destruir();
+                return;
+            }
+
+            EnemigoVolador volador = col.GetComponentInParent<EnemigoVolador>();
+            if (volador != null)
+            {
+                volador.RecibirDanio(danio);
+                Destruir();
+                return;
+            }
+
+            rata enemigoRata = col.GetComponentInParent<rata>();
+            if (enemigoRata != null)
+            {
+                enemigoRata.RecibirDanio(danio);
+                Destruir();
+                return;
+            }
+        }
+    }
+
+    void Destruir()
+    {
+        if (destruido) return;
+        destruido = true;
+        Debug.Log($"[ProyectilArma] Impacto en enemigo en ({transform.position.x:F2}, {transform.position.y:F2})");
+        Destroy(gameObject);
     }
 
     Sprite GenerarSprite()
     {
-        int size = 16;
+        int size = 32;
         int ppu = 100;
 
         Texture2D tex = new Texture2D(size, size, TextureFormat.ARGB32, false);

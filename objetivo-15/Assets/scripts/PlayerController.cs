@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
             coyoteTimeContador = 0f;
         }
 
-        if ((Input.GetKeyDown(teclaDisparo) || Input.GetMouseButtonDown(0)) &&
+        if (Input.GetKeyDown(teclaDisparo) &&
             temporizadorCooldownDisparo <= 0)
         {
             TipoArma arma = GetArmaEquipada();
@@ -253,8 +253,9 @@ public class PlayerController : MonoBehaviour
         }
 
         float dirX = transform.localScale.x > 0 ? 1f : -1f;
-        Vector3 spawnPos = transform.position + new Vector3(dirX * 0.6f, 0, 0);
+        Vector3 spawnPos = transform.position + new Vector3(dirX * 0.7f, 0.25f, 0);
         GameObject proy = Instantiate(prefabProyectil, spawnPos, Quaternion.identity);
+        Debug.Log($"[PlayerController] Disparo desde {spawnPos} direccion={dirX}");
 
         proy.GetComponent<ProyectilArma>().Iniciar(new Vector2(dirX, 0), TipoProyectil.Lanzador);
     }

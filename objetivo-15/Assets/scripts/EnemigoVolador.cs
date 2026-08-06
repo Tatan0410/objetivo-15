@@ -12,6 +12,9 @@ public class EnemigoVolador : MonoBehaviour
     [Range(0f, 1f)]
     public float probabilidadDrop = 0.5f;
 
+    [Header("Animación")]
+    public Animator animator;
+
     private Vector2 puntoInicio;
     private bool moviendoDerecha = true;
     private Rigidbody2D rb;
@@ -32,6 +35,9 @@ public class EnemigoVolador : MonoBehaviour
         if (sr != null) colorOriginal = sr.color;
         escalaOriginalX = Mathf.Abs(transform.localScale.x);
         AplicarOrientacion();
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
     }
 
     void FixedUpdate()
@@ -62,7 +68,7 @@ public class EnemigoVolador : MonoBehaviour
         puntoInicio = transform.position;
     }
 
-    // Aplica la escala seg�n la direcci�n actual de movimiento,
+    // Aplica la escala según la dirección actual de movimiento,
     // en vez de solo invertir (evita que quede mirando al lado contrario)
     void AplicarOrientacion()
     {
@@ -107,7 +113,12 @@ public class EnemigoVolador : MonoBehaviour
 
     void Morir()
     {
+        if (muerto) return;
         muerto = true;
+
+        if (animator != null)
+            animator.SetBool("muerto", true);
+
         if (rb != null)
         {
             rb.velocity = Vector2.zero;
