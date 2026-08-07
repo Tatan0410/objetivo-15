@@ -14,10 +14,6 @@ public class VidasManager : MonoBehaviour
     public float separacionCorazones = 36f;
     public Vector2 tamanoCorazon = new Vector2(32, 32);
 
-    [Header("Invencibilidad temporal")]
-    public float tiempoInvencible = 1.5f;
-    private bool esInvencible = false;
-
     [Header("UI - Corazon")]
     public Sprite corazonLleno;
     public string rutaCorazonResources = "Sprites/corazonmaincra";
@@ -92,8 +88,6 @@ public class VidasManager : MonoBehaviour
 
     public void PerderVida(bool ignorarInmortalidad = false)
     {
-        if (esInvencible) { Debug.Log("[Vidas DEBUG] PerderVida BLOQUEADO por esInvencible"); return; }
-
         if (!ignorarInmortalidad)
         {
             PlayerController pc = GameManager.instancia?.jugador?
@@ -108,11 +102,6 @@ public class VidasManager : MonoBehaviour
 
         if (vidasActuales <= 0)
             MorirJugador();
-        else
-        {
-            esInvencible = true;
-            Invoke("QuitarInvencibilidad", tiempoInvencible);
-        }
     }
 
     public void AgregarVida()
@@ -128,8 +117,6 @@ public class VidasManager : MonoBehaviour
             Debug.Log("Ya tienes el maximo de vidas: " + vidasMaximas);
         }
     }
-
-    void QuitarInvencibilidad() => esInvencible = false;
 
     void MorirJugador()
     {
