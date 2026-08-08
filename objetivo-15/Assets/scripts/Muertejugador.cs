@@ -19,7 +19,12 @@ public class MuerteJugador : MonoBehaviour
 
     void Update()
     {
-        if (muriendo) return;
+        if (muriendo)
+        {
+            if (transform.position.y > limiteY)
+                muriendo = false;
+            return;
+        }
         if (transform.position.y < limiteY)
             Morir(true); // caida al vacio
     }
@@ -58,7 +63,5 @@ public class MuerteJugador : MonoBehaviour
                 pc.respawnPendiente = true;
             }
         }
-
-        muriendo = false;
     }
 }
