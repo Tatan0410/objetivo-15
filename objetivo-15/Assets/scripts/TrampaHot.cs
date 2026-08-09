@@ -41,9 +41,11 @@ public class TrampaHot : MonoBehaviour
         spriteRend.color = Color.red;
         yield return new WaitForSeconds(activationDelay);
         active = true;
+        spriteRend.color = Color.white;
+        anim.SetBool("activado", true);
         yield return new WaitForSeconds(activateTime);
         active = false;
-        spriteRend.color = Color.white;
         triggered = false;
+        anim.SetBool("activado", false);
     }
 }
