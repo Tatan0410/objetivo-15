@@ -6,12 +6,12 @@ public class rata : MonoBehaviour
     public float detectionRadius = 5f;
     public float speed = 2f;
 
-    [Header("Detecci�n de bordes")]
+    [Header("Detección de bordes")]
     public LayerMask capaSuelo;
     public float distanciaBorde = 0.4f;
     public float alturaBorde = 0.3f;
 
-    [Header("Obst�culos y patrulla")]
+    [Header("Obstáculos y patrulla")]
     public LayerMask capaObstaculos;
     public float distanciaObstaculo = 0.6f;
     public float distanciaPatrulla = 3f;
@@ -268,7 +268,10 @@ public class rata : MonoBehaviour
 
     public void RecibirDanio(int cantidad)
     {
-        Morir();
+        if (muerto) return;
+        vidas -= cantidad;
+        if (vidas <= 0)
+            Morir();
     }
 
     public void Congelar()

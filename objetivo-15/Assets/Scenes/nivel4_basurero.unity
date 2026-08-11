@@ -35291,6 +35291,7 @@ GameObject:
   - component: {fileID: 1479732592}
   - component: {fileID: 1479732593}
   - component: {fileID: 1479732594}
+  - component: {fileID: 1479732595}
   m_Layer: 0
   m_Name: jugador
   m_TagString: Player
@@ -35298,6 +35299,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1479732595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479732586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41a2ed7a544bc4342abe06fa815cbb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1479732594}
+  controladorAtaque: {fileID: 1479732591}
+  radioAtaque: 1
+  dañoAtaque: 1
+  tiempoEntreAtaques: 0.5
 --- !u!114 &1479732587
 MonoBehaviour:
   m_ObjectHideFlags: 0
