@@ -14,22 +14,23 @@ public class PlasticoItem : MonoBehaviour
     private bool recolectado = false;
     private Vector3 posicionInicial;
     private Rigidbody2D rb;
-    private Collider2D col;
+    private Collider2D[] colliders;
 
     void Start()
     {
         posicionInicial = transform.position;
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<Collider2D>();
+        colliders = GetComponents<Collider2D>();
 
         // Apagar física para que no caiga
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0f;
 
-        // Desactivar collider al spawn para que no se auto-recolecte
+        // Desactivar TODOS los colliders al spawn para que no se auto-recolecte
         // cuando aparece encima del jugador al matar un enemigo
-        col.enabled = false;
+        foreach (Collider2D c in colliders)
+            c.enabled = false;
         Invoke("ActivarCollider", 0.3f);
 
         Destroy(gameObject, tiempoVida);
@@ -37,8 +38,9 @@ public class PlasticoItem : MonoBehaviour
 
     void ActivarCollider()
     {
-        if (!recolectado)
-            col.enabled = true;
+        if (recolectado) return;
+        foreach (Collider2D c in colliders)
+            c.enabled = true;
     }
 
     void Update()
@@ -61,9 +63,10 @@ public class PlasticoItem : MonoBehaviour
         {
             recolectado = true;
 
-            // ✅ FIX: deshabilitar collider de inmediato para que no dispare
+            // ✅ FIX: deshabilitar los colliders de inmediato para que no dispare
             // dos veces en el mismo frame por colliders múltiples del jugador
-            GetComponent<Collider2D>().enabled = false;
+            foreach (Collider2D c in colliders)
+                c.enabled = false;
 
             if (Inventario.instancia != null)
                 Inventario.instancia.AgregarPlastico(tipo);

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UI;
 using TMPro;
 
 public class SetUpNpc
@@ -36,10 +37,110 @@ public class SetUpNpc
             npc.fontAsset = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(path);
         }
 
+        npc.spriteNubeDialogo = spritePanel;
+
+        CrearBurbujaEditable(go, npc);
+
         PrefabUtility.SaveAsPrefabAsset(go, rutaPrefab);
         Object.DestroyImmediate(go);
 
-        Debug.Log("NPC prefab creado en " + rutaPrefab);
+        Debug.Log("NPC prefab creado en " + rutaPrefab + " con burbuja editable");
+    }
+
+    [MenuItem("Tools/Actualizar NPC Ambientalin (burbuja editable)")]
+    static void ActualizarPrefab()
+    {
+        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(rutaPrefab);
+        if (prefab == null)
+        {
+            Debug.LogError("Primero ejecuta Tools > Crear NPC Ambientalin Prefab");
+            return;
+        }
+
+        GameObject go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+        if (go == null) return;
+
+        NPCDialogoJRPG npc = go.GetComponent<NPCDialogoJRPG>();
+        if (npc == null)
+        {
+            Debug.LogError("El prefab no tiene NPCDialogoJRPG");
+            Object.DestroyImmediate(go);
+            return;
+        }
+
+        var spritePanel = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/nubecitadialogo-removebg-preview.png");
+        if (npc.spriteNubeDialogo == null)
+            npc.spriteNubeDialogo = spritePanel;
+
+        CrearBurbujaEditable(go, npc);
+
+        PrefabUtility.SaveAsPrefabAsset(go, rutaPrefab);
+        Object.DestroyImmediate(go);
+
+        Debug.Log("NPC prefab actualizado con burbuja editable en " + rutaPrefab);
+    }
+
+    static void CrearBurbujaEditable(GameObject npcGO, NPCDialogoJRPG npc)
+    {
+        Transform tBurbuja = npcGO.transform.Find("BurbujaDialogo");
+        if (tBurbuja != null)
+        {
+            bool completa = tBurbuja.Find("Fondo/Texto") != null;
+            if (completa)
+                return;
+            Object.DestroyImmediate(tBurbuja.gameObject);
+        }
+
+        GameObject burbuja = new GameObject("BurbujaDialogo");
+        burbuja.transform.SetParent(npcGO.transform, false);
+        Vector3 escalaPadre = npcGO.transform.lossyScale;
+        burbuja.transform.localScale = new Vector3(
+            0.005f / (escalaPadre.x > 0.0001f ? escalaPadre.x : 1f),
+            0.005f / (escalaPadre.y > 0.0001f ? escalaPadre.y : 1f),
+            0.005f / (escalaPadre.z > 0.0001f ? escalaPadre.z : 1f)
+        );
+
+        Canvas canvas = burbuja.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.sortingLayerName = "detalles";
+        canvas.sortingOrder = 100;
+
+        RectTransform rtBurbuja = burbuja.GetComponent<RectTransform>();
+        rtBurbuja.sizeDelta = npc.tamanoBurbuja * 100f;
+
+        GameObject fondo = new GameObject("Fondo");
+        fondo.transform.SetParent(burbuja.transform, false);
+        Image img = fondo.AddComponent<Image>();
+        img.type = Image.Type.Simple;
+        img.color = new Color(1, 1, 1, 0.92f);
+        img.raycastTarget = false;
+        if (npc.spriteNubeDialogo != null)
+            img.sprite = npc.spriteNubeDialogo;
+
+        RectTransform rtFondo = img.rectTransform;
+        rtFondo.pivot = new Vector2(0.5f, 1f);
+        rtFondo.anchorMin = new Vector2(0.5f, 0.5f);
+        rtFondo.anchorMax = new Vector2(0.5f, 0.5f);
+        rtFondo.anchoredPosition = new Vector2(0f, npc.tamanoBurbuja.y * 50f);
+        rtFondo.sizeDelta = npc.tamanoBurbuja * 100f;
+
+        GameObject textoGO = new GameObject("Texto");
+        textoGO.transform.SetParent(fondo.transform, false);
+        TextMeshProUGUI texto = textoGO.AddComponent<TextMeshProUGUI>();
+        texto.font = npc.fontAsset;
+        texto.fontSize = npc.tamanioFuente;
+        texto.color = Color.black;
+        texto.alignment = TextAlignmentOptions.Top;
+        texto.enableWordWrapping = true;
+        texto.overflowMode = TextOverflowModes.Overflow;
+        texto.raycastTarget = false;
+
+        RectTransform rtTexto = texto.rectTransform;
+        rtTexto.pivot = new Vector2(0.5f, 1f);
+        rtTexto.anchorMin = new Vector2(0.5f, 1f);
+        rtTexto.anchorMax = new Vector2(0.5f, 1f);
+        rtTexto.anchoredPosition = new Vector2(0f, -20f);
+        rtTexto.sizeDelta = npc.tamanoBurbuja * 100f - 40f * Vector2.one;
     }
 
     [MenuItem("Tools/Colocar NPC Ambientalin en nivel1_colegio")]
@@ -64,6 +165,12 @@ public class SetUpNpc
 
         UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
         Debug.Log("NPC colocado en nivel1_colegio en posicion (8, 2, 0)");
+    }
+
+    public static void BatchColocarAmbientalinNivel1()
+    {
+        CrearPrefab();
+        ColocarEnNivel1();
     }
 
     static Sprite CargarSprite(string relativePath)

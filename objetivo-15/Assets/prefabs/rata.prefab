@@ -232,7 +232,10 @@ MonoBehaviour:
     m_Bits: 0
   distanciaObstaculo: 0.6
   distanciaPatrulla: 3
-  prefabsPlasticos: []
+  prefabsPlasticos:
+  - {fileID: 8531944596036377120, guid: 3cd75527fe9f4ce4088906f97de22282, type: 3}
+  - {fileID: 8834090006834012522, guid: d42dc879f5d984f4d8b15c10ff028c03, type: 3}
+  - {fileID: 4326275224554361473, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
   cantidadDrop: 1
   probabilidadDrop: 0.5
 --- !u!95 &1497683917833386046
