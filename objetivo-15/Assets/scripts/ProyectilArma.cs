@@ -8,10 +8,12 @@ public enum TipoProyectil
 public class ProyectilArma : MonoBehaviour
 {
     public TipoProyectil tipoArma = TipoProyectil.Lanzador;
+    public TipoBala tipoBala = TipoBala.Comun;
+    public Sprite spriteBala;
     public float velocidad = 12f;
     public int danio = 1;
     public float tiempoVida = 3f;
-    public float radioDeteccion = 0.3f;
+    public float radioDeteccion = 0.5f;
 
     private Vector2 direccion;
     private Rigidbody2D rb;
@@ -46,8 +48,26 @@ public class ProyectilArma : MonoBehaviour
 
     public void Iniciar(Vector2 dir, TipoProyectil tipo = TipoProyectil.Lanzador)
     {
+        Iniciar(dir, tipo, TipoBala.Comun, 1, null);
+    }
+
+    public void Iniciar(Vector2 dir, TipoBala bala, int danioBala, Sprite sprite)
+    {
+        Iniciar(dir, TipoProyectil.Lanzador, bala, danioBala, sprite);
+    }
+
+    public void Iniciar(Vector2 dir, TipoProyectil tipo, TipoBala bala, int danioBala, Sprite sprite)
+    {
         tipoArma = tipo;
+        tipoBala = bala;
+        danio = danioBala;
+        spriteBala = sprite;
         direccion = dir.normalized;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null && spriteBala != null)
+            sr.sprite = spriteBala;
+
         Destroy(gameObject, tiempoVida);
     }
 

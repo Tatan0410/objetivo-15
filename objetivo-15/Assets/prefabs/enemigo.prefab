@@ -219,11 +219,12 @@ MonoBehaviour:
   distanciaObstaculo: 0.6
   distanciaPatrulla: 6
   prefabsPlasticos:
-  - {fileID: 4326275224554361473, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
   - {fileID: 8834090006834012522, guid: d42dc879f5d984f4d8b15c10ff028c03, type: 3}
+  - {fileID: 4326275224554361473, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
   - {fileID: 8531944596036377120, guid: 3cd75527fe9f4ce4088906f97de22282, type: 3}
   cantidadDrop: 1
   probabilidadDrop: 1
+  vidas: 3
 --- !u!61 &3665734406590839247
 BoxCollider2D:
   m_ObjectHideFlags: 0

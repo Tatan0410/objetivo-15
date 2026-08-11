@@ -847,8 +847,8 @@ public class SetupEscenas : EditorWindow
         {
             mmGO = new GameObject("MunicionManager");
             var mm = mmGO.AddComponent<MunicionManager>();
-            mm.municionActual = 15;
-            mm.municionMaxima = 30;
+            mm.balasComunes = 15;
+            mm.maximoPorTipo = 30;
         }
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());

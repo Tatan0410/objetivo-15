@@ -77,6 +77,22 @@ public class MenuCrafteo : MonoBehaviour
         {
             Debug.LogWarning("MenuCrafteo: No se encontró el botón BtnCerrarCrafteo en el panel.");
         }
+
+        ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearBalaComun", () =>
+            SistemaCrafteo.instancia.CraftearCartuchoComun());
+        ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearBalaRara", () =>
+            SistemaCrafteo.instancia.CraftearCartuchoRara());
+        ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearBalaEpica", () =>
+            SistemaCrafteo.instancia.CraftearCartuchoEpica());
+    }
+
+    void ConectarBotonBalas(Transform panel, string nombre, UnityEngine.Events.UnityAction accion)
+    {
+        Button btn = BuscarBoton(panel, nombre);
+        if (btn != null)
+            btn.onClick.AddListener(accion);
+        else
+            Debug.LogWarning($"MenuCrafteo: No se encontró el botón {nombre} en el panel.");
     }
 
     public void CraftearYCerrar()

@@ -26,6 +26,13 @@ public class PlayerController : MonoBehaviour
     public GameObject prefabProyectil;
     public KeyCode teclaDisparo = KeyCode.F;
     public float cooldownDisparo = 0.5f;
+    public float distanciaMuzzle = 0.6f;
+    public float alturaMuzzle = -0.1f;
+
+    [Header("Sprites de bala por tipo")]
+    public Sprite spriteBalaComun;
+    public Sprite spriteBalaRara;
+    public Sprite spriteBalaEpica;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -99,15 +106,18 @@ public class PlayerController : MonoBehaviour
             TipoArma arma = GetArmaEquipada();
             if (arma == TipoArma.Ninguna) return;
 
-            if (MunicionManager.instancia != null &&
-                !MunicionManager.instancia.ConsumirMunicion())
+            TipoBala? tipo = MunicionManager.instancia != null
+                ? MunicionManager.instancia.ConsumirBalaSeleccionada()
+                : null;
+
+            if (tipo != null)
             {
-                // Sin municion, no dispara
-            }
-            else
-            {
-                Disparar(arma);
+                Disparar(arma, tipo.Value);
                 temporizadorCooldownDisparo = cooldownDisparo;
+
+                // Animación de disparo: SOLO al disparar
+                if (animator != null)
+                    animator.SetTrigger("Disparar");
             }
         }
     }
@@ -244,7 +254,17 @@ public class PlayerController : MonoBehaviour
         return TipoArma.Ninguna;
     }
 
-    void Disparar(TipoArma arma)
+    Transform ObtenerArmaTransform()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.GetComponent<ArmaPlaceholder>() != null)
+                return child;
+        }
+        return null;
+    }
+
+    void Disparar(TipoArma arma, TipoBala tipoBala)
     {
         if (prefabProyectil == null)
         {
@@ -252,12 +272,33 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        float dirX = transform.localScale.x > 0 ? 1f : -1f;
-        Vector3 spawnPos = transform.position + new Vector3(dirX * 0.7f, 0.25f, 0);
-        GameObject proy = Instantiate(prefabProyectil, spawnPos, Quaternion.identity);
-        Debug.Log($"[PlayerController] Disparo desde {spawnPos} direccion={dirX}");
+        int danio = tipoBala == TipoBala.Comun ? 1
+                  : tipoBala == TipoBala.Rara  ? 5
+                  : 10;
 
-        proy.GetComponent<ProyectilArma>().Iniciar(new Vector2(dirX, 0), TipoProyectil.Lanzador);
+        float dirX = transform.localScale.x > 0 ? 1f : -1f;
+        Transform armaTransform = ObtenerArmaTransform();
+        Vector3 spawnPos = armaTransform != null
+            ? armaTransform.position + new Vector3(dirX * distanciaMuzzle, alturaMuzzle, 0f)
+            : transform.position + new Vector3(dirX * 0.6f, 0.1f, 0f);
+        GameObject proy = Instantiate(prefabProyectil, spawnPos, Quaternion.identity);
+        Debug.Log($"[PlayerController] Disparo desde {spawnPos} direccion={dirX} tipo={tipoBala} danio={danio}");
+
+        proy.GetComponent<ProyectilArma>().Iniciar(
+            new Vector2(dirX, 0),
+            tipoBala,
+            danio,
+            SpriteDeBala(tipoBala));
+    }
+
+    Sprite SpriteDeBala(TipoBala tipo)
+    {
+        switch (tipo)
+        {
+            case TipoBala.Rara:  return spriteBalaRara;
+            case TipoBala.Epica: return spriteBalaEpica;
+            default:             return spriteBalaComun;
+        }
     }
 
     public void AplicarPotenciador(TipoPotenciador tipo)

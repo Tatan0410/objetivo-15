@@ -12,6 +12,9 @@ public class EnemigoVolador : MonoBehaviour
     [Range(0f, 1f)]
     public float probabilidadDrop = 0.5f;
 
+    [Header("Vida")]
+    public int vidas = 3;
+
     [Header("Animación")]
     public Animator animator;
 
@@ -215,7 +218,9 @@ public class EnemigoVolador : MonoBehaviour
     public void RecibirDanio(int cantidad)
     {
         if (muerto) return;
-        Morir();
+        vidas -= cantidad;
+        if (vidas <= 0)
+            Morir();
     }
 
     public void Congelar()

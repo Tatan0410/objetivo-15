@@ -152,7 +152,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 5}
+    oldSize: {x: 4, y: 4}
     newSize: {x: 1.28, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -197,7 +197,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 5}
+    oldSize: {x: 4, y: 4}
     newSize: {x: 1.28, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -221,11 +221,13 @@ MonoBehaviour:
   velocidad: 3
   distanciaPatrulla: 3
   prefabsPlasticos:
-  - {fileID: 4326275224554361473, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
   - {fileID: 8834090006834012522, guid: d42dc879f5d984f4d8b15c10ff028c03, type: 3}
+  - {fileID: 4326275224554361473, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
   - {fileID: 8531944596036377120, guid: 3cd75527fe9f4ce4088906f97de22282, type: 3}
   cantidadDrop: 1
   probabilidadDrop: 1
+  vidas: 3
+  animator: {fileID: 0}
 --- !u!95 &8538048872574879221
 Animator:
   serializedVersion: 5

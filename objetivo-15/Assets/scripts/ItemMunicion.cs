@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class ItemMunicion : MonoBehaviour
 {
+    public TipoBala tipo = TipoBala.Comun;
     public int cantidad = 5;
+    public Sprite spriteCartucho;
 
     void Start()
     {
@@ -18,7 +20,9 @@ public class ItemMunicion : MonoBehaviour
         if (sr == null)
             sr = gameObject.AddComponent<SpriteRenderer>();
 
-        if (sr.sprite == null)
+        if (sr.sprite == null && spriteCartucho != null)
+            sr.sprite = spriteCartucho;
+        else if (sr.sprite == null)
             sr.sprite = GenerarSprite();
     }
 
@@ -27,7 +31,7 @@ public class ItemMunicion : MonoBehaviour
         if (!col.CompareTag("Player")) return;
 
         if (MunicionManager.instancia != null)
-            MunicionManager.instancia.AgregarMunicion(cantidad);
+            MunicionManager.instancia.AgregarBala(tipo, cantidad);
 
         Destroy(gameObject);
     }

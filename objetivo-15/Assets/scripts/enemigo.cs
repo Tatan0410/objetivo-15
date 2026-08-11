@@ -22,6 +22,9 @@ public class Enemigo : MonoBehaviour
     [Range(0f, 1f)]
     public float probabilidadDrop = 0.5f;
 
+    [Header("Vida")]
+    public int vidas = 3;
+
     private Rigidbody2D rb;
     private Vector2 movement;
     private bool muerto = false;
@@ -265,7 +268,10 @@ public class Enemigo : MonoBehaviour
 
     public void RecibirDanio(int cantidad)
     {
-        Morir();
+        if (muerto) return;
+        vidas -= cantidad;
+        if (vidas <= 0)
+            Morir();
     }
 
     public void Congelar()

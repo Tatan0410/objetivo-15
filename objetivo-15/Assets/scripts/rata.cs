@@ -22,6 +22,9 @@ public class rata : MonoBehaviour
     [Range(0f, 1f)]
     public float probabilidadDrop = 0.5f;
 
+    [Header("Vida")]
+    public int vidas = 3;
+
     private Rigidbody2D rb;
     private Vector2 movement;
     private bool muerto = false;
