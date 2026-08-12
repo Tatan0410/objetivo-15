@@ -90,7 +90,6 @@ public class FinNivel : MonoBehaviour
 
         PlayerPrefs.SetInt("NodoActual", numeroNivel);
         PlayerPrefs.Save();
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena("Mapamundial");
+        SceneTransitionManager.CargarEscenaConFallback("Mapamundial");
     }
 }

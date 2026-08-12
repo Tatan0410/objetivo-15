@@ -73,10 +73,7 @@ public class SelectorNivelesMapa : MonoBehaviour
         if (GameManager.instancia != null)
             GameManager.instancia.ResetearCheckpoint();
 
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena(nodo.nombreEscenaCutscene);
-        else
-            UnityEngine.SceneManagement.SceneManager.LoadScene(nodo.nombreEscenaCutscene);
+        SceneTransitionManager.CargarEscenaConFallback(nodo.nombreEscenaCutscene);
     }
 
     void MostrarMensajeBloqueado()

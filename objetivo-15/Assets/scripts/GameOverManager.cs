@@ -86,15 +86,13 @@ public class GameOverManager : MonoBehaviour
     {
         canvasGameOver.SetActive(false);
         Time.timeScale = 1f;
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena(escenaActual);
+        SceneTransitionManager.CargarEscenaConFallback(escenaActual);
     }
 
     public void IrAlMenu()
     {
         canvasGameOver.SetActive(false);
         Time.timeScale = 1f;
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena("menuprincipal");
+        SceneTransitionManager.CargarEscenaConFallback("menuprincipal");
     }
 }

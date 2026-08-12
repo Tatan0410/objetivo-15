@@ -221,31 +221,76 @@ public class SceneTransitionManager : MonoBehaviour
         return Sprite.Create(tex, new Rect(0, 0, w, h), new Vector2(0.5f, 0.5f));
     }
 
+    public bool Ocupado => cargando;
+
     public void CargarEscena(string nombreEscena)
     {
         if (cargando) return;
+        if (canvasCarga == null)
+            BuscarOCrearCanvas();
         StartCoroutine(CargarEscenaCoroutine(nombreEscena));
+    }
+
+    public static void CargarEscenaConFallback(string nombreEscena)
+    {
+        if (instancia != null && !instancia.cargando)
+            instancia.CargarEscena(nombreEscena);
+        else
+            SceneManager.LoadScene(nombreEscena);
     }
 
     IEnumerator CargarEscenaCoroutine(string nombreEscena)
     {
         cargando = true;
-        canvasCarga.SetActive(true);
+        AsyncOperation op = null;
+        try
+        {
+            op = IniciarCarga(nombreEscena);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[SceneTransitionManager] Error al iniciar la transicion: " + e);
+        }
+
+        if (op != null)
+            yield return StartCoroutine(EsperarCargaYActivar(op));
+
+        if (canvasCarga != null)
+            canvasCarga.SetActive(false);
+        cargando = false;
+    }
+
+    AsyncOperation IniciarCarga(string nombreEscena)
+    {
+        if (canvasCarga != null)
+            canvasCarga.SetActive(true);
 
         string dato = datosCuriosos[Random.Range(0, datosCuriosos.Length)];
-        textoDato.text = dato;
+        if (textoDato != null) textoDato.text = dato;
 
         AsyncOperation op = SceneManager.LoadSceneAsync(nombreEscena);
+        if (op == null)
+        {
+            Debug.LogError("[SceneTransitionManager] No se pudo iniciar la carga de la escena '" + nombreEscena + "'.");
+            return null;
+        }
         op.allowSceneActivation = false;
+        return op;
+    }
 
+    IEnumerator EsperarCargaYActivar(AsyncOperation op)
+    {
         float tiempoInicio = Time.unscaledTime;
+        float tiempoMaximo = Mathf.Max(duracionMinima, 3f) + 15f;
+        float duracionBase = Mathf.Max(duracionMinima, 0.1f);
         int frameIndex = 0;
         float pW = 84f * escalaJugador;
 
-        while (op.progress < 0.9f || Time.unscaledTime - tiempoInicio < duracionMinima)
+        while ((op.progress < 0.9f || Time.unscaledTime - tiempoInicio < duracionMinima)
+               && Time.unscaledTime - tiempoInicio < tiempoMaximo)
         {
-            float progreso = Mathf.Clamp01(op.progress / 0.9f);
-            float avanceTiempo = Mathf.Clamp01((Time.unscaledTime - tiempoInicio) / duracionMinima);
+            float progreso = op.progress > 0f ? Mathf.Clamp01(op.progress / 0.9f) : 0f;
+            float avanceTiempo = Mathf.Clamp01((Time.unscaledTime - tiempoInicio) / duracionBase);
             float visual = Mathf.Min(progreso, avanceTiempo);
 
             // Bloques segmentados
@@ -265,7 +310,7 @@ public class SceneTransitionManager : MonoBehaviour
             {
                 if (spritesCorriendo != null && spritesCorriendo.Length > 0)
                 {
-                    imagenJugador.sprite = spritesCorriendo[frameIndex];
+                    imagenJugador.sprite = spritesCorriendo[frameIndex % spritesCorriendo.Length];
                     frameIndex = (frameIndex + 1) % spritesCorriendo.Length;
                 }
                 float x = Mathf.Lerp(-barWidth / 2f, barWidth / 2f - pW, visual);
@@ -285,9 +330,5 @@ public class SceneTransitionManager : MonoBehaviour
         op.allowSceneActivation = true;
 
         yield return new WaitForSecondsRealtime(0.3f);
-
-        if (canvasCarga != null)
-            canvasCarga.SetActive(false);
-        cargando = false;
     }
 }

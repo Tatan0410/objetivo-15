@@ -28320,7 +28320,7 @@ GameObject:
   - component: {fileID: 1355697868}
   - component: {fileID: 1355697867}
   m_Layer: 0
-  m_Name: SceneTransicionManager
+  m_Name: SceneTransitionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28341,17 +28341,21 @@ MonoBehaviour:
   colorVerdeNeon: {r: 0, g: 1, b: 0.25, a: 1}
   fondoSprite: {fileID: 0}
   segmentosBarra: 20
-  spritesCorriendo: []
+  spritesCorriendo:
+  - {fileID: 1455892417, guid: 0635d30a84a8a5e4a9e24ffeab6f950d, type: 3}
+  - {fileID: -1977979547, guid: 0635d30a84a8a5e4a9e24ffeab6f950d, type: 3}
+  - {fileID: -328130494, guid: 0635d30a84a8a5e4a9e24ffeab6f950d, type: 3}
+  - {fileID: 1536538023, guid: 0635d30a84a8a5e4a9e24ffeab6f950d, type: 3}
   framerateAnimacion: 0.15
-  escalaJugador: 2
+  escalaJugador: 0.5
   colorLoading: {r: 0, g: 1, b: 0.25, a: 1}
   colorPorcentaje: {r: 0, g: 1, b: 0.25, a: 1}
-  colorDato: {r: 0.5, g: 1, b: 0.5, a: 1}
+  colorDato: {r: 1, g: 1, b: 1, a: 1}
   posYLoading: 0.92
   posYBarra: 0.38
   posYPorcentaje: 0.3
   posYDato: 0.12
-  posYJugador: 60
+  posYJugador: 1
   datosCuriosos:
   - "Una botella PET tarda hasta 500 a\xF1os en degradarse."
   - "Cada a\xF1o, 8 millones de toneladas de pl\xE1stico llegan al oc\xE9ano."
@@ -28364,8 +28368,8 @@ MonoBehaviour:
   - "Reciclar vidrio ahorra un 30% de energ\xEDa comparado con hacerlo nuevo."
   - "El 91% del pl\xE1stico producido no se ha reciclado nunca."
   - "Un pa\xF1al desechable tarda 450 a\xF1os en degradarse."
-  - "Por cada 3 botellas recicladas, se evita la emisi\xF3n de 1 kg de CO\u2082."
-  fontCarga: {fileID: 0}
+  - "Por cada 3 botellas recicladas, se evita la emisi\xF3n de 1 kg de CO2."
+  fontCarga: {fileID: 11400000, guid: 97253aa2e80e3f04183f0949ddc3fead, type: 2}
   duracionMinima: 2
 --- !u!4 &1355697868
 Transform:
@@ -28376,7 +28380,7 @@ Transform:
   m_GameObject: {fileID: 1355697866}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.376273, y: -6.780964, z: 1.2180563}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35262,23 +35266,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1479732595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479732586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a2ed7a544bc4342abe06fa815cbb2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1479732594}
-  controladorAtaque: {fileID: 1479732591}
-  radioAtaque: 1
-  dañoAtaque: 1
-  tiempoEntreAtaques: 0.5
 --- !u!114 &1479732587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35306,6 +35293,8 @@ MonoBehaviour:
   prefabProyectil: {fileID: 100000, guid: 55555555555555555555555555555555, type: 3}
   teclaDisparo: 102
   cooldownDisparo: 0.5
+  distanciaMuzzle: 0.6
+  alturaMuzzle: -0.1
   spriteBalaComun: {fileID: 0}
   spriteBalaRara: {fileID: 0}
   spriteBalaEpica: {fileID: 0}
@@ -35490,6 +35479,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1479732595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479732586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41a2ed7a544bc4342abe06fa815cbb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1479732594}
+  controladorAtaque: {fileID: 1479732591}
+  radioAtaque: 1
+  "da\xF1oAtaque": 1
+  tiempoEntreAtaques: 0.5
 --- !u!1 &1488276666
 GameObject:
   m_ObjectHideFlags: 0

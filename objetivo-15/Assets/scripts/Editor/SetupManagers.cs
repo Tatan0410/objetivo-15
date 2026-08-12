@@ -62,6 +62,90 @@ public static class SetupManagers
             Debug.Log("SceneTransitionManager actualizado (font + sprites).");
     }
 
+    [MenuItem("Tools/Sincronizar SceneTransitionManager en todas las escenas")]
+    static void SincronizarTodasEscenas()
+    {
+        string menuPath = "Assets/Scenes/menuprincipal.unity";
+        if (!System.IO.File.Exists(menuPath))
+        {
+            Debug.LogError($"No existe menuprincipal: {menuPath}");
+            if (Application.isBatchMode) EditorApplication.Exit(1);
+            return;
+        }
+
+        EditorSceneManager.OpenScene(menuPath);
+        var canonical = Object.FindFirstObjectByType<SceneTransitionManager>();
+        if (canonical == null)
+        {
+            Debug.LogError("No se encontro SceneTransitionManager en menuprincipal.");
+            if (Application.isBatchMode) EditorApplication.Exit(1);
+            return;
+        }
+
+        Sprite[] spritesCanonicos = canonical.spritesCorriendo != null ? canonical.spritesCorriendo.ToArray() : null;
+        string[] datosCanonicos = canonical.datosCuriosos != null ? canonical.datosCuriosos.ToArray() : null;
+        TMP_FontAsset fontCanonica = canonical.fontCarga;
+
+        string[] niveles = {
+            "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
+            "nivel4_basurero", "nivel5_subterraneo", "nivel6_empresa"
+        };
+
+        int sincronizados = 0;
+        foreach (var nivel in niveles)
+        {
+            string path = $"Assets/Scenes/{nivel}.unity";
+            if (!System.IO.File.Exists(path))
+            {
+                Debug.LogWarning($"No existe la escena {path}");
+                continue;
+            }
+
+            EditorSceneManager.OpenScene(path);
+            var stm = Object.FindFirstObjectByType<SceneTransitionManager>();
+            if (stm == null)
+            {
+                GameObject go = new GameObject("SceneTransitionManager");
+                stm = go.AddComponent<SceneTransitionManager>();
+            }
+
+            float duracionNivel = stm.duracionMinima;
+
+            stm.colorVerdeNeon = canonical.colorVerdeNeon;
+            stm.fondoSprite = canonical.fondoSprite;
+            stm.segmentosBarra = canonical.segmentosBarra;
+            stm.spritesCorriendo = spritesCanonicos;
+            stm.framerateAnimacion = canonical.framerateAnimacion;
+            stm.escalaJugador = canonical.escalaJugador;
+            stm.colorLoading = canonical.colorLoading;
+            stm.colorPorcentaje = canonical.colorPorcentaje;
+            stm.colorDato = canonical.colorDato;
+            stm.posYLoading = canonical.posYLoading;
+            stm.posYBarra = canonical.posYBarra;
+            stm.posYPorcentaje = canonical.posYPorcentaje;
+            stm.posYDato = canonical.posYDato;
+            stm.posYJugador = canonical.posYJugador;
+            stm.datosCuriosos = datosCanonicos;
+            stm.fontCarga = fontCanonica;
+            stm.duracionMinima = duracionNivel;
+
+            stm.gameObject.name = "SceneTransitionManager";
+            stm.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            stm.transform.localScale = Vector3.one;
+
+            EditorUtility.SetDirty(stm);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+            sincronizados++;
+            Debug.Log($"Sincronizado SceneTransitionManager en {nivel}");
+        }
+
+        AssetDatabase.SaveAssets();
+        Debug.Log($"SceneTransitionManager sincronizado en {sincronizados} escenas.");
+
+        if (Application.isBatchMode) EditorApplication.Exit(0);
+    }
+
     static void CrearGameOverManager()
     {
         var stm = Object.FindFirstObjectByType<GameOverManager>();

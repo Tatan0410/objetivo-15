@@ -9,7 +9,6 @@ public class NavegacionUI : MonoBehaviour
     {
         if (musicaFondo != null)
             musicaFondo.Stop();
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena("menuprincipal");
+        SceneTransitionManager.CargarEscenaConFallback("menuprincipal");
     }
 }

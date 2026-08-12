@@ -25,14 +25,12 @@ public class MenuPrincipal : MonoBehaviour
 
     public void Jugar()
     {
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena("Mapamundial");
+        SceneTransitionManager.CargarEscenaConFallback("Mapamundial");
     }
 
     public void AbrirSoluciones()
     {
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena("cutscene_soluciones");
+        SceneTransitionManager.CargarEscenaConFallback("cutscene_soluciones");
     }
 
     public void Salir()

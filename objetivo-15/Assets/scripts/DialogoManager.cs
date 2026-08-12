@@ -128,8 +128,7 @@ public class DialogoManager : MonoBehaviour
 
     void IrAlNivel()
     {
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena(escenaDestino);
+        SceneTransitionManager.CargarEscenaConFallback(escenaDestino);
     }
 }
 

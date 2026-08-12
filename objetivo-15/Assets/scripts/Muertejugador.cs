@@ -45,6 +45,8 @@ public class MuerteJugador : MonoBehaviour
         if (muriendo) return;
         muriendo = true;
 
+        bool esGolpeFatal = VidasManager.instancia != null && VidasManager.instancia.vidasActuales <= 1;
+
         if (pc != null) pc.DesactivarControl();
         if (rb != null) rb.velocity = Vector2.zero;
 
@@ -53,7 +55,7 @@ public class MuerteJugador : MonoBehaviour
 
         if (this == null) return;
 
-        if (VidasManager.instancia != null && VidasManager.instancia.vidasActuales > 0)
+        if (!esGolpeFatal && VidasManager.instancia != null && VidasManager.instancia.vidasActuales > 0)
         {
             if (pc != null)
             {
