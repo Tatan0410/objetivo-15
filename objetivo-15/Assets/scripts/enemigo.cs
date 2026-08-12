@@ -31,6 +31,8 @@ public class Enemigo : MonoBehaviour
     private bool congelado = false;
     private SpriteRenderer sr;
     private Color colorOriginal;
+    private Color colorFlashBase;
+    private bool flashDanioActivo;
     private bool yaProcesadoEsteFrame = false;
     private float direccionVisual = 1f;
     private Animator animator;
@@ -271,7 +273,28 @@ public class Enemigo : MonoBehaviour
         if (muerto) return;
         vidas -= cantidad;
         if (vidas <= 0)
+        {
             Morir();
+            return;
+        }
+        IniciarFlashDanio();
+    }
+
+    void IniciarFlashDanio()
+    {
+        if (sr == null) return;
+        if (!flashDanioActivo)
+            colorFlashBase = sr.color;
+        flashDanioActivo = true;
+        sr.color = new Color(1f, 0f, 0f, colorFlashBase.a);
+        CancelInvoke("DetenerFlashDanio");
+        Invoke("DetenerFlashDanio", 0.2f);
+    }
+
+    void DetenerFlashDanio()
+    {
+        if (sr != null && !muerto) sr.color = colorFlashBase;
+        flashDanioActivo = false;
     }
 
     public void Congelar()
@@ -341,7 +364,7 @@ public class Enemigo : MonoBehaviour
         if (pieJugador >= cabezaEnemigo - 0.1f)
         {
             rbJug.velocity = new Vector2(rbJug.velocity.x, 6f);
-            Morir();
+            RecibirDanio(1);
         }
         else
         {
