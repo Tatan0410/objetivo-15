@@ -32,8 +32,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Sprites de bala por tipo")]
     public Sprite spriteBalaComun;
-    public Sprite spriteBalaRara;
     public Sprite spriteBalaEpica;
+    public Sprite spriteBalaLegendaria;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -258,7 +258,7 @@ public class PlayerController : MonoBehaviour
         }
 
         int danio = tipoBala == TipoBala.Comun ? 1
-                  : tipoBala == TipoBala.Rara  ? 5
+                  : tipoBala == TipoBala.Epica  ? 5
                   : 10;
 
         float dirX = transform.localScale.x > 0 ? 1f : -1f;
@@ -277,8 +277,8 @@ public class PlayerController : MonoBehaviour
     {
         switch (tipo)
         {
-            case TipoBala.Rara:  return spriteBalaRara;
-            case TipoBala.Epica: return spriteBalaEpica;
+            case TipoBala.Epica:  return spriteBalaEpica;
+            case TipoBala.Legendaria: return spriteBalaLegendaria;
             default:             return spriteBalaComun;
         }
     }

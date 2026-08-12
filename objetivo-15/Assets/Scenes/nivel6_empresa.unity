@@ -728,7 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maximoPorTipo: 99
   balasComunes: 15
-  balasRaras: 0
+  balasLegendarias: 0
   balasEpicas: 0
   tipoSeleccionado: 0
   contadorMunicion: {fileID: 1371353055}
@@ -7035,7 +7035,7 @@ GameObject:
   - component: {fileID: 849214017}
   - component: {fileID: 849214016}
   m_Layer: 0
-  m_Name: ContMunRara
+  m_Name: ContMunLegendaria
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7786,12 +7786,12 @@ MonoBehaviour:
   teclaAnterior: 113
   teclaSiguiente: 101
   contadorComun: {fileID: 1838102898}
-  contadorRara: {fileID: 849214016}
+  contadorLegendaria: {fileID: 849214016}
   contadorEpica: {fileID: 1006437918}
   textoSeleccionado: {fileID: 1331606544}
   iconoSeleccionado: {fileID: 815686391}
   spriteComun: {fileID: 0}
-  spriteRara: {fileID: 0}
+  spriteLegendaria: {fileID: 0}
   spriteEpica: {fileID: 0}
   botonCambiar: {fileID: 1747964406}
 --- !u!114 &1043252014
@@ -35296,7 +35296,7 @@ MonoBehaviour:
   distanciaMuzzle: 0.6
   alturaMuzzle: -0.1
   spriteBalaComun: {fileID: 0}
-  spriteBalaRara: {fileID: 0}
+  spriteBalaLegendaria: {fileID: 0}
   spriteBalaEpica: {fileID: 0}
   particulas: {fileID: 317584327}
   respawnPendiente: 0

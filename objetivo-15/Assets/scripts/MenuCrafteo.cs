@@ -80,10 +80,10 @@ public class MenuCrafteo : MonoBehaviour
 
         ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearBalaComun", () =>
             SistemaCrafteo.instancia.CraftearCartuchoComun());
-        ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearBalaRara", () =>
-            SistemaCrafteo.instancia.CraftearCartuchoRara());
         ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearBalaEpica", () =>
             SistemaCrafteo.instancia.CraftearCartuchoEpica());
+        ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearBalaLegendaria", () =>
+            SistemaCrafteo.instancia.CraftearCartuchoLegendaria());
     }
 
     void ConectarBotonBalas(Transform panel, string nombre, UnityEngine.Events.UnityAction accion)
@@ -100,6 +100,24 @@ public class MenuCrafteo : MonoBehaviour
         if (SistemaCrafteo.instancia != null)
             SistemaCrafteo.instancia.CraftearLanzador();
         CerrarMenu();
+    }
+
+    public void CraftearBalaComun()
+    {
+        if (SistemaCrafteo.instancia != null)
+            SistemaCrafteo.instancia.CraftearCartuchoComun();
+    }
+
+    public void CraftearBalaEpica()
+    {
+        if (SistemaCrafteo.instancia != null)
+            SistemaCrafteo.instancia.CraftearCartuchoEpica();
+    }
+
+    public void CraftearBalaLegendaria()
+    {
+        if (SistemaCrafteo.instancia != null)
+            SistemaCrafteo.instancia.CraftearCartuchoLegendaria();
     }
 
     Transform BuscarTransformEn(Transform parent, string nombre)

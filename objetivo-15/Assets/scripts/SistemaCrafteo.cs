@@ -34,38 +34,38 @@ public class SistemaCrafteo : MonoBehaviour
 
     public void CraftearCartuchoComun()
     {
-        if (Inventario.instancia.TieneIngredientes(1, 0, 0))
+        if (Inventario.instancia.TieneIngredientes(1, 1, 0))
         {
-            Inventario.instancia.GastarIngredientes(1, 0, 0);
+            Inventario.instancia.GastarIngredientes(1, 1, 0);
             MunicionManager.instancia.AgregarBala(TipoBala.Comun, balasPorCartucho);
             ReproducirAnimacionCrafteo();
             Debug.Log("Cartucho comun (10 balas) crafteado!");
         }
-        else Debug.Log("Necesitas 1 PET");
-    }
-
-    public void CraftearCartuchoRara()
-    {
-        if (Inventario.instancia.TieneIngredientes(3, 2, 0))
-        {
-            Inventario.instancia.GastarIngredientes(3, 2, 0);
-            MunicionManager.instancia.AgregarBala(TipoBala.Rara, balasPorCartucho);
-            ReproducirAnimacionCrafteo();
-            Debug.Log("Cartucho raro (10 balas) crafteado!");
-        }
-        else Debug.Log("Necesitas 3 PET + 2 Bolsas");
+        else Debug.Log("Necesitas 1 Botella + 1 Bolsa");
     }
 
     public void CraftearCartuchoEpica()
     {
-        if (Inventario.instancia.TieneIngredientes(5, 4, 3))
+        if (Inventario.instancia.TieneIngredientes(1, 2, 1))
         {
-            Inventario.instancia.GastarIngredientes(5, 4, 3);
+            Inventario.instancia.GastarIngredientes(1, 2, 1);
             MunicionManager.instancia.AgregarBala(TipoBala.Epica, balasPorCartucho);
             ReproducirAnimacionCrafteo();
             Debug.Log("Cartucho epico (10 balas) crafteado!");
         }
-        else Debug.Log("Necesitas 5 PET + 4 Bolsas + 3 Icopor");
+        else Debug.Log("Necesitas 1 Botella + 2 Bolsas + 1 Icopor");
+    }
+
+    public void CraftearCartuchoLegendaria()
+    {
+        if (Inventario.instancia.TieneIngredientes(3, 4, 3))
+        {
+            Inventario.instancia.GastarIngredientes(3, 4, 3);
+            MunicionManager.instancia.AgregarBala(TipoBala.Legendaria, balasPorCartucho);
+            ReproducirAnimacionCrafteo();
+            Debug.Log("Cartucho legendario (10 balas) crafteado!");
+        }
+        else Debug.Log("Necesitas 3 Botellas + 4 Bolsas + 3 Icopores");
     }
 
     void EquiparArma(GameObject prefabArma)

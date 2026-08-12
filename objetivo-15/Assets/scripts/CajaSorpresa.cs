@@ -8,11 +8,12 @@ public class CajaSorpresa : MonoBehaviour
     [Header("Tipo de caja")]
     public bool cajaEnSuelo = false;
 
-    [Header("Animación")]
+    [Header("Animaciï¿½n")]
     public Animator animator;
-    public float duracionAnimacion = 0.5f; // Ajusta según la duración real del clip
+    public float duracionAnimacion = 0.5f; // Ajusta segï¿½n la duraciï¿½n real del clip
 
     private bool usada = false;
+    private bool esperandoPowerUp = false;
 
     void Start()
     {
@@ -35,14 +36,31 @@ public class CajaSorpresa : MonoBehaviour
     {
         usada = true;
 
-        if (animator != null)
-            animator.SetTrigger("golpeado");
+        if (animator == null)
+        {
+            SoltarPowerUp();
+            Destroy(gameObject);
+            return;
+        }
+
+        esperandoPowerUp = true;
+        animator.SetTrigger("golpeado");
 
         Collider2D colPropio = GetComponent<Collider2D>();
         if (colPropio != null) colPropio.enabled = false;
+    }
 
-        SoltarPowerUp();
-        Destroy(gameObject, duracionAnimacion);
+    void Update()
+    {
+        if (!esperandoPowerUp) return;
+
+        AnimatorStateInfo st = animator.GetCurrentAnimatorStateInfo(0);
+        if (st.IsName("cajarota") && st.normalizedTime >= 1f)
+        {
+            esperandoPowerUp = false;
+            SoltarPowerUp();
+            Destroy(gameObject);
+        }
     }
 
     void SoltarPowerUp()

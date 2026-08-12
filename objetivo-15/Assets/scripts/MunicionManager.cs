@@ -9,8 +9,8 @@ public class MunicionManager : MonoBehaviour
 
     [Header("Conteo por tipo de bala")]
     public int balasComunes = 15;
-    public int balasRaras = 0;
     public int balasEpicas = 0;
+    public int balasLegendarias = 0;
 
     [Header("Tipo seleccionado")]
     public TipoBala tipoSeleccionado = TipoBala.Comun;
@@ -50,8 +50,8 @@ public class MunicionManager : MonoBehaviour
         switch (tipo)
         {
             case TipoBala.Comun: return balasComunes;
-            case TipoBala.Rara: return balasRaras;
             case TipoBala.Epica: return balasEpicas;
+            case TipoBala.Legendaria: return balasLegendarias;
             default: return 0;
         }
     }
@@ -62,8 +62,8 @@ public class MunicionManager : MonoBehaviour
         switch (tipo)
         {
             case TipoBala.Comun: balasComunes = valor; break;
-            case TipoBala.Rara: balasRaras = valor; break;
             case TipoBala.Epica: balasEpicas = valor; break;
+            case TipoBala.Legendaria: balasLegendarias = valor; break;
         }
     }
 

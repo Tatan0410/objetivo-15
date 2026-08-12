@@ -9,15 +9,15 @@ public class PanelBalasHUD : MonoBehaviour
 
     [Header("Contadores por tipo")]
     public ContadorHUD contadorComun;
-    public ContadorHUD contadorRara;
     public ContadorHUD contadorEpica;
+    public ContadorHUD contadorLegendaria;
 
     [Header("Tipo seleccionado")]
     public TMP_Text textoSeleccionado;
     public Image iconoSeleccionado;
     public Sprite spriteComun;
-    public Sprite spriteRara;
     public Sprite spriteEpica;
+    public Sprite spriteLegendaria;
 
     [Header("Boton de cambio")]
     public Button botonCambiar;
@@ -34,6 +34,13 @@ public class PanelBalasHUD : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            MunicionManager.instancia?.EstablecerTipo(TipoBala.Comun);
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            MunicionManager.instancia?.EstablecerTipo(TipoBala.Epica);
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            MunicionManager.instancia?.EstablecerTipo(TipoBala.Legendaria);
+
         if (Input.GetKeyDown(teclaAnterior))
             CambiarAnterior();
         if (Input.GetKeyDown(teclaSiguiente))
@@ -96,8 +103,8 @@ public class PanelBalasHUD : MonoBehaviour
         if (m == null) return;
 
         if (contadorComun != null) contadorComun.Actualizar(m.balasComunes);
-        if (contadorRara != null) contadorRara.Actualizar(m.balasRaras);
         if (contadorEpica != null) contadorEpica.Actualizar(m.balasEpicas);
+        if (contadorLegendaria != null) contadorLegendaria.Actualizar(m.balasLegendarias);
 
         if (textoSeleccionado != null)
             textoSeleccionado.text = NombreTipo(m.tipoSeleccionado);
@@ -110,8 +117,8 @@ public class PanelBalasHUD : MonoBehaviour
     {
         switch (tipo)
         {
-            case TipoBala.Rara: return "RARA";
             case TipoBala.Epica: return "EPICA";
+            case TipoBala.Legendaria: return "LEGENDARIA";
             default: return "COMUN";
         }
     }
@@ -120,8 +127,8 @@ public class PanelBalasHUD : MonoBehaviour
     {
         switch (tipo)
         {
-            case TipoBala.Rara: return spriteRara;
             case TipoBala.Epica: return spriteEpica;
+            case TipoBala.Legendaria: return spriteLegendaria;
             default: return spriteComun;
         }
     }

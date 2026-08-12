@@ -163,8 +163,8 @@ public static class SetupBalas
 
         // 3 filas de contadores
         ContadorHUD cComun = CrearFilaContador(contenedor, "ContMunComun");
-        ContadorHUD cRara = CrearFilaContador(contenedor, "ContMunRara");
         ContadorHUD cEpica = CrearFilaContador(contenedor, "ContMunEpica");
+        ContadorHUD cLegendaria = CrearFilaContador(contenedor, "ContMunLegendaria");
 
         // Boton de cambiar bala
         Button boton = CrearBoton(contenedor, "BtnCambiarBala", "Cambiar");
@@ -175,8 +175,8 @@ public static class SetupBalas
             panel = contenedor.gameObject.AddComponent<PanelBalasHUD>();
 
         panel.contadorComun = cComun;
-        panel.contadorRara = cRara;
         panel.contadorEpica = cEpica;
+        panel.contadorLegendaria = cLegendaria;
         panel.textoSeleccionado = tmpSeleccionado;
         panel.iconoSeleccionado = iconoSeleccionado;
         panel.botonCambiar = boton;
