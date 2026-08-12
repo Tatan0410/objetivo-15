@@ -70,22 +70,12 @@ public class SistemaCrafteo : MonoBehaviour
 
     void EquiparArma(GameObject prefabArma)
     {
-        if (prefabArma == null)
-        {
-            Debug.LogWarning("El prefab del arma no esta asignado en SistemaCrafteo");
-            return;
-        }
         GameObject jugador = GameObject.FindGameObjectWithTag("Player");
         if (jugador == null) return;
 
-        foreach (Transform child in jugador.transform)
-        {
-            if (child.GetComponent<ArmaPlaceholder>() != null)
-                Destroy(child.gameObject);
-        }
-
-        GameObject arma = Instantiate(prefabArma, jugador.transform);
-        arma.transform.localPosition = offsetMano;
+        PlayerController pc = jugador.GetComponent<PlayerController>();
+        if (pc != null)
+            pc.armaEquipada = TipoArma.Lanzador;
 
         ReproducirAnimacionCrafteo();
     }

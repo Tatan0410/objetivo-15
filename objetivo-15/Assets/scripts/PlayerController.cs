@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public float cooldownDisparo = 0.5f;
     public float distanciaMuzzle = 0.6f;
     public float alturaMuzzle = -0.1f;
+    public TipoArma armaEquipada = TipoArma.Ninguna;
 
     [Header("Sprites de bala por tipo")]
     public Sprite spriteBalaComun;
@@ -245,23 +246,7 @@ public class PlayerController : MonoBehaviour
 
     TipoArma GetArmaEquipada()
     {
-        foreach (Transform child in transform)
-        {
-            ArmaPlaceholder arma = child.GetComponent<ArmaPlaceholder>();
-            if (arma != null)
-                return arma.tipo;
-        }
-        return TipoArma.Ninguna;
-    }
-
-    Transform ObtenerArmaTransform()
-    {
-        foreach (Transform child in transform)
-        {
-            if (child.GetComponent<ArmaPlaceholder>() != null)
-                return child;
-        }
-        return null;
+        return armaEquipada;
     }
 
     void Disparar(TipoArma arma, TipoBala tipoBala)
@@ -277,10 +262,7 @@ public class PlayerController : MonoBehaviour
                   : 10;
 
         float dirX = transform.localScale.x > 0 ? 1f : -1f;
-        Transform armaTransform = ObtenerArmaTransform();
-        Vector3 spawnPos = armaTransform != null
-            ? armaTransform.position + new Vector3(dirX * distanciaMuzzle, alturaMuzzle, 0f)
-            : transform.position + new Vector3(dirX * 0.6f, 0.1f, 0f);
+        Vector3 spawnPos = transform.position + new Vector3(dirX * distanciaMuzzle, alturaMuzzle, 0f);
         GameObject proy = Instantiate(prefabProyectil, spawnPos, Quaternion.identity);
         Debug.Log($"[PlayerController] Disparo desde {spawnPos} direccion={dirX} tipo={tipoBala} danio={danio}");
 
