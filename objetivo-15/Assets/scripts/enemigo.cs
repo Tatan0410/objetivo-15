@@ -105,7 +105,7 @@ public class Enemigo : MonoBehaviour
                     direccionVisual = movement.x > 0f ? 1f : -1f;
                     if (sr != null) sr.flipX = direccionVisual > 0f;
 
-                    if (HayObstaculoAdelante(direccionVisual))
+                    if (HayObstaculoAdelante(direccionVisual) || HayTrampaAdelante(direccionVisual))
                     {
                         IniciarPatrulla();
                         modo = Modo.Patrullar;
@@ -124,6 +124,9 @@ public class Enemigo : MonoBehaviour
                 movement = Vector2.zero;
                 break;
         }
+
+        if (movement.x != 0f && OtroEnemigoDelante(movement.x))
+            movement = Vector2.zero;
 
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
     }
@@ -147,7 +150,7 @@ public class Enemigo : MonoBehaviour
 
         float dir = moviendoDerecha ? 1f : -1f;
 
-        if (HayObstaculoAdelante(dir) || !HaySueloAdelante(dir))
+        if (HayObstaculoAdelante(dir) || HayTrampaAdelante(dir) || !HaySueloAdelante(dir))
         {
             enPausa = true;
             pausaPatrulla = 0.3f;
@@ -189,12 +192,22 @@ public class Enemigo : MonoBehaviour
     {
         if (player == null) return true;
         LayerMask mask = capaObstaculos != 0 ? capaObstaculos : capaSuelo;
-        if (mask == 0) return true;
-
         Vector2 origen = transform.position;
         Vector2 destino = player.position;
-        RaycastHit2D hit = Physics2D.Linecast(origen, destino, mask);
-        return hit.collider == null;
+
+        if (mask != 0)
+        {
+            RaycastHit2D hit = Physics2D.Linecast(origen, destino, mask);
+            if (hit.collider != null) return false;
+        }
+
+        RaycastHit2D[] hits = Physics2D.LinecastAll(origen, destino);
+        foreach (RaycastHit2D h in hits)
+        {
+            if (h.collider == null || h.collider.gameObject == gameObject) continue;
+            if (EsTrampa(h.collider.gameObject)) return false;
+        }
+        return true;
     }
 
     bool HaySueloAdelante(float dir)
@@ -214,6 +227,54 @@ public class Enemigo : MonoBehaviour
         Vector2 origen = transform.position;
         RaycastHit2D hit = Physics2D.Raycast(origen, Vector2.right * dir, distanciaObstaculo, mask);
         return hit.collider != null;
+    }
+
+    static bool EsEnemigo(GameObject go)
+    {
+        if (go == null) return false;
+        return go.GetComponent<Enemigo>() != null
+            || go.GetComponent<EnemigoVolador>() != null
+            || go.GetComponent<rata>() != null;
+    }
+
+    static bool EsTrampa(GameObject go)
+    {
+        if (go == null) return false;
+        return go.GetComponent<TrampaHot>() != null
+            || go.GetComponent<DañoEnemigo>() != null;
+    }
+
+    bool HayTrampaAdelante(float dir)
+    {
+        Collider2D cuerpo = ObtenerColliderCuerpo();
+        Vector2 origen = cuerpo != null ? cuerpo.bounds.center : (Vector2)transform.position;
+        Vector2 size = cuerpo != null ? cuerpo.bounds.size : new Vector2(0.8f, 0.8f);
+        float distancia = (cuerpo != null ? cuerpo.bounds.extents.x : 0.4f) + 0.4f;
+
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(origen, size, 0f, Vector2.right * dir, distancia);
+        foreach (RaycastHit2D h in hits)
+        {
+            if (h.collider == null || h.collider.gameObject == gameObject) continue;
+            if (EsTrampa(h.collider.gameObject)) return true;
+        }
+        return false;
+    }
+
+    bool OtroEnemigoDelante(float dir)
+    {
+        Collider2D cuerpo = ObtenerColliderCuerpo();
+        Vector2 origen = cuerpo != null ? cuerpo.bounds.center : (Vector2)transform.position;
+        Vector2 size = cuerpo != null ? cuerpo.bounds.size : new Vector2(0.8f, 0.8f);
+        float distancia = (cuerpo != null ? cuerpo.bounds.extents.x : 0.4f) + 0.05f;
+
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(origen, size, 0f, Vector2.right * dir, distancia);
+        foreach (RaycastHit2D h in hits)
+        {
+            if (h.collider == null || h.collider.gameObject == gameObject) continue;
+            if (h.collider.isTrigger) continue;
+            if (EsEnemigo(h.collider.gameObject)) return true;
+        }
+        return false;
     }
 
     void SoltarPlasticos()

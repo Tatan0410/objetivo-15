@@ -56,6 +56,13 @@ public class EnemigoVolador : MonoBehaviour
     {
         if (rb == null) return;
         float dir = moviendoDerecha ? 1f : -1f;
+
+        if (HayTrampaAdelante(dir) || OtroEnemigoDelante(dir))
+        {
+            Voltear();
+            return;
+        }
+
         rb.MovePosition(rb.position + new Vector2(dir * velocidad * Time.fixedDeltaTime, 0));
 
         if (moviendoDerecha &&
@@ -143,6 +150,54 @@ public class EnemigoVolador : MonoBehaviour
         foreach (var c in GetComponents<Collider2D>())
             if (!c.isTrigger) return c;
         return null;
+    }
+
+    static bool EsEnemigo(GameObject go)
+    {
+        if (go == null) return false;
+        return go.GetComponent<Enemigo>() != null
+            || go.GetComponent<EnemigoVolador>() != null
+            || go.GetComponent<rata>() != null;
+    }
+
+    static bool EsTrampa(GameObject go)
+    {
+        if (go == null) return false;
+        return go.GetComponent<TrampaHot>() != null
+            || go.GetComponent<DañoEnemigo>() != null;
+    }
+
+    bool HayTrampaAdelante(float dir)
+    {
+        Collider2D cuerpo = ObtenerColliderCuerpo();
+        Vector2 origen = cuerpo != null ? cuerpo.bounds.center : (Vector2)transform.position;
+        Vector2 size = cuerpo != null ? cuerpo.bounds.size : new Vector2(0.8f, 0.8f);
+        float distancia = (cuerpo != null ? cuerpo.bounds.extents.x : 0.4f) + 0.4f;
+
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(origen, size, 0f, Vector2.right * dir, distancia);
+        foreach (RaycastHit2D h in hits)
+        {
+            if (h.collider == null || h.collider.gameObject == gameObject) continue;
+            if (EsTrampa(h.collider.gameObject)) return true;
+        }
+        return false;
+    }
+
+    bool OtroEnemigoDelante(float dir)
+    {
+        Collider2D cuerpo = ObtenerColliderCuerpo();
+        Vector2 origen = cuerpo != null ? cuerpo.bounds.center : (Vector2)transform.position;
+        Vector2 size = cuerpo != null ? cuerpo.bounds.size : new Vector2(0.8f, 0.8f);
+        float distancia = (cuerpo != null ? cuerpo.bounds.extents.x : 0.4f) + 0.05f;
+
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(origen, size, 0f, Vector2.right * dir, distancia);
+        foreach (RaycastHit2D h in hits)
+        {
+            if (h.collider == null || h.collider.gameObject == gameObject) continue;
+            if (h.collider.isTrigger) continue;
+            if (EsEnemigo(h.collider.gameObject)) return true;
+        }
+        return false;
     }
 
     private void ManejarContactoJugador(Collider2D colJugador, GameObject jugador)
