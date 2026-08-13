@@ -393,7 +393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 85, y: -290}
+  m_AnchoredPosition: {x: 90, y: -277}
   m_SizeDelta: {x: 115.6985, y: 106.9799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &612834878
@@ -685,7 +685,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 340, y: 115}
+  m_AnchoredPosition: {x: 462, y: 162}
   m_SizeDelta: {x: 115.6985, y: 106.9799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &920943394
@@ -805,7 +805,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -57.849, y: 37}
+  m_AnchoredPosition: {x: 0.0000038147, y: 73}
   m_SizeDelta: {x: 115.6985, y: 106.9799}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &958938994
@@ -1157,7 +1157,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0e81023cec8e607478a805fe61e23fe3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cb765dbfebbb75f4594ad2f8bc7669a9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1793,7 +1793,7 @@ GameObject:
   m_Layer: 5
   m_Name: nivelone
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
