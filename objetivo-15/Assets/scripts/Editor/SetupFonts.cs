@@ -26,6 +26,13 @@ public static class SetupFonts
                 continue;
             }
 
+            string recursoPath = Path.Combine("Assets/Resources/Transicion", Path.GetFileName(assetPath));
+            if (File.Exists(recursoPath))
+            {
+                Debug.Log($"Ya existe en Resources: {recursoPath}");
+                continue;
+            }
+
             Font unityFont = AssetDatabase.LoadAssetAtPath<Font>(ttfPath);
             if (unityFont == null)
             {

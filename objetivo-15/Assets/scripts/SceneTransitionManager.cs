@@ -16,7 +16,7 @@ public class SceneTransitionManager : MonoBehaviour
     [Header("Animación de carga")]
     public Sprite[] spritesCorriendo;
     public float framerateAnimacion = 0.15f;
-    public float escalaJugador = 2f;
+    public float escalaJugador = 0.5f;
 
     [Header("Colores")]
     public Color colorLoading = new Color(0f, 1f, 0.25f);
@@ -28,7 +28,7 @@ public class SceneTransitionManager : MonoBehaviour
     [Range(0f, 1f)] public float posYBarra = 0.38f;
     [Range(0f, 1f)] public float posYPorcentaje = 0.30f;
     [Range(0f, 1f)] public float posYDato = 0.12f;
-    public float posYJugador = 60f;
+    public float posYJugador = 1f;
 
     [Header("Datos curiosos")]
     [TextArea(2, 3)]
@@ -54,6 +54,9 @@ public class SceneTransitionManager : MonoBehaviour
     [Header("Configuración")]
     public float duracionMinima = 2f;
 
+    const string RUTA_SPRITES_RECURSO = "Transicion/corriendo";
+    const string RUTA_FUENTE_RECURSO = "Transicion/fuente";
+
     static bool FontEsValido(TMP_FontAsset font)
     {
         return font != null && font.atlasTexture != null;
@@ -72,6 +75,46 @@ public class SceneTransitionManager : MonoBehaviour
         if (instancia != null) { Destroy(gameObject); return; }
         instancia = this;
         DontDestroyOnLoad(gameObject);
+        CargarRecursosSiFaltan();
+    }
+
+    void CargarRecursosSiFaltan()
+    {
+        if (spritesCorriendo == null || spritesCorriendo.Length == 0)
+        {
+            Sprite[] cargados = Resources.LoadAll<Sprite>(RUTA_SPRITES_RECURSO);
+            if (cargados != null && cargados.Length > 0)
+            {
+                System.Array.Sort(cargados, (a, b) => OrdenSprite(a).CompareTo(OrdenSprite(b)));
+                spritesCorriendo = cargados;
+                Debug.Log("[SceneTransitionManager] Sprites de correr cargados desde Resources.");
+            }
+            else
+            {
+                Debug.LogWarning("[SceneTransitionManager] No se encontraron sprites de correr en Resources (ruta: " + RUTA_SPRITES_RECURSO + ").");
+            }
+        }
+
+        if (fontCarga == null)
+        {
+            TMP_FontAsset fuente = Resources.Load<TMP_FontAsset>(RUTA_FUENTE_RECURSO);
+            if (fuente != null)
+            {
+                fontCarga = fuente;
+                Debug.Log("[SceneTransitionManager] Fuente cargada desde Resources.");
+            }
+        }
+    }
+
+    static int OrdenSprite(Sprite sprite)
+    {
+        if (sprite == null) return 0;
+        string nombre = sprite.name;
+        int indice = nombre.LastIndexOf('_');
+        if (indice < 0 || indice + 1 >= nombre.Length) return 0;
+        string sufijo = nombre.Substring(indice + 1);
+        int numero;
+        return int.TryParse(sufijo, out numero) ? numero : 0;
     }
 
     void Start()

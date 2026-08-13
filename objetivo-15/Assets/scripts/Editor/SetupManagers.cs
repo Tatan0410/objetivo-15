@@ -42,7 +42,7 @@ public static class SetupManagers
             Debug.Log($"Font asignado: {font.name}");
         }
 
-        string sheetPath = "Assets/WhatsApp_Image_2026-05-29_at_16.10.28-removebg-preview (1).png";
+        string sheetPath = "Assets/Resources/Transicion/corriendo.png";
         Sprite[] sprites = AssetDatabase.LoadAllAssetRepresentationsAtPath(sheetPath)
             .OfType<Sprite>().ToArray();
         if (sprites.Length >= 4)
