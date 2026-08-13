@@ -8,7 +8,6 @@ public class SetUpNpc
     const string rutaPrefab = "Assets/prefabs/NPC_Ambientalin.prefab";
     const string rutaPrefabFondo = "Assets/prefabs/NPC_Fondo_Saltarin.prefab";
 
-    [MenuItem("Tools/Crear NPC Ambientalin Prefab")]
     static void CrearPrefab()
     {
         GameObject go = new GameObject("NPC_Ambientalin");
@@ -47,7 +46,6 @@ public class SetUpNpc
         Debug.Log("NPC prefab creado en " + rutaPrefab + " con burbuja editable");
     }
 
-    [MenuItem("Tools/Actualizar NPC Ambientalin (burbuja editable)")]
     static void ActualizarPrefab()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(rutaPrefab);
@@ -143,7 +141,6 @@ public class SetUpNpc
         rtTexto.sizeDelta = npc.tamanoBurbuja * 100f - 40f * Vector2.one;
     }
 
-    [MenuItem("Tools/Colocar NPC Ambientalin en nivel1_colegio")]
     static void ColocarEnNivel1()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(rutaPrefab);
@@ -178,7 +175,6 @@ public class SetUpNpc
         return AssetDatabase.LoadAssetAtPath<Sprite>("Assets/" + relativePath);
     }
 
-    [MenuItem("Tools/Crear NPC Fondo Saltarin Prefab")]
     static void CrearPrefabFondo()
     {
         GameObject go = new GameObject("NPC_Fondo_Saltarin");
@@ -205,7 +201,6 @@ public class SetUpNpc
         Debug.Log("NPC Fondo Saltarin prefab creado en " + rutaPrefabFondo);
     }
 
-    [MenuItem("Tools/Colocar NPCs Fondo en nivel1_colegio")]
     static void ColocarNPCsFondo()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(rutaPrefabFondo);
@@ -261,7 +256,6 @@ public class SetUpNpc
 
     const string rutaPrefabThaliana = "Assets/prefabs/NPC_Thaliana.prefab";
 
-    [MenuItem("Tools/Crear NPC Thaliana Prefab")]
     static void CrearPrefabThaliana()
     {
         GameObject go = new GameObject("NPC_Thaliana");
@@ -284,7 +278,6 @@ public class SetUpNpc
         Debug.Log("NPC Thaliana prefab creado en " + rutaPrefabThaliana);
     }
 
-    [MenuItem("Tools/Colocar NPCs Thaliana en nivel1_colegio")]
     static void ColocarNPCsThaliana()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(rutaPrefabThaliana);

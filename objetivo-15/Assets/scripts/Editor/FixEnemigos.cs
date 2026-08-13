@@ -17,7 +17,6 @@ public static class FixEnemigos
         "Assets/prefabs/icopor.prefab"
     };
 
-    [MenuItem("Tools/Balas/4. Arreglar drop de plasticos de los enemigos")]
     public static void Ejecutar()
     {
         GameObject[] plasticos = new GameObject[PREFABS_PLASTICO.Length];

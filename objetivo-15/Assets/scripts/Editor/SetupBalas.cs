@@ -21,7 +21,6 @@ public static class SetupBalas
         "Assets/Scenes/menuprincipal.unity"
     };
 
-    [MenuItem("Tools/Balas/1. Agregar triggers Disparar y Craftear al jugador")]
     public static void AgregarTriggersAnimator()
     {
         AnimatorController ctrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(CONTROLLER_PATH);
@@ -50,7 +49,6 @@ public static class SetupBalas
             : "Los triggers 'Disparar' y 'Craftear' ya existian.");
     }
 
-    [MenuItem("Tools/Balas/2. Configurar HUD de balas en escenas")]
     public static void ConfigurarBalasEnEscenas()
     {
         int ok = 0;
@@ -66,7 +64,6 @@ public static class SetupBalas
         Debug.Log($"[SetupBalas] HUD configurado en {ok} de {ESCENAS.Length} escenas.");
     }
 
-    [MenuItem("Tools/Balas/3. Hacer todo")]
     public static void HacerTodo()
     {
         AgregarTriggersAnimator();

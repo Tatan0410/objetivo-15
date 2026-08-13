@@ -6,7 +6,6 @@ using System.Linq;
 
 public static class SetupManagers
 {
-    [MenuItem("Tools/Setup Managers en MenuPrincipal")]
     static void Ejecutar()
     {
         string scenePath = "Assets/Scenes/menuprincipal.unity";
@@ -62,7 +61,6 @@ public static class SetupManagers
             Debug.Log("SceneTransitionManager actualizado (font + sprites).");
     }
 
-    [MenuItem("Tools/Sincronizar SceneTransitionManager en todas las escenas")]
     static void SincronizarTodasEscenas()
     {
         string menuPath = "Assets/Scenes/menuprincipal.unity";

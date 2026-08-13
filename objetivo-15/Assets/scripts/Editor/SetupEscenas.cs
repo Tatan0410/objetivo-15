@@ -10,7 +10,6 @@ using System.Collections.Generic;
 
 public class SetupEscenas : EditorWindow
 {
-    [MenuItem("Tools/Setup Escenas del Juego")]
     public static void ShowWindow()
     {
         var w = GetWindow<SetupEscenas>("Setup Escenas");
@@ -758,7 +757,6 @@ public class SetupEscenas : EditorWindow
 
     // ─────── APLICAR VOLUMEN MUSICA ───────
 
-    [MenuItem("Tools/11. Agregar AplicarVolumenMusica a TODOS los niveles")]
     static void AgregarAplicarVolumenANiveles()
     {
         string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
@@ -860,7 +858,6 @@ public class SetupEscenas : EditorWindow
 
     // ─────── LIMPIAR Y ACTUALIZAR SISTEMA DE ITEMS ───────
 
-    [MenuItem("Tools/12. Limpiar items y armas obsoletos (nivel1_colegio)")]
     static void LimpiarItemsObsoletos()
     {
         string path = "Assets/Scenes/nivel1_colegio.unity";
@@ -887,7 +884,6 @@ public class SetupEscenas : EditorWindow
         Debug.Log($"Items obsoletos eliminados: {eliminados}");
     }
 
-    [MenuItem("Tools/13. Crear prefab de Icopor")]
     static void CrearPrefabIcopor()
     {
         GameObject go = new GameObject("icopor");
@@ -905,7 +901,6 @@ public class SetupEscenas : EditorWindow
         Debug.Log("Prefab de icopor creado en Assets/prefabs/icopor.prefab");
     }
 
-    [MenuItem("Tools/14. Asignar skin al Lanzador prefab")]
     static void AsignarSkinLanzador()
     {
         string prefabPath = "Assets/prefabs/Lanzador.prefab";
@@ -928,7 +923,6 @@ public class SetupEscenas : EditorWindow
         Debug.Log("Skin pitolaloco asignada a Lanzador.prefab");
     }
 
-    [MenuItem("Tools/15. Eliminar prefabs obsoletos (tarro, tubo, red, escudo, lanzatubos)")]
     static void EliminarPrefabsObsoletos()
     {
         string[] prefabs = {
@@ -950,7 +944,6 @@ public class SetupEscenas : EditorWindow
 
     // ─────── REPARAR HUD ───────
 
-    [MenuItem("Tools/Reparar HUD (nivel1_colegio)")]
     static void RepararHUD()
     {
         string path = "Assets/Scenes/nivel1_colegio.unity";
@@ -1206,10 +1199,8 @@ public class SetupEscenas : EditorWindow
         Debug.Log($"=== {nombre} REPARADO COMPLETAMENTE ===");
     }
 
-    [MenuItem("Tools/Reparar Nivel2 Completo")]
     static void RepararNivel2() => RepararNivel("Assets/Scenes/nivel2_hipodromo.unity", "nivel2_hipodromo");
 
-    [MenuItem("Tools/Reparar Niveles 2-6 (todos)")]
     static void RepararNiveles2a6()
     {
         string[] levels = { "nivel2_hipodromo", "nivel3_mercado", "nivel4_basurero",
@@ -1287,7 +1278,6 @@ public class SetupEscenas : EditorWindow
         Debug.Log("Textura guardada: " + path);
     }
 
-    [MenuItem("Tools/Setup Escenas (Automatico)")]
     public static void RunAllBatch()
     {
         ConfigurarMenuPrincipal();
@@ -1312,7 +1302,6 @@ public class SetupEscenas : EditorWindow
         if (Application.isBatchMode) EditorApplication.Exit(0);
     }
 
-    [MenuItem("Tools/Copiar Layout HUD de nivel1 a niveles 2-6")]
     public static void CopiarLayoutHUD()
     {
         string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
@@ -1401,7 +1390,6 @@ public class SetupEscenas : EditorWindow
         return current;
     }
 
-    [MenuItem("Tools/Setup Solo Pausa")]
     public static void RunPausaBatch()
     {
         string[] levels = { "nivel2_hipodromo", "nivel3_mercado",

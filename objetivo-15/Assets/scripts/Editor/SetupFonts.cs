@@ -6,7 +6,6 @@ using UnityEngine.TextCore.LowLevel;
 
 public static class SetupFonts
 {
-    [MenuItem("Tools/Generar Font Assets TMP desde .ttf")]
     public static void GenerarFontAssets()
     {
         string[] ttfPaths = Directory.GetFiles("Assets/fonts", "*.ttf", SearchOption.AllDirectories);
