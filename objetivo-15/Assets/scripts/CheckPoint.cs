@@ -3,9 +3,24 @@
 public class Checkpoint : MonoBehaviour
 {
     private bool activado = false;
+    private SpriteRenderer sr;
 
     [Header("Offset adicional sobre el checkpoint")]
     public float offsetRespawn = 1f;
+
+    [Header("Sprites de estado")]
+    public Sprite spriteInactivo;
+    public Sprite spriteActivo;
+
+    void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null && spriteInactivo != null)
+        {
+            sr.sprite = spriteInactivo;
+            sr.color = Color.white;
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -23,7 +38,13 @@ public class Checkpoint : MonoBehaviour
             if (GameManager.instancia != null)
                 GameManager.instancia.GuardarCheckpoint(posRespawn);
 
-            GetComponent<SpriteRenderer>().color = Color.green;
+            if (sr == null) sr = GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                if (spriteActivo != null)
+                    sr.sprite = spriteActivo;
+                sr.color = Color.white;
+            }
             Debug.Log("Checkpoint activado en: " + posRespawn);
         }
     }
