@@ -83,6 +83,31 @@ public class SetupEscenas : EditorWindow
             NormalizarEnemigos();
 
         EditorGUILayout.Space();
+
+        if (GUILayout.Button("11. Configurar Escena Final (tras 6 niveles)", GUILayout.Height(40)))
+            ConfigurarEscenaFinal();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("12. Configurar Creditos", GUILayout.Height(40)))
+            ConfigurarCreditos();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("13. Boton 'Rejugar desde 0' en Mapamundial", GUILayout.Height(40)))
+            AgregarBotonRejugarMapamundial();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("14. Fijar numeroNivel en FinNivel (1-6)", GUILayout.Height(40)))
+            FijarNumeroNivelesFin();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("15. Ejecutar todo lo nuevo (finales + creditos + rejugar)", GUILayout.Height(40)))
+            RunFinalesBatch();
+
+        EditorGUILayout.Space();
         EditorGUILayout.HelpBox("Abre cada escena despues de configurar para verificar.", MessageType.Info);
     }
 
@@ -1299,6 +1324,302 @@ public class SetupEscenas : EditorWindow
         RepararHUD();
 
         Debug.Log("=== TODAS LAS ESCENAS CONFIGURADAS ===");
+        if (Application.isBatchMode) EditorApplication.Exit(0);
+    }
+
+    // ─────────────────────── ESCENA FINAL ───────────────────────
+
+    static void ConfigurarEscenaFinal()
+    {
+        string path = "Assets/Scenes/escena_final.unity";
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        var font = FindFont();
+
+        // Camera
+        var camGO = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener));
+        camGO.tag = "MainCamera";
+        camGO.transform.position = new Vector3(0, 0, -10);
+
+        // EventSystem
+        new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+
+        // Canvas 1920x1080
+        var cgo = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+        var canvas = cgo.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        var cs = cgo.GetComponent<CanvasScaler>();
+        cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        cs.referenceResolution = new Vector2(1920, 1080);
+        cs.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        cs.matchWidthOrHeight = 0.5f;
+
+        // Fondo
+        var bg = MakeUI("imagenFondo", cgo.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, Vector2.one * 0.5f);
+        bg.AddComponent<Image>().color = new Color(0.04f, 0.09f, 0.05f);
+
+        // Titulo
+        var title = MakeUI("TextoTitulo", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, 310), new Vector2(1400, 90), Vector2.one * 0.5f);
+        var tmpTitle = title.AddComponent<TextMeshProUGUI>();
+        tmpTitle.text = "¡COMPLETASTE LOS 6 NIVELES!";
+        tmpTitle.fontSize = 52;
+        tmpTitle.color = Color.white;
+        tmpTitle.alignment = TextAlignmentOptions.Center;
+        if (font) tmpTitle.font = font;
+
+        // Subtitulo
+        var sub = MakeUI("TextoSubtitulo", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, 225), new Vector2(1400, 50), Vector2.one * 0.5f);
+        var tmpSub = sub.AddComponent<TextMeshProUGUI>();
+        tmpSub.text = "Has ayudado a proteger los ecosistemas terrestres de la region Caribe.";
+        tmpSub.fontSize = 26;
+        tmpSub.color = new Color(0.7f, 1f, 0.7f);
+        tmpSub.alignment = TextAlignmentOptions.Center;
+        if (font) tmpSub.font = font;
+
+        // Espacio para la imagen
+        var img = MakeUI("EspacioImagen", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, -45), new Vector2(900, 480), Vector2.one * 0.5f);
+        var imgImg = img.AddComponent<Image>();
+        imgImg.color = new Color(1f, 1f, 1f, 0.12f);
+        imgImg.raycastTarget = false;
+
+        var ph = MakeUI("EtiquetaImagen", img.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            Vector2.zero, new Vector2(800, 80), Vector2.one * 0.5f);
+        var tmpPh = ph.AddComponent<TextMeshProUGUI>();
+        tmpPh.text = "COLOCA AQUÍ TU IMAGEN\n(Asigna el sprite al campo 'imagen' de EscenaFinalManager)";
+        tmpPh.fontSize = 22;
+        tmpPh.color = new Color(1f, 1f, 1f, 0.55f);
+        tmpPh.alignment = TextAlignmentOptions.Center;
+        if (font) tmpPh.font = font;
+
+        // Boton Continuar
+        var bNext = MakeButton("BotonContinuar", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, -350), new Vector2(300, 60), Vector2.one * 0.5f,
+            new Color(0.18f, 0.6f, 0.22f, 1f), "CONTINUAR →", font);
+
+        // EscenaFinalManager
+        var mgrGO = new GameObject("EscenaFinalManager");
+        var mgr = mgrGO.AddComponent<EscenaFinalManager>();
+        mgr.imagen = imgImg;
+        mgr.etiqueta = tmpPh;
+        UnityEventTools.AddPersistentListener(bNext.GetComponent<Button>().onClick, mgr.Continuar);
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        RegistrarEscenasNuevasEnBuild();
+        if (!Application.isBatchMode)
+            EditorUtility.DisplayDialog("Listo", "Escena final configurada.", "OK");
+    }
+
+    // ─────────────────────── CREDITOS ───────────────────────
+
+    static void ConfigurarCreditos()
+    {
+        string path = "Assets/Scenes/creditos.unity";
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        var font = FindFont();
+
+        // Camera
+        var camGO = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener));
+        camGO.tag = "MainCamera";
+        camGO.transform.position = new Vector3(0, 0, -10);
+
+        // EventSystem
+        new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+
+        // Canvas 1920x1080
+        var cgo = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+        var canvas = cgo.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        var cs = cgo.GetComponent<CanvasScaler>();
+        cs.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        cs.referenceResolution = new Vector2(1920, 1080);
+        cs.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        cs.matchWidthOrHeight = 0.5f;
+
+        // Fondo
+        var bg = MakeUI("imagenFondo", cgo.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, Vector2.one * 0.5f);
+        bg.AddComponent<Image>().color = new Color(0.04f, 0.04f, 0.09f);
+
+        // Titulo
+        var title = MakeUI("TextoTitulo", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, 390), new Vector2(800, 70), Vector2.one * 0.5f);
+        var tmpTitle = title.AddComponent<TextMeshProUGUI>();
+        tmpTitle.text = "CRÉDITOS";
+        tmpTitle.fontSize = 54;
+        tmpTitle.color = Color.white;
+        tmpTitle.alignment = TextAlignmentOptions.Center;
+        if (font) tmpTitle.font = font;
+
+        // Texto de creditos
+        var creds = MakeUI("TextoCreditos", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, 40), new Vector2(1100, 520), Vector2.one * 0.5f);
+        var tmpCreds = creds.AddComponent<TextMeshProUGUI>();
+        tmpCreds.text = "Desarrollo: ...\n\nArte: ...\n\nMúsica: ...\n\nNarrativa: ...\n\nAgradecimientos especiales a la comunidad educativa.\n\n¡Gracias por jugar y por cuidar los ecosistemas terrestres!";
+        tmpCreds.fontSize = 30;
+        tmpCreds.color = new Color(0.9f, 0.9f, 0.9f);
+        tmpCreds.alignment = TextAlignmentOptions.Center;
+        tmpCreds.lineSpacing = 1.3f;
+        if (font) tmpCreds.font = font;
+
+        // Boton Volver al menu
+        var bMenu = MakeButton("BotonVolverMenu", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, -380), new Vector2(300, 60), Vector2.one * 0.5f,
+            new Color(0.18f, 0.35f, 0.6f, 1f), "VOLVER AL MENÚ", font);
+
+        // CreditosManager
+        var mgrGO = new GameObject("CreditosManager");
+        var mgr = mgrGO.AddComponent<CreditosManager>();
+        UnityEventTools.AddPersistentListener(bMenu.GetComponent<Button>().onClick, mgr.VolverAlMenu);
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        RegistrarEscenasNuevasEnBuild();
+        if (!Application.isBatchMode)
+            EditorUtility.DisplayDialog("Listo", "Creditos configurados.", "OK");
+    }
+
+    // ─────────────────────── BOTON REJUGAR EN MAPAMUNDIAL ───────────────────────
+
+    static void AgregarBotonRejugarMapamundial()
+    {
+        string path = "Assets/Scenes/Mapamundial.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+        var font = FindFont();
+
+        // Canvas UI: el que contiene a SelectorNivelesMapa / BotonMenuPrincipal
+        var selector = Object.FindFirstObjectByType<SelectorNivelesMapa>();
+        Transform canvasT = selector != null && selector.transform.parent != null
+            ? selector.transform.parent
+            : (Object.FindFirstObjectByType<Canvas>() != null ? Object.FindFirstObjectByType<Canvas>().transform : null);
+        if (canvasT == null) { Debug.LogError("No hay Canvas en Mapamundial"); return; }
+
+        // Limpiar versiones previas
+        var toDestroy = new List<GameObject>();
+        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (go.scene != EditorSceneManager.GetActiveScene()) continue;
+            if (go.name == "BotonRejugar" || go.name == "PanelConfirmacionReinicio" || go.name == "ReiniciarProgreso")
+                toDestroy.Add(go);
+        }
+        foreach (var go in toDestroy) Object.DestroyImmediate(go);
+
+        // Manager
+        var mgrGO = new GameObject("ReiniciarProgreso");
+        var mgr = mgrGO.AddComponent<ReiniciarProgreso>();
+
+        // Boton Rejugar (esquina inferior derecha)
+        var bReiniciar = MakeButton("BotonRejugar", canvasT,
+            new Vector2(1f, 0f), new Vector2(1f, 0f),
+            new Vector2(-20, 20), new Vector2(200, 55), new Vector2(1f, 0f),
+            new Color(0.6f, 0.18f, 0.18f, 1f), "REJUGAR DESDE 0", font);
+        var tmpB = bReiniciar.GetComponentInChildren<TextMeshProUGUI>();
+        if (tmpB != null) tmpB.fontSize = 18;
+
+        // Panel de confirmacion (oculto, tapando toda la pantalla)
+        var panel = MakeUI("PanelConfirmacionReinicio", canvasT, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, Vector2.one * 0.5f);
+        panel.AddComponent<Image>().color = new Color(0, 0, 0, 0.75f);
+
+        var pnBox = MakeUI("CajaConfirmacion", panel.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            Vector2.zero, new Vector2(620, 280), Vector2.one * 0.5f);
+        pnBox.AddComponent<Image>().color = new Color(0.15f, 0.15f, 0.2f, 1f);
+
+        var txtConfirm = MakeUI("TextoConfirmacion", pnBox.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, 70), new Vector2(560, 90), Vector2.one * 0.5f);
+        var tmpConf = txtConfirm.AddComponent<TextMeshProUGUI>();
+        tmpConf.text = "¿Seguro que quieres borrar todo el progreso y empezar de cero?";
+        tmpConf.fontSize = 24;
+        tmpConf.color = Color.white;
+        tmpConf.alignment = TextAlignmentOptions.Center;
+        if (font) tmpConf.font = font;
+
+        var bSi = MakeButton("BotonConfirmarSi", pnBox.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(-80, -50), new Vector2(210, 55), Vector2.one * 0.5f,
+            new Color(0.6f, 0.18f, 0.18f, 1f), "SÍ, BORRAR", font);
+        var bNo = MakeButton("BotonConfirmarNo", pnBox.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(120, -50), new Vector2(210, 55), Vector2.one * 0.5f,
+            new Color(0.2f, 0.5f, 0.2f, 1f), "NO, CANCELAR", font);
+
+        panel.SetActive(false);
+
+        // Conectar eventos
+        UnityEventTools.AddPersistentListener(bReiniciar.GetComponent<Button>().onClick, mgr.AbrirConfirmacion);
+        UnityEventTools.AddPersistentListener(bSi.GetComponent<Button>().onClick, mgr.Reiniciar);
+        UnityEventTools.AddPersistentListener(bNo.GetComponent<Button>().onClick, mgr.CerrarConfirmacion);
+        mgr.panelConfirmacion = panel;
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        if (!Application.isBatchMode)
+            EditorUtility.DisplayDialog("Listo", "Boton 'Rejugar desde 0' agregado a Mapamundial.", "OK");
+    }
+
+    // ─────────────────────── FIJAR numeroNivel EN FINNIVEL ───────────────────────
+
+    static void FijarNumeroNivelesFin()
+    {
+        string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
+                            "nivel4_basurero", "nivel5_subterraneo", "nivel6_empresa" };
+
+        for (int i = 0; i < levels.Length; i++)
+        {
+            string path = $"Assets/Scenes/{levels[i]}.unity";
+            if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); continue; }
+
+            EditorSceneManager.OpenScene(path);
+            int numeroEsperado = i + 1;
+            int fijados = 0;
+
+            foreach (var fn in Resources.FindObjectsOfTypeAll<FinNivel>())
+            {
+                if (fn.gameObject.scene != EditorSceneManager.GetActiveScene()) continue;
+                fn.numeroNivel = numeroEsperado;
+                fijados++;
+            }
+
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+            Debug.Log($"{levels[i]}: FinNivel numeroNivel = {numeroEsperado} ({fijados} fijados)");
+        }
+    }
+
+    // ─────────────────────── REGISTRAR ESCENAS EN BUILD ───────────────────────
+
+    static void RegistrarEscenasNuevasEnBuild()
+    {
+        var escenas = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
+        string[] nuevas = { "Assets/Scenes/escena_final.unity", "Assets/Scenes/creditos.unity" };
+        bool cambio = false;
+
+        foreach (var p in nuevas)
+        {
+            if (!escenas.Exists(e => e.path == p))
+            {
+                escenas.Add(new EditorBuildSettingsScene(p, true));
+                cambio = true;
+            }
+        }
+
+        if (cambio)
+        {
+            EditorBuildSettings.scenes = escenas.ToArray();
+            Debug.Log("Escenas nuevas registradas en Build Settings.");
+        }
+    }
+
+    // ─────────────────────── BATCH NUEVAS FUNCIONES ───────────────────────
+
+    public static void RunFinalesBatch()
+    {
+        ConfigurarEscenaFinal();
+        ConfigurarCreditos();
+        AgregarBotonRejugarMapamundial();
+        FijarNumeroNivelesFin();
+
+        Debug.Log("=== ESCENA FINAL, CREDITOS Y REJUGAR CONFIGURADOS ===");
         if (Application.isBatchMode) EditorApplication.Exit(0);
     }
 
