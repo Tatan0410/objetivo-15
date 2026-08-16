@@ -451,7 +451,7 @@ Transform:
   m_GameObject: {fileID: 60250561}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 162.8, y: -1.6499997, z: -10}
+  m_LocalPosition: {x: -21.97, y: -5.93, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7102,7 +7102,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 162.8, y: -1.6499997, z: -10}
+  m_LocalPosition: {x: -12.098259, y: -5.9102674, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10994,6 +10994,114 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
+--- !u!1001 &1284417269
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5104073181026472674, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_Name
+      value: NPC_Ambientalin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[0].texto
+      value: "\xA1Cuidado por d\xF3nde pisas! \nEst\xE1s entrando al \xE1rea del
+        mercado\n y los barrios perif\xE9ricos."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[1].texto
+      value: "\xA1Uf! Hay bolsas, cajas, pl\xE1stico y\n escombros tirados por todas
+        partes.\n \xBFAcaso no hay\n recolecci\xF3n de basura aqu\xED?\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[2].texto
+      value: "El problema central es el\n manejo inadecuado de los\n residuos s\xF3lidos. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[3].texto
+      value: "Diariamente se generan\n toneladas de desechos que\n se arrojan de
+        forma incorrecta\n en esquinas, lotes destapados y\n en las orillas de los
+        arroyos.\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[4].texto
+      value: "\xBFY qu\xE9 pasa cuando la\nbasura se acumula por d\xEDas\n en la
+        calle?"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[5].texto
+      value: "Se forman basureros a cielo\n abierto que destruyen el\n paisaje del
+        sector y bloquean\n los cauces de agua.\n "
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[6].texto
+      value: "Adem\xE1s, cuando llueve, todo\n este material es arrastrado\n provocando
+        emergencias\n a\xFAn mayores.\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[3].esJugador
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[4].esJugador
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[5].esJugador
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -18.252975
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.1958485
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
 --- !u!1 &1287961550
 GameObject:
   m_ObjectHideFlags: 0
@@ -203650,7 +203758,7 @@ SpriteRenderer:
   m_SortingLayerID: -999918397
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1443935566, guid: 768504a9c12931148a3c82e05511ac1c, type: 3}
+  m_Sprite: {fileID: -1472210340, guid: 7a14684a82cf0924d831d0943c9184e9, type: 3}
   m_Color: {r: 0.9364202, g: 0.94716984, b: 0.93466, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -203670,7 +203778,7 @@ Transform:
   m_GameObject: {fileID: 1479732586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 162.8, y: -2.95, z: 0}
+  m_LocalPosition: {x: -21.97, y: -7.23, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -203726,8 +203834,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.073975205}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5529848, y: 0.4837541}
+    oldSize: {x: 1.28, y: 2}
     newSize: {x: 0.85, y: 1.49}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -203947,6 +204055,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1519824424
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -8.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564437515687013295, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_Name
+      value: puaskbron (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
 --- !u!1001 &1536956208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206746,3 +206911,5 @@ SceneRoots:
   - {fileID: 298523066}
   - {fileID: 858506356}
   - {fileID: 482941873}
+  - {fileID: 1284417269}
+  - {fileID: 1519824424}

@@ -328,6 +328,112 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &39650993
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5104073181026472674, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_Name
+      value: NPC_Ambientalin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[0].texto
+      value: "\xA1Espera! No te acerques a\n esos charcos ni a ese\n mont\xF3n de
+        desperdicios.\n Podr\xEDas enfermarte."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[1].texto
+      value: "\xBFPor qu\xE9? Vi varios roedores\n e insectos rondando cerca\n de
+        las aguas negras...\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[2].texto
+      value: "Precisamente. El estancamiento de\n aguas sucias y la basura\n descompuesta
+        crean el ecosistema\n perfecto para la proliferaci\xF3n\n de plagas como
+        ratas y mosquitos.\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[3].texto
+      value: "Me imagino que eso es muy\n peligroso para las familias\n que viven
+        cerca.\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[4].texto
+      value: "Lo es. Esos roedores y bacterias\n transmiten infecciones graves\n
+        y virus que afectan directamente\n la salud p\xFAblica, especialmente a \nlos
+        ni\xF1os y adultos mayores. \r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[5].texto
+      value: "Las aguas negras contienen\n agentes pat\xF3genos que\n contaminan
+        todo lo que tocan."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[6].texto
+      value: "   Es una emergencia de salud.\n \xA1Necesitamos sanear el lugar\n
+        antes de que m\xE1s gente enferme! "
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[5].esJugador
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[6].esJugador
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
 --- !u!1 &60250561
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +500,7 @@ Transform:
   m_GameObject: {fileID: 60250561}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.780001, y: -8.49, z: -10}
+  m_LocalPosition: {x: -22.88, y: -3.77, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7329,7 +7435,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.275557, y: -8.488541, z: -10}
+  m_LocalPosition: {x: -12.278202, y: -3.7640805, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -124033,7 +124139,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 88f3edb21ff9e1547aaf171830425f82, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d1e3f972de205234fbab198982544c81, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.67
   m_Pitch: 1
@@ -146951,7 +147057,7 @@ Transform:
   m_GameObject: {fileID: 1479732586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.78, y: -9.79, z: 0}
+  m_LocalPosition: {x: -22.88, y: -5.07, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -150353,3 +150459,4 @@ SceneRoots:
   - {fileID: 1490122135}
   - {fileID: 1300157955}
   - {fileID: 206690699}
+  - {fileID: 39650993}

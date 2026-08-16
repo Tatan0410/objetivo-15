@@ -447,7 +447,7 @@ Transform:
   m_GameObject: {fileID: 60250561}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.54, y: -5.71, z: -10}
+  m_LocalPosition: {x: -22.22, y: -5.54, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6872,7 +6872,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.963093, y: -5.719796, z: -10}
+  m_LocalPosition: {x: -11.962879, y: -5.553259, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -43840,7 +43840,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 88f3edb21ff9e1547aaf171830425f82, type: 3}
+  m_audioClip: {fileID: 8300000, guid: cc87f5acbb864fb4d86d0df4732ef564, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.67
   m_Pitch: 1
@@ -51569,7 +51569,7 @@ Transform:
   m_GameObject: {fileID: 1479732586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.54, y: -7.01, z: 0}
+  m_LocalPosition: {x: -22.22, y: -6.84, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53125,6 +53125,122 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1479732591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1986609001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5104073181026472674, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_Name
+      value: NPC_Ambientalin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[0].texto
+      value: "Prep\xE1rate, porque respirar en este\n sector se vuelve cada vez\n
+        m\xE1s dif\xEDcil."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[1].texto
+      value: "Tienes raz\xF3n... el olor es insoportable.\n Siento una mezcla entre
+        basura\n descompuesta y agua estancada."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[2].texto
+      value: "Es la combinaci\xF3n del deterioro\n del suelo y la contaminaci\xF3n\n
+        del aire. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[3].texto
+      value: "Toda esa basura acumulada\n se mezcla con vertimientos\n de aguas residuales
+        y negras,\n haciendo que la tierra absorba\n sustancias nocivas\n y pierda
+        su capacidad natural."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[4].texto
+      value: "\xBFDe ah\xED vienen esos\n malos olores tan fuertes?"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[5].texto
+      value: "As\xED es. Al pudrirse los\n desechos al sol y filtrarse\n en el terreno,
+        se liberan\n gases putrefactos que da\xF1an\n el aire de la zona.\n "
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[6].texto
+      value: "La gente vive respirando\n ese ambiente degradado\n todos los d\xEDas.\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[7].texto
+      value: "El da\xF1o ya no est\xE1 solo\n en la superficie, est\xE1 \nen la tierra
+        misma y en\n el aire que nos rodea. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[3].esJugador
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[4].esJugador
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[5].esJugador
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5415706260632634918, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: dialogos.Array.data[7].esJugador
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392805380021571251, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fbe5dc7bb912fbb4189bfbf716073ae1, type: 3}
 --- !u!1 &1990496457
 GameObject:
   m_ObjectHideFlags: 0
@@ -54465,3 +54581,4 @@ SceneRoots:
   - {fileID: 91527092}
   - {fileID: 46408532}
   - {fileID: 405406628}
+  - {fileID: 1986609001}
