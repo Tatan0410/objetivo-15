@@ -21,6 +21,10 @@ public class MenuPrincipal : MonoBehaviour
         var bSol = panel?.Find("BotonSoluciones")?.gameObject;
         if (bSol != null)
             bSol.GetComponent<Button>().onClick.AddListener(AbrirSoluciones);
+
+        var bCred = panel?.Find("BotonCreditos")?.gameObject;
+        if (bCred != null)
+            bCred.GetComponent<Button>().onClick.AddListener(AbrirCreditos);
     }
 
     public void Jugar()
@@ -31,6 +35,12 @@ public class MenuPrincipal : MonoBehaviour
     public void AbrirSoluciones()
     {
         SceneTransitionManager.CargarEscenaConFallback("cutscene_soluciones");
+    }
+
+    public void AbrirCreditos()
+    {
+        CreditosManager.escenaRetorno = "menuprincipal";
+        SceneTransitionManager.CargarEscenaConFallback("creditos");
     }
 
     public void Salir()

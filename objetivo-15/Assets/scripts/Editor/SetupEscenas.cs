@@ -5,6 +5,7 @@ using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Events;
+using UnityEngine.TextCore.LowLevel;
 using System.IO;
 using System.Collections.Generic;
 
@@ -108,15 +109,71 @@ public class SetupEscenas : EditorWindow
             RunFinalesBatch();
 
         EditorGUILayout.Space();
+
+        if (GUILayout.Button("16. Agregar Boton Creditos en MenuPrincipal", GUILayout.Height(40)))
+            AgregarBotonCreditosMenu();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("17. Crear fuente Roboto SDF (espanol)", GUILayout.Height(40)))
+            CrearFuenteRobotoEspanol();
+
+        EditorGUILayout.Space();
         EditorGUILayout.HelpBox("Abre cada escena despues de configurar para verificar.", MessageType.Info);
     }
 
     static TMP_FontAsset FindFont()
     {
         var guids = AssetDatabase.FindAssets("t:TMP_FontAsset");
+        foreach (var g in guids)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(g);
+            if (Path.GetFileNameWithoutExtension(path).Contains("PixelifySans"))
+                return AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(path);
+        }
         if (guids.Length > 0)
             return AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(AssetDatabase.GUIDToAssetPath(guids[0]));
         return null;
+    }
+
+    // ─────────────────────── FUENTE ROBOTO SDF (ESPAÑOL) ───────────────────────
+
+    public static void CrearFuenteRobotoEspanol()
+    {
+        string pathFuente = "Assets/fonts/Roboto-VariableFont_wdth,wght.ttf";
+        string pathAsset = "Assets/fonts/Roboto SDF.asset";
+        var font = AssetDatabase.LoadAssetAtPath<Font>(pathFuente);
+        if (font == null)
+        {
+            Debug.LogError("No se encontro la fuente: " + pathFuente);
+            return;
+        }
+
+        var existente = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(pathAsset);
+        if (existente != null)
+            AssetDatabase.DeleteAsset(pathAsset);
+
+        var fontAsset = TMP_FontAsset.CreateFontAsset(font, 90, 9, GlyphRenderMode.SDFAA, 1024, 1024, AtlasPopulationMode.Dynamic, true);
+        if (fontAsset == null)
+        {
+            Debug.LogError("No se pudo crear el font asset SDF para Roboto.");
+            return;
+        }
+
+        string espanol = " abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ" +
+                         "áéíóúüÁÉÍÓÚÜ¡¿·—.,;:!?()[]{}<>/-_+*=@#$%&\"'0123456789";
+        fontAsset.TryAddCharacters(espanol, out string faltantes, true);
+        if (!string.IsNullOrEmpty(faltantes))
+            Debug.LogWarning("Caracteres no disponibles en Roboto: [" + faltantes + "]");
+
+        fontAsset.name = "Roboto SDF";
+        AssetDatabase.CreateAsset(fontAsset, pathAsset);
+        EditorUtility.SetDirty(fontAsset);
+        AssetDatabase.SaveAssets();
+
+        Debug.Log("Fuente Roboto SDF creada en " + pathAsset + " (glyphs=" + fontAsset.glyphTable.Count + ")");
+        if (!Application.isBatchMode)
+            EditorUtility.DisplayDialog("Listo", "Roboto SDF (espanol) creada.", "OK");
     }
 
     // ─────────────────────── MENU PRINCIPAL ───────────────────────
@@ -1438,46 +1495,106 @@ public class SetupEscenas : EditorWindow
         cs.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
         cs.matchWidthOrHeight = 0.5f;
 
-        // Fondo
+        // Fondo (paleta tierra/urbano del juego)
         var bg = MakeUI("imagenFondo", cgo.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, Vector2.one * 0.5f);
-        bg.AddComponent<Image>().color = new Color(0.04f, 0.04f, 0.09f);
+        bg.AddComponent<Image>().color = new Color(0.10f, 0.08f, 0.055f);
 
-        // Titulo
-        var title = MakeUI("TextoTitulo", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-            new Vector2(0, 390), new Vector2(800, 70), Vector2.one * 0.5f);
-        var tmpTitle = title.AddComponent<TextMeshProUGUI>();
-        tmpTitle.text = "CRÉDITOS";
-        tmpTitle.fontSize = 54;
-        tmpTitle.color = Color.white;
-        tmpTitle.alignment = TextAlignmentOptions.Center;
-        if (font) tmpTitle.font = font;
+        // Contenedor de creditos (se mueve en el scroll, sube desde abajo)
+        var cont = MakeUI("ContenedorCreditos", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            Vector2.zero, new Vector2(1920, 0), Vector2.one * 0.5f);
+        var contRt = cont.GetComponent<RectTransform>();
 
-        // Texto de creditos
-        var creds = MakeUI("TextoCreditos", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-            new Vector2(0, 40), new Vector2(1100, 520), Vector2.one * 0.5f);
-        var tmpCreds = creds.AddComponent<TextMeshProUGUI>();
-        tmpCreds.text = "Desarrollo: ...\n\nArte: ...\n\nMúsica: ...\n\nNarrativa: ...\n\nAgradecimientos especiales a la comunidad educativa.\n\n¡Gracias por jugar y por cuidar los ecosistemas terrestres!";
-        tmpCreds.fontSize = 30;
-        tmpCreds.color = new Color(0.9f, 0.9f, 0.9f);
-        tmpCreds.alignment = TextAlignmentOptions.Center;
-        tmpCreds.lineSpacing = 1.3f;
-        if (font) tmpCreds.font = font;
+        // Layout vertical: un TextMeshPro por linea (titulo/persona), permite fuente por titulo sin tags crudos
+        var vlg = cont.AddComponent<VerticalLayoutGroup>();
+        vlg.childAlignment = TextAnchor.UpperCenter;
+        vlg.spacing = 18f;
+        vlg.padding = new RectOffset(60, 60, 0, 0);
+        vlg.childControlWidth = true;
+        vlg.childControlHeight = true;
+        vlg.childForceExpandWidth = false;
+        vlg.childForceExpandHeight = false;
 
-        // Boton Volver al menu
-        var bMenu = MakeButton("BotonVolverMenu", cgo.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-            new Vector2(0, -380), new Vector2(300, 60), Vector2.one * 0.5f,
-            new Color(0.18f, 0.35f, 0.6f, 1f), "VOLVER AL MENÚ", font);
+        var fitterCont = cont.AddComponent<ContentSizeFitter>();
+        fitterCont.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        // Boton Saltar (esquina superior derecha)
+        var bSkip = MakeButton("BotonSaltar", cgo.transform, new Vector2(1f, 1f), new Vector2(1f, 1f),
+            new Vector2(-80, -40), new Vector2(130, 50), Vector2.one * 0.5f,
+            new Color(0.784f, 0.196f, 0.196f, 1f), "SALTAR", font);
 
         // CreditosManager
         var mgrGO = new GameObject("CreditosManager");
         var mgr = mgrGO.AddComponent<CreditosManager>();
-        UnityEventTools.AddPersistentListener(bMenu.GetComponent<Button>().onClick, mgr.VolverAlMenu);
+        mgr.contenedor = contRt;
+        mgr.botonSaltar = bSkip;
+        mgr.velocidadScroll = 40f;
+        mgr.colorRol = new Color(0.074f, 0.706f, 0.035f);
+        mgr.fuenteNombres = font;
+        mgr.fuenteTitulo = null;
+        mgr.secciones = new SeccionCreditos[]
+        {
+            new SeccionCreditos { titulo = "Un juego de", personas = new PersonaCreditos[]
+                { new PersonaCreditos { nombre = "[Nombre del estudio]", rol = "Desarrollo" } } },
+            new SeccionCreditos { titulo = "Programacion", personas = new PersonaCreditos[]
+                { new PersonaCreditos { nombre = "[Nombre 1]", rol = "Programacion" },
+                  new PersonaCreditos { nombre = "[Nombre 2]", rol = "Programacion" } } },
+            new SeccionCreditos { titulo = "Arte y Diseno", personas = new PersonaCreditos[]
+                { new PersonaCreditos { nombre = "[Nombre 1]", rol = "Arte" },
+                  new PersonaCreditos { nombre = "[Nombre 2]", rol = "Diseno" } } },
+            new SeccionCreditos { titulo = "Agradecimientos especiales", personas = new PersonaCreditos[]
+                { new PersonaCreditos { nombre = "A la comunidad educativa", rol = "Agradecimiento" } } },
+            new SeccionCreditos { titulo = "Objetivo 15 · 2026", personas = new PersonaCreditos[]
+                { new PersonaCreditos { nombre = "Protegiendo los ecosistemas terrestres", rol = "Gracias por jugar" } } },
+        };
+        UnityEventTools.AddPersistentListener(bSkip.GetComponent<Button>().onClick, mgr.Saltar);
+
+        // Vista previa de los creditos en el editor
+        mgr.ReconstruirCreditos();
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
         RegistrarEscenasNuevasEnBuild();
         if (!Application.isBatchMode)
-            EditorUtility.DisplayDialog("Listo", "Creditos configurados.", "OK");
+            EditorUtility.DisplayDialog("Listo", "Creditos con scroll configurados.", "OK");
+    }
+
+    // ─────────────────────── BOTON CREDITOS EN MENU PRINCIPAL ───────────────────────
+
+    static void AgregarBotonCreditosMenu()
+    {
+        string path = "Assets/Scenes/menuprincipal.unity";
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+        var font = FindFont();
+        var spriteBoton = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/botonescopia.png");
+
+        var mp = Object.FindFirstObjectByType<MenuPrincipal>();
+        if (mp == null || mp.panelMenuPrincipal == null)
+        {
+            Debug.LogError($"MenuPrincipal: no se encontro MenuPrincipal (mp={mp != null}) / panelMenuPrincipal.");
+            return;
+        }
+
+        // El "panel" del menu es el root del canvas (menuprincipal.unity no tiene PanelMenuPrincipal)
+        var panel = mp.panelMenuPrincipal.transform;
+
+        // Limpiar version previa
+        var oldBtn = GameObject.Find("BotonCreditos");
+        if (oldBtn != null) Object.DestroyImmediate(oldBtn);
+
+        // Boton Creditos: zona visible con sprite del juego, centrado abajo
+        var bCreditos = MakeButton("BotonCreditos", panel, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0, -480), new Vector2(300, 60), Vector2.one * 0.5f, Color.white, "CRÉDITOS", font);
+        if (spriteBoton != null)
+            bCreditos.GetComponent<Image>().sprite = spriteBoton;
+
+        // Sin listener persistente: MenuPrincipal.Start() engancha el OnClick por nombre (patron de la escena)
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        if (!Application.isBatchMode)
+            EditorUtility.DisplayDialog("Listo", "Boton Creditos agregado al menu principal.", "OK");
     }
 
     // ─────────────────────── BOTON REJUGAR EN MAPAMUNDIAL ───────────────────────
@@ -1617,6 +1734,7 @@ public class SetupEscenas : EditorWindow
         ConfigurarEscenaFinal();
         ConfigurarCreditos();
         AgregarBotonRejugarMapamundial();
+        AgregarBotonCreditosMenu();
         FijarNumeroNivelesFin();
 
         Debug.Log("=== ESCENA FINAL, CREDITOS Y REJUGAR CONFIGURADOS ===");

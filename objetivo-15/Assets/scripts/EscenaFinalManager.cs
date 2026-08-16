@@ -30,6 +30,7 @@ public class EscenaFinalManager : MonoBehaviour
 
     public void Continuar()
     {
+        CreditosManager.escenaRetorno = "Mapamundial";
         SceneTransitionManager.CargarEscenaConFallback("creditos");
     }
 }
