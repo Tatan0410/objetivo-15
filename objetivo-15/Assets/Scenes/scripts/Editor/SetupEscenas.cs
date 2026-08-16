@@ -119,6 +119,11 @@ public class SetupEscenas : EditorWindow
             CrearFuenteRobotoEspanol();
 
         EditorGUILayout.Space();
+
+        if (GUILayout.Button("18. Fijar vidas de enemigos por nivel (1,3,5,5,7,10)", GUILayout.Height(40)))
+            FijarVidasEnemigosPorNivel();
+
+        EditorGUILayout.Space();
         EditorGUILayout.HelpBox("Abre cada escena despues de configurar para verificar.", MessageType.Info);
     }
 
@@ -1701,6 +1706,65 @@ public class SetupEscenas : EditorWindow
             EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
             Debug.Log($"{levels[i]}: FinNivel numeroNivel = {numeroEsperado} ({fijados} fijados)");
         }
+    }
+
+    // ─────────────────────── FIJAR VIDAS DE ENEMIGOS POR NIVEL ───────────────────────
+
+    public static void FijarVidasEnemigosPorNivel()
+    {
+        string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
+                            "nivel4_basurero", "nivel5_subterraneo", "nivel6_empresa" };
+        int[] vidas = { 1, 3, 5, 5, 7, 10 };
+
+        for (int i = 0; i < levels.Length; i++)
+        {
+            string path = $"Assets/Scenes/{levels[i]}.unity";
+            if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); continue; }
+
+            EditorSceneManager.OpenScene(path);
+            int cont = 0;
+
+            foreach (var e in Object.FindObjectsByType<Enemigo>(FindObjectsSortMode.None))
+            {
+                if (e.gameObject.scene != EditorSceneManager.GetActiveScene()) continue;
+                e.vidas = vidas[i];
+                RegistrarVidasEnemigo(e);
+                cont++;
+            }
+            foreach (var e in Object.FindObjectsByType<EnemigoVolador>(FindObjectsSortMode.None))
+            {
+                if (e.gameObject.scene != EditorSceneManager.GetActiveScene()) continue;
+                e.vidas = vidas[i];
+                RegistrarVidasEnemigo(e);
+                cont++;
+            }
+            foreach (var e in Object.FindObjectsByType<rata>(FindObjectsSortMode.None))
+            {
+                if (e.gameObject.scene != EditorSceneManager.GetActiveScene()) continue;
+                e.vidas = vidas[i];
+                RegistrarVidasEnemigo(e);
+                cont++;
+            }
+
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+            Debug.Log($"{levels[i]}: vidas enemigos = {vidas[i]} ({cont} enemigos)");
+        }
+
+        Debug.Log("=== VIDAS DE ENEMIGOS POR NIVEL CONFIGURADAS ===");
+    }
+
+    static void RegistrarVidasEnemigo(Component comp)
+    {
+        EditorUtility.SetDirty(comp);
+        if (PrefabUtility.IsPartOfPrefabInstance(comp))
+            PrefabUtility.RecordPrefabInstancePropertyModifications(comp);
+    }
+
+    public static void FijarVidasEnemigosBatch()
+    {
+        FijarVidasEnemigosPorNivel();
+        if (Application.isBatchMode) EditorApplication.Exit(0);
     }
 
     // ─────────────────────── REGISTRAR ESCENAS EN BUILD ───────────────────────

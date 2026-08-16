@@ -33,6 +33,7 @@ public class EnemigoVolador : MonoBehaviour
 
     void Start()
     {
+        vidas = ConfigNivelEnemigos.VidasEnemigo();
         puntoInicio = transform.position;
         rb = GetComponent<Rigidbody2D>();
         if (rb != null) rb.bodyType = RigidbodyType2D.Kinematic;

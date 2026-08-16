@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class rata : MonoBehaviour
+public class Enemigo : MonoBehaviour
 {
     public Transform player;
     public float detectionRadius = 5f;
@@ -46,6 +46,7 @@ public class rata : MonoBehaviour
 
     void Start()
     {
+        vidas = ConfigNivelEnemigos.VidasEnemigo();
         rb = GetComponent<Rigidbody2D>();
         if (rb != null) rb.bodyType = RigidbodyType2D.Kinematic;
         if (player == null)
@@ -103,7 +104,7 @@ public class rata : MonoBehaviour
                 if (movement.x != 0f)
                 {
                     direccionVisual = movement.x > 0f ? 1f : -1f;
-                    if (sr != null) sr.flipX = direccionVisual < 0f;
+                    if (sr != null) sr.flipX = direccionVisual > 0f;
 
                     if (HayObstaculoAdelante(direccionVisual) || HayTrampaAdelante(direccionVisual))
                     {
@@ -172,7 +173,7 @@ public class rata : MonoBehaviour
         }
 
         direccionVisual = dir;
-        if (sr != null) sr.flipX = direccionVisual < 0f;
+        if (sr != null) sr.flipX = direccionVisual > 0f;
         movement = new Vector2(dir, 0f);
     }
 
