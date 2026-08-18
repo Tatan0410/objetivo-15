@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MunicionManager : MonoBehaviour
 {
@@ -20,12 +21,19 @@ public class MunicionManager : MonoBehaviour
 
     public event System.Action OnCambio;
 
+    private int balasComunesIniciales;
+    private int balasEpicasIniciales;
+    private int balasLegendariasIniciales;
+
     void Awake()
     {
         if (instancia == null)
         {
             instancia = this;
             DontDestroyOnLoad(gameObject);
+            balasComunesIniciales = balasComunes;
+            balasEpicasIniciales = balasEpicas;
+            balasLegendariasIniciales = balasLegendarias;
         }
         else
         {
@@ -104,5 +112,24 @@ public class MunicionManager : MonoBehaviour
     {
         if (contadorMunicion != null)
             contadorMunicion.Actualizar(Obtener(tipoSeleccionado));
+    }
+
+    public void ResetearMunicionParaNivel()
+    {
+        balasComunes = balasComunesIniciales;
+        balasEpicas = balasEpicasIniciales;
+        balasLegendarias = balasLegendariasIniciales;
+        tipoSeleccionado = TipoBala.Comun;
+        ActualizarUI();
+        OnCambio?.Invoke();
+    }
+
+    void OnEnable() { SceneManager.sceneLoaded += OnEscenaCargada; }
+    void OnDisable() { SceneManager.sceneLoaded -= OnEscenaCargada; }
+
+    void OnEscenaCargada(Scene escena, LoadSceneMode modo)
+    {
+        if (escena.name.StartsWith("nivel"))
+            ResetearMunicionParaNivel();
     }
 }
