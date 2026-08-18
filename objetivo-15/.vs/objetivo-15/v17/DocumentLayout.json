@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|c:\\users\\estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\particulasmagicas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\scripts\\particulasmagicas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\motocarroplataforma.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\motocarroplataforma.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\particulasmagicas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\particulasmagicas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\sistemacrafteo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\sistemacrafteo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\motocarroplataforma.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\motocarroplataforma.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\assets\\scripts\\combatecuerpoacuerpo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -100,20 +100,18 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "particulasmagicas.cs",
               "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\particulasmagicas.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\particulasmagicas.cs",
               "ToolTip": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\particulasmagicas.cs",
               "RelativeToolTip": "Assets\\scripts\\particulasmagicas.cs",
-              "ViewState": "AgIAAOQAAAAAAAAAAAAuwP8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-13T14:23:33.526Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-13T14:23:33.526Z"
             },
             {
               "$type": "Document",
@@ -165,15 +163,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "MotocarroPlataforma.cs",
               "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\MotocarroPlataforma.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\MotocarroPlataforma.cs",
               "ToolTip": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\MotocarroPlataforma.cs",
               "RelativeToolTip": "Assets\\scripts\\MotocarroPlataforma.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAAwEIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAwwFAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-08T08:47:16.614Z"
+              "WhenOpened": "2026-08-08T08:47:16.614Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -201,7 +200,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PlayerController.cs",
               "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\PlayerController.cs",
@@ -245,12 +244,11 @@
               "RelativeToolTip": "Library\\PackageCache\\com.unity.render-pipelines.universal@14.0.12\\Shaders\\2D\\Sprite-Lit-Default.shader",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2026-08-02T00:32:36.829Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-02T00:32:36.829Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "SistemaCrafteo.cs",
               "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\SistemaCrafteo.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\SistemaCrafteo.cs",
