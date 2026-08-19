@@ -16,9 +16,6 @@ public class MunicionManager : MonoBehaviour
     [Header("Tipo seleccionado")]
     public TipoBala tipoSeleccionado = TipoBala.Comun;
 
-    [Header("UI")]
-    public ContadorHUD contadorMunicion;
-
     public event System.Action OnCambio;
 
     private int balasComunesIniciales;
@@ -40,17 +37,6 @@ public class MunicionManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-    }
-
-    void Start()
-    {
-        ActualizarUI();
-    }
-
-    public void AsignarContador(ContadorHUD contador)
-    {
-        contadorMunicion = contador;
-        ActualizarUI();
     }
 
     public int Obtener(TipoBala tipo)
@@ -78,7 +64,6 @@ public class MunicionManager : MonoBehaviour
     public void AgregarBala(TipoBala tipo, int cantidad)
     {
         Setear(tipo, Obtener(tipo) + cantidad);
-        ActualizarUI();
         OnCambio?.Invoke();
     }
 
@@ -88,7 +73,6 @@ public class MunicionManager : MonoBehaviour
             return null;
 
         Setear(tipoSeleccionado, Obtener(tipoSeleccionado) - 1);
-        ActualizarUI();
         OnCambio?.Invoke();
         return tipoSeleccionado;
     }
@@ -97,21 +81,13 @@ public class MunicionManager : MonoBehaviour
     {
         int idx = ((int)tipoSeleccionado + 1) % 3;
         tipoSeleccionado = (TipoBala)idx;
-        ActualizarUI();
         OnCambio?.Invoke();
     }
 
     public void EstablecerTipo(TipoBala tipo)
     {
         tipoSeleccionado = tipo;
-        ActualizarUI();
         OnCambio?.Invoke();
-    }
-
-    public void ActualizarUI()
-    {
-        if (contadorMunicion != null)
-            contadorMunicion.Actualizar(Obtener(tipoSeleccionado));
     }
 
     public void ResetearMunicionParaNivel()
@@ -120,7 +96,6 @@ public class MunicionManager : MonoBehaviour
         balasEpicas = balasEpicasIniciales;
         balasLegendarias = balasLegendariasIniciales;
         tipoSeleccionado = TipoBala.Comun;
-        ActualizarUI();
         OnCambio?.Invoke();
     }
 

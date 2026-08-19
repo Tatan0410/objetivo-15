@@ -17,6 +17,11 @@ public class SetupEscenas : EditorWindow
         w.minSize = new Vector2(400, 300);
     }
 
+    void OnEnable()
+    {
+        SetupBalas.CargarValoresTxtBala();
+    }
+
     void OnGUI()
     {
         GUILayout.Label("Configuracion de Escenas", EditorStyles.boldLabel);
@@ -122,6 +127,29 @@ public class SetupEscenas : EditorWindow
 
         if (GUILayout.Button("18. Fijar vidas de enemigos por nivel (1,3,5,5,7,10)", GUILayout.Height(40)))
             FijarVidasEnemigosPorNivel();
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("19. Reparar HUD municion (quitar ContMunicion viejo + sprites)", GUILayout.Height(40)))
+        {
+            SetupBalas.AsignarSpritesPanelBalas();
+            SetupBalas.EliminarContMunicionObsoleto();
+        }
+
+        EditorGUILayout.Space();
+
+        if (GUILayout.Button("20. Crear pistolita ContMunicion (municion seleccionada)", GUILayout.Height(40)))
+            SetupBalas.CrearContMunicionPistola();
+
+        EditorGUILayout.Space();
+        GUILayout.Label("TxtBalaSeleccionada", EditorStyles.boldLabel);
+        SetupBalas.posicionTxtBala.x = EditorGUILayout.FloatField("Pos X", SetupBalas.posicionTxtBala.x);
+        SetupBalas.posicionTxtBala.y = EditorGUILayout.FloatField("Pos Y", SetupBalas.posicionTxtBala.y);
+        SetupBalas.tamanoTxtBala = EditorGUILayout.FloatField("Tamano (px)", SetupBalas.tamanoTxtBala);
+        SetupBalas.grosorTxtBala = EditorGUILayout.IntSlider("Grosor (100-900)", SetupBalas.grosorTxtBala, 100, 900);
+        if (GUILayout.Button("21. Aplicar posicion/tamano/grosor a TxtBalaSeleccionada (todos los niveles)", GUILayout.Height(40)))
+            SetupBalas.AjustarTxtBalaSeleccionada();
+        EditorGUILayout.HelpBox("Tambien puedes arrastrar el texto libremente: abre el prefab Assets/prefabs/ContenedorBalas.prefab (doble clic) y muevelo en la vista de escena.", MessageType.Info);
 
         EditorGUILayout.Space();
         EditorGUILayout.HelpBox("Abre cada escena despues de configurar para verificar.", MessageType.Info);
@@ -1057,14 +1085,12 @@ public class SetupEscenas : EditorWindow
         var sprPET = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/botellasinfondo.png");
         var sprBolsa = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/bolsasinfondo.png");
         var sprIcopor = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/icopor-removebg-preview.png");
-        var sprMunicion = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/pitolaloco-removebg-preview.png");
 
         // Fallback procedural si falta algun sprite
         if (sprLleno == null) sprLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
         if (sprPET == null) sprPET = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.8f, 0.2f));
         if (sprBolsa == null) sprBolsa = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.5f, 0.9f));
         if (sprIcopor == null) sprIcopor = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.8f, 0.2f));
-        if (sprMunicion == null) sprMunicion = IconoUtils.GenerarCirculo(16, 100, new Color(1f, 0.6f, 0.1f));
 
         // ─── CONTENEDOR DE CORAZONES (los corazones se crean dinamicamente en runtime) ───
         var heartParent = MakeUI("ContenedorCorazones", canvas.transform,
@@ -1116,7 +1142,6 @@ public class SetupEscenas : EditorWindow
         var contPET = crearContador("ContPET", sprPET, 0);
         var contBolsa = crearContador("ContBolsa", sprBolsa, 1);
         var contIcopor = crearContador("ContIcopor", sprIcopor, 2);
-        var contMunicion = crearContador("ContMunicion", sprMunicion, 3);
 
         var inv = Object.FindFirstObjectByType<Inventario>();
         if (inv != null)
@@ -1127,14 +1152,6 @@ public class SetupEscenas : EditorWindow
             Debug.Log("Contadores conectados a Inventario");
         }
         else Debug.LogError("No se encontro Inventario");
-
-        var mm = Object.FindFirstObjectByType<MunicionManager>();
-        if (mm != null)
-        {
-            mm.AsignarContador(contMunicion);
-            Debug.Log("Contador de municion conectado");
-        }
-        else Debug.LogError("No se encontro MunicionManager");
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
@@ -1169,13 +1186,11 @@ public class SetupEscenas : EditorWindow
         var sprPET = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/botellasinfondo.png");
         var sprBolsa = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/bolsasinfondo.png");
         var sprIcopor = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/icopor-removebg-preview.png");
-        var sprMunicion = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/pitolaloco-removebg-preview.png");
 
         if (sprLleno == null) sprLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
         if (sprPET == null) sprPET = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.8f, 0.2f));
         if (sprBolsa == null) sprBolsa = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.5f, 0.9f));
         if (sprIcopor == null) sprIcopor = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.8f, 0.2f));
-        if (sprMunicion == null) sprMunicion = IconoUtils.GenerarCirculo(16, 100, new Color(1f, 0.6f, 0.1f));
 
         var canvas = Object.FindFirstObjectByType<Canvas>();
         if (canvas == null) { Debug.LogError($"{nombre}: No hay Canvas"); return; }
@@ -1237,7 +1252,6 @@ public class SetupEscenas : EditorWindow
             var contPET = crearContador("ContPET", sprPET, 0);
             var contBolsa = crearContador("ContBolsa", sprBolsa, 1);
             var contIcopor = crearContador("ContIcopor", sprIcopor, 2);
-            var contMunicion = crearContador("ContMunicion", sprMunicion, 3);
 
             var inv = Object.FindFirstObjectByType<Inventario>();
             if (inv != null)
@@ -1247,10 +1261,6 @@ public class SetupEscenas : EditorWindow
                 inv.contadorIcopor = contIcopor;
             }
             else Debug.LogError($"{nombre}: No se encontro Inventario");
-
-            var mm = Object.FindFirstObjectByType<MunicionManager>();
-            if (mm != null) mm.AsignarContador(contMunicion);
-            else Debug.LogError($"{nombre}: No se encontro MunicionManager");
         }
 
         // ─── 6. Agregar AplicarVolumenMusica si falta ───

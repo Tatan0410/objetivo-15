@@ -5,6 +5,7 @@ using UnityEditor.Animations;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using System.IO;
 
 public static class SetupBalas
 {
@@ -75,6 +76,232 @@ public static class SetupBalas
         HacerTodo();
     }
 
+    public static void EliminarContMunicionObsoleto()
+    {
+        int eliminados = 0;
+        foreach (string escena in ESCENAS)
+        {
+            EditorSceneManager.OpenScene(escena, OpenSceneMode.Single);
+            bool hecho = false;
+
+            var cont = GameObject.Find("ContMunicion");
+            if (cont != null)
+            {
+                Object.DestroyImmediate(cont);
+                hecho = true;
+            }
+
+            if (hecho)
+            {
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+                EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), escena);
+                eliminados++;
+            }
+            Debug.Log($"[SetupBalas] {escena}: {(hecho ? "ContMunicion obsoleto eliminado" : "sin cambios")}");
+        }
+        AssetDatabase.Refresh();
+        Debug.Log($"[SetupBalas] ContMunicion obsoleto eliminado en {eliminados} de {ESCENAS.Length} escenas.");
+    }
+
+    public static void EjecutarEliminarContMunicionBatch()
+    {
+        EliminarContMunicionObsoleto();
+    }
+
+    public static void AsignarSpritesPanelBalas()
+    {
+        const string prefabPath = "Assets/prefabs/ContenedorBalas.prefab";
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        if (prefab == null)
+        {
+            Debug.LogError("[SetupBalas] No existe ContenedorBalas.prefab");
+            return;
+        }
+
+        PanelBalasHUD panel = prefab.GetComponent<PanelBalasHUD>();
+        if (panel == null)
+        {
+            Debug.LogError("[SetupBalas] ContenedorBalas.prefab no tiene PanelBalasHUD");
+            return;
+        }
+
+        if (panel.contadorComun != null && panel.contadorComun.icono != null)
+            panel.spriteComun = panel.contadorComun.icono.sprite;
+        if (panel.contadorEpica != null && panel.contadorEpica.icono != null)
+            panel.spriteEpica = panel.contadorEpica.icono.sprite;
+        if (panel.contadorLegendaria != null && panel.contadorLegendaria.icono != null)
+            panel.spriteLegendaria = panel.contadorLegendaria.icono.sprite;
+
+        EditorUtility.SetDirty(prefab);
+        AssetDatabase.SaveAssets();
+        Debug.Log("[SetupBalas] Sprites del tipo seleccionado asignados desde las filas del prefab.");
+    }
+
+    public static void EjecutarAsignarSpritesBatch()
+    {
+        AsignarSpritesPanelBalas();
+    }
+
+    public static void EjecutarRepararHUDMunicionBatch()
+    {
+        AsignarSpritesPanelBalas();
+        EliminarContMunicionObsoleto();
+    }
+
+    public static void CrearContMunicionPistola()
+    {
+        const string spritePath = "Assets/sprites/pitolaloco-removebg-preview.png";
+        Sprite spritePistola = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+        TMP_FontAsset font = EncontrarFuente();
+        int ok = 0;
+
+        foreach (string escena in ESCENAS)
+        {
+            EditorSceneManager.OpenScene(escena, OpenSceneMode.Single);
+            bool hecho = false;
+
+            var res = GameObject.Find("ContenedorRecursos");
+            if (res != null)
+            {
+                var viejo = res.transform.Find("ContMunicion");
+                if (viejo != null) Object.DestroyImmediate(viejo.gameObject);
+
+                GameObject fila = new GameObject("ContMunicion");
+                fila.transform.SetParent(res.transform, false);
+                RectTransform rt = fila.AddComponent<RectTransform>();
+                rt.anchorMin = new Vector2(0f, 1f);
+                rt.anchorMax = new Vector2(0f, 1f);
+                rt.pivot = new Vector2(0f, 1f);
+                rt.anchoredPosition = new Vector2(0, -84);
+                rt.sizeDelta = new Vector2(200, 24);
+
+                Image icono = new GameObject("Icono").AddComponent<Image>();
+                icono.transform.SetParent(fila.transform, false);
+                RectTransform iconRt = (RectTransform)icono.transform;
+                iconRt.anchorMin = new Vector2(0f, 0.5f);
+                iconRt.anchorMax = new Vector2(0f, 0.5f);
+                iconRt.pivot = new Vector2(0.5f, 0.5f);
+                iconRt.anchoredPosition = Vector2.zero;
+                iconRt.sizeDelta = new Vector2(80, 80);
+                icono.sprite = spritePistola;
+                icono.preserveAspect = true;
+
+                GameObject txtGO = new GameObject("Numero");
+                txtGO.transform.SetParent(fila.transform, false);
+                RectTransform txtRt = txtGO.AddComponent<RectTransform>();
+                txtRt.anchorMin = new Vector2(0f, 0.5f);
+                txtRt.anchorMax = new Vector2(0f, 0.5f);
+                txtRt.pivot = new Vector2(0f, 0.5f);
+                txtRt.anchoredPosition = new Vector2(26, 0);
+                txtRt.sizeDelta = new Vector2(80, 24);
+                TextMeshProUGUI tmp = txtGO.AddComponent<TextMeshProUGUI>();
+                tmp.text = "0";
+                tmp.fontSize = 18;
+                tmp.color = Color.white;
+                tmp.alignment = TextAlignmentOptions.Left;
+                if (font != null) tmp.font = font;
+
+                ContadorHUD cont = fila.AddComponent<ContadorHUD>();
+                cont.icono = icono;
+                cont.texto = tmp;
+                cont.Actualizar(0);
+                fila.AddComponent<ContadorMunicionSeleccionado>();
+
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+                EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), escena);
+                hecho = true;
+                ok++;
+            }
+            Debug.Log($"[SetupBalas] {escena}: {(hecho ? "pistolita ContMunicion creada" : "sin ContenedorRecursos")}");
+        }
+        AssetDatabase.Refresh();
+        Debug.Log($"[SetupBalas] Pistolita ContMunicion creada en {ok} escenas.");
+    }
+
+    public static void EjecutarCrearContMunicionPistolaBatch()
+    {
+        CrearContMunicionPistola();
+    }
+
+    public static Vector2 posicionTxtBala = new Vector2(0f, 0f);
+    public static float tamanoTxtBala = 24f;
+    public static int grosorTxtBala = 400;
+
+    public static void CargarValoresTxtBala()
+    {
+        const string prefabPath = "Assets/prefabs/ContenedorBalas.prefab";
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        if (prefab == null) return;
+        foreach (var t in prefab.GetComponentsInChildren<TextMeshProUGUI>(true))
+        {
+            if (t.gameObject.name == "TxtBalaSeleccionada")
+            {
+                posicionTxtBala = t.rectTransform.anchoredPosition;
+                tamanoTxtBala = t.fontSize;
+                grosorTxtBala = (int)t.fontWeight;
+                return;
+            }
+        }
+    }
+
+    public static void AjustarTxtBalaSeleccionada()
+    {
+        const string prefabPath = "Assets/prefabs/ContenedorBalas.prefab";
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        if (prefab == null)
+        {
+            Debug.LogError("[SetupBalas] No existe ContenedorBalas.prefab");
+            return;
+        }
+
+        TextMeshProUGUI txt = null;
+        foreach (var t in prefab.GetComponentsInChildren<TextMeshProUGUI>(true))
+        {
+            if (t.gameObject.name == "TxtBalaSeleccionada")
+            {
+                txt = t;
+                break;
+            }
+        }
+        if (txt == null)
+        {
+            Debug.LogError("[SetupBalas] No se encontro TxtBalaSeleccionada en el prefab");
+            return;
+        }
+
+        RectTransform rt = (RectTransform)txt.transform;
+        rt.anchoredPosition = posicionTxtBala;
+        txt.fontSize = tamanoTxtBala;
+        txt.fontWeight = (FontWeight)grosorTxtBala;
+
+        LayoutElement le = txt.GetComponent<LayoutElement>();
+        if (le == null) le = txt.gameObject.AddComponent<LayoutElement>();
+        le.ignoreLayout = true;
+
+        EditorUtility.SetDirty(prefab);
+        AssetDatabase.SaveAssets();
+        Debug.Log($"[SetupBalas] TxtBalaSeleccionada ajustada: pos={posicionTxtBala}, tamano={tamanoTxtBala}, grosor={grosorTxtBala}");
+    }
+
+    public static void EjecutarAjustarTxtBalaSeleccionadaBatch()
+    {
+        AjustarTxtBalaSeleccionada();
+    }
+
+    static TMP_FontAsset EncontrarFuente()
+    {
+        var guids = AssetDatabase.FindAssets("t:TMP_FontAsset");
+        foreach (var g in guids)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(g);
+            if (Path.GetFileNameWithoutExtension(path).Contains("PixelifySans"))
+                return AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(path);
+        }
+        if (guids.Length > 0)
+            return AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(AssetDatabase.GUIDToAssetPath(guids[0]));
+        return null;
+    }
+
     static bool ConfigurarEscena()
     {
         var mm = Object.FindFirstObjectByType<MunicionManager>();
@@ -90,17 +317,6 @@ public static class SetupBalas
             canvasGO = canvas != null ? canvas.gameObject : null;
         }
         if (canvasGO == null) return false;
-
-        // Conectar MunicionManager.contadorMunicion -> ContMunicion existente
-        if (mm != null)
-        {
-            var contMunicion = BuscarContadorHUD(canvasGO.transform, "ContMunicion");
-            if (contMunicion != null && mm.contadorMunicion != contMunicion)
-            {
-                mm.contadorMunicion = contMunicion;
-                EditorUtility.SetDirty(mm);
-            }
-        }
 
         // Crear/actualizar contenedor de balas
         Transform contenedor = BuscarEn(canvasGO.transform, "ContenedorBalas");
@@ -248,12 +464,6 @@ public static class SetupBalas
         img.color = color;
         img.raycastTarget = false;
         return img;
-    }
-
-    static ContadorHUD BuscarContadorHUD(Transform root, string nombre)
-    {
-        Transform t = BuscarEn(root, nombre);
-        return t != null ? t.GetComponent<ContadorHUD>() : null;
     }
 
     static Transform BuscarEn(Transform parent, string nombre)
