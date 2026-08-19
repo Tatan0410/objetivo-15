@@ -288,6 +288,79 @@ public static class SetupBalas
         AjustarTxtBalaSeleccionada();
     }
 
+    public static void RenombrarPrefabContenedorBalas()
+    {
+        const string prefabPathViejo = "Assets/prefabs/ContenedorBalas 1.prefab";
+        const string prefabPathNuevo = "Assets/prefabs/ContenedorBalas.prefab";
+
+        if (File.Exists(prefabPathViejo))
+        {
+            string error = AssetDatabase.RenameAsset(prefabPathViejo, "ContenedorBalas");
+            if (!string.IsNullOrEmpty(error))
+            {
+                Debug.LogError("[SetupBalas] No se pudo renombrar el prefab: " + error);
+                return;
+            }
+            AssetDatabase.Refresh();
+            Debug.Log("[SetupBalas] Asset renombrado a ContenedorBalas.prefab");
+        }
+        else if (!File.Exists(prefabPathNuevo))
+        {
+            Debug.LogError("[SetupBalas] No existe ContenedorBalas.prefab ni ContenedorBalas 1.prefab");
+            return;
+        }
+
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPathNuevo);
+        if (prefab == null)
+        {
+            Debug.LogError("[SetupBalas] No se pudo cargar ContenedorBalas.prefab");
+            return;
+        }
+
+        if (prefab.name != "ContenedorBalas")
+        {
+            prefab.name = "ContenedorBalas";
+            EditorUtility.SetDirty(prefab);
+        }
+
+        EditorUtility.SetDirty(prefab);
+        AssetDatabase.SaveAssets();
+        Debug.Log($"[SetupBalas] Prefab raiz '{prefab.name}' listo en {prefabPathNuevo}");
+    }
+
+    public static void EjecutarRenombrarPrefabBatch()
+    {
+        RenombrarPrefabContenedorBalas();
+    }
+
+    public static void VerificarHUDMunicion()
+    {
+        foreach (string escena in ESCENAS)
+        {
+            EditorSceneManager.OpenScene(escena, OpenSceneMode.Single);
+            var panel = Object.FindFirstObjectByType<PanelBalasHUD>();
+            if (panel == null)
+            {
+                Debug.LogError($"[SetupBalas] {escena}: NO se encontro PanelBalasHUD (ContenedorBalas)");
+                continue;
+            }
+            var tmp = panel.textoSeleccionado;
+            if (tmp == null)
+            {
+                Debug.LogError($"[SetupBalas] {escena}: PanelBalasHUD sin textoSeleccionado");
+                continue;
+            }
+            Debug.Log($"[SetupBalas] {escena}: OK texto pos={tmp.rectTransform.anchoredPosition} size={tmp.fontSize} peso={(int)tmp.fontWeight} texto='{tmp.text}'");
+        }
+        AssetDatabase.Refresh();
+        Debug.Log("[SetupBalas] Verificacion HUD municion completada.");
+    }
+
+    public static void EjecutarVerificarHUDMunicionBatch()
+    {
+        VerificarHUDMunicion();
+    }
+
     static TMP_FontAsset EncontrarFuente()
     {
         var guids = AssetDatabase.FindAssets("t:TMP_FontAsset");
