@@ -56,6 +56,12 @@ public class DialogoManager : MonoBehaviour
         MostrarDialogo(0);
     }
 
+    void Update()
+    {
+        if (Input.GetButtonDown("Cancel"))
+            SkipCutscene();
+    }
+
     void MostrarDialogo(int indice)
     {
         if (indice >= dialogos.Length) { IrAlNivel(); return; }

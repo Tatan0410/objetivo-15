@@ -23,6 +23,8 @@ public class CombateJugador : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale <= 0f) return;
+
         if (Input.GetButtonDown("Fire1"))
         {
             Debug.Log("CombateJugador: se presionó Fire1");

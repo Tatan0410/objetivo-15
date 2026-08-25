@@ -22,8 +22,20 @@ public class MenuCrafteo : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(teclaCrafteo))
+        if (Input.GetKeyDown(teclaCrafteo) || Input.GetButtonDown("Craft"))
             ToggleMenu();
+        else if (menuAbierto && Input.GetButtonDown("Cancel"))
+            CerrarMenu();
+    }
+
+    static bool HayPausaActiva()
+    {
+        return MenuPausa.instancia != null && MenuPausa.JuegoPausado;
+    }
+
+    void ActualizarTimeScale()
+    {
+        Time.timeScale = (menuAbierto || HayPausaActiva()) ? 0f : 1f;
     }
 
     void ToggleMenu()
@@ -31,7 +43,7 @@ public class MenuCrafteo : MonoBehaviour
         if (panelCrafteo == null) return;
         menuAbierto = !menuAbierto;
         panelCrafteo.SetActive(menuAbierto);
-        Time.timeScale = menuAbierto ? 0f : 1f;
+        ActualizarTimeScale();
     }
 
     public void AbrirCrafteo()
@@ -39,7 +51,7 @@ public class MenuCrafteo : MonoBehaviour
         if (panelCrafteo == null) return;
         menuAbierto = true;
         panelCrafteo.SetActive(true);
-        Time.timeScale = 0f;
+        ActualizarTimeScale();
     }
 
     public void CerrarMenu()
@@ -47,7 +59,7 @@ public class MenuCrafteo : MonoBehaviour
         menuAbierto = false;
         if (panelCrafteo != null)
             panelCrafteo.SetActive(false);
-        Time.timeScale = 1f;
+        ActualizarTimeScale();
     }
 
     void ConectarBotonesPanel()

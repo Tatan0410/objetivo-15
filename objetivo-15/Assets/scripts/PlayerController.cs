@@ -88,6 +88,12 @@ public class PlayerController : MonoBehaviour
 
         if (!controlActivo) return;
 
+        if (Time.timeScale <= 0f)
+        {
+            saltoPendiente = false;
+            return;
+        }
+
         temporizadorCooldownDisparo -= Time.deltaTime;
 
         if (estaEnSuelo)
@@ -95,14 +101,14 @@ public class PlayerController : MonoBehaviour
         else
             coyoteTimeContador -= Time.deltaTime;
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && coyoteTimeContador > 0f)
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetButtonDown("Jump")) && coyoteTimeContador > 0f)
         {
             saltoPendiente = true;
             coyoteTimeContador = 0f;
         }
 
-        if (Input.GetKeyDown(teclaDisparo) &&
-            temporizadorCooldownDisparo <= 0)
+        bool disparar = Input.GetKeyDown(teclaDisparo) || Input.GetButtonDown("Shoot");
+        if (disparar && temporizadorCooldownDisparo <= 0)
         {
             TipoArma arma = GetArmaEquipada();
             if (arma == TipoArma.Ninguna) return;

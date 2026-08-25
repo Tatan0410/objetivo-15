@@ -91,7 +91,7 @@ public class CreditosManager : MonoBehaviour
     {
         if (scrollTerminado) return;
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Submit") || Input.GetButtonDown("Cancel"))
         {
             Terminar();
             return;

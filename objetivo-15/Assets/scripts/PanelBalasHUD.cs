@@ -41,9 +41,9 @@ public class PanelBalasHUD : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3))
             MunicionManager.instancia?.EstablecerTipo(TipoBala.Legendaria);
 
-        if (Input.GetKeyDown(teclaAnterior))
+        if (Input.GetKeyDown(teclaAnterior) || Input.GetButtonDown("CycleLeft"))
             CambiarAnterior();
-        if (Input.GetKeyDown(teclaSiguiente))
+        if (Input.GetKeyDown(teclaSiguiente) || Input.GetButtonDown("CycleRight"))
             CambiarSiguiente();
     }
 

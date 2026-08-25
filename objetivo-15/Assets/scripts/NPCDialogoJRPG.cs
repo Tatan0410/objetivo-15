@@ -93,7 +93,7 @@ public class NPCDialogoJRPG : MonoBehaviour
 
         if (dialogando)
         {
-            if (!escribiendo && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)))
+            if (!escribiendo && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0) || Input.GetButtonDown("Submit")))
                 AvanzarDialogo();
             return;
         }

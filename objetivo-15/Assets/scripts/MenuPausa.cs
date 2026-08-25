@@ -12,12 +12,15 @@ public class MenuPausa : MonoBehaviour
     [Header("Volumen")]
     public Slider sliderVolumen;
 
+    public static bool JuegoPausado { get; private set; }
+
     private bool pausado = false;
 
     void Awake()
     {
         if (instancia != null) { Destroy(gameObject); return; }
         instancia = this;
+        JuegoPausado = false;
     }
 
     void Start()
@@ -48,11 +51,18 @@ public class MenuPausa : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        bool togglePausa = Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Pause");
+        bool volverAtras = Input.GetButtonDown("Cancel");
+
+        if (togglePausa)
         {
             if (pausado) Reanudar();
             else Pausar();
+            return;
         }
+
+        if (volverAtras && pausado)
+            Reanudar();
     }
 
     public void Pausar()
@@ -60,6 +70,7 @@ public class MenuPausa : MonoBehaviour
         if (panelPausa != null) panelPausa.SetActive(true);
         Time.timeScale = 0f;
         pausado = true;
+        JuegoPausado = true;
     }
 
     public void Reanudar()
@@ -67,12 +78,14 @@ public class MenuPausa : MonoBehaviour
         if (panelPausa != null) panelPausa.SetActive(false);
         Time.timeScale = 1f;
         pausado = false;
+        JuegoPausado = false;
     }
 
     public void ReiniciarNivel()
     {
         Time.timeScale = 1f;
         pausado = false;
+        JuegoPausado = false;
 
         if (GameManager.instancia != null)
             GameManager.instancia.ResetearCheckpoint();
@@ -97,6 +110,7 @@ public class MenuPausa : MonoBehaviour
     {
         Time.timeScale = 1f;
         pausado = false;
+        JuegoPausado = false;
         SceneTransitionManager.CargarEscenaConFallback("menuprincipal");
     }
 }
