@@ -63,6 +63,7 @@
     <Compile Include="Assets\scripts\Inventario.cs" />
     <Compile Include="Assets\combatecontroler.cs" />
     <Compile Include="Assets\scripts\jugadorpatrulla.cs" />
+    <Compile Include="Assets\scripts\DiagBotones.cs" />
     <Compile Include="Assets\scripts\rata.cs" />
     <Compile Include="Assets\scripts\enemigo.cs" />
     <Compile Include="Assets\scripts\PlasticoItem.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Assets\scripts\ContadorHUD.cs" />
     <Compile Include="Assets\scripts\ContadorMunicionSeleccionado.cs" />
     <Compile Include="Assets\scripts\CajaSorpresa.cs" />
+    <Compile Include="Assets\scripts\SeleccionUI.cs" />
     <Compile Include="Assets\scripts\TipoBala.cs" />
     <Compile Include="Assets\scripts\nubesmovimiento.cs" />
     <Compile Include="Assets\scripts\EnemigoVolador.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Assets\scripts\Muertejugador.cs" />
     <Compile Include="Assets\scripts\ConfigNivelEnemigos.cs" />
     <Compile Include="Assets\scripts\PlasticoSpawnRunner.cs" />
+    <Compile Include="Assets\scripts\ResalteBoton.cs" />
     <Compile Include="Assets\scripts\colecionablesPlasticos.cs" />
     <Compile Include="Assets\scripts\Bootstrapper.cs" />
     <Compile Include="Assets\scripts\AplicarVolumenMusica.cs" />

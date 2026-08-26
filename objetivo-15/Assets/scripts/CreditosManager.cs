@@ -85,6 +85,9 @@ public class CreditosManager : MonoBehaviour
         float altoContenido = contenedor.rect.height;
         contenedor.anchoredPosition = new Vector2(contenedor.anchoredPosition.x, -(alturaPantalla * 0.5f + margenInicial) + altoContenido * 0.5f);
         scrollTerminado = false;
+
+        if (botonSaltar != null)
+            SeleccionUI.SeleccionarPrimero(botonSaltar);
     }
 
     void Update()

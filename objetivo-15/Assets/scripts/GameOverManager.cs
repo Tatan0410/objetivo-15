@@ -79,12 +79,14 @@ public class GameOverManager : MonoBehaviour
     {
         escenaActual = SceneManager.GetActiveScene().name;
         canvasGameOver.SetActive(true);
+        SeleccionUI.SeleccionarPrimero(canvasGameOver);
         Time.timeScale = 0f;
     }
 
     public void Reintentar()
     {
         canvasGameOver.SetActive(false);
+        SeleccionUI.LimpiarSeleccion();
         Time.timeScale = 1f;
         SceneTransitionManager.CargarEscenaConFallback(escenaActual);
     }
@@ -92,6 +94,7 @@ public class GameOverManager : MonoBehaviour
     public void IrAlMenu()
     {
         canvasGameOver.SetActive(false);
+        SeleccionUI.LimpiarSeleccion();
         Time.timeScale = 1f;
         SceneTransitionManager.CargarEscenaConFallback("menuprincipal");
     }

@@ -67,7 +67,11 @@ public class MenuPausa : MonoBehaviour
 
     public void Pausar()
     {
-        if (panelPausa != null) panelPausa.SetActive(true);
+        if (panelPausa != null)
+        {
+            panelPausa.SetActive(true);
+            SeleccionUI.SeleccionarPrimero(panelPausa);
+        }
         Time.timeScale = 0f;
         pausado = true;
         JuegoPausado = true;
@@ -76,6 +80,7 @@ public class MenuPausa : MonoBehaviour
     public void Reanudar()
     {
         if (panelPausa != null) panelPausa.SetActive(false);
+        SeleccionUI.LimpiarSeleccion();
         Time.timeScale = 1f;
         pausado = false;
         JuegoPausado = false;

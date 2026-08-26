@@ -43,6 +43,10 @@ public class MenuCrafteo : MonoBehaviour
         if (panelCrafteo == null) return;
         menuAbierto = !menuAbierto;
         panelCrafteo.SetActive(menuAbierto);
+        if (menuAbierto)
+            SeleccionUI.SeleccionarPrimero(panelCrafteo);
+        else
+            SeleccionUI.LimpiarSeleccion();
         ActualizarTimeScale();
     }
 
@@ -51,6 +55,7 @@ public class MenuCrafteo : MonoBehaviour
         if (panelCrafteo == null) return;
         menuAbierto = true;
         panelCrafteo.SetActive(true);
+        SeleccionUI.SeleccionarPrimero(panelCrafteo);
         ActualizarTimeScale();
     }
 
@@ -59,6 +64,7 @@ public class MenuCrafteo : MonoBehaviour
         menuAbierto = false;
         if (panelCrafteo != null)
             panelCrafteo.SetActive(false);
+        SeleccionUI.LimpiarSeleccion();
         ActualizarTimeScale();
     }
 

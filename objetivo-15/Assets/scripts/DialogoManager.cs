@@ -85,6 +85,7 @@ public class DialogoManager : MonoBehaviour
         escribiendo = false;
         botonSiguiente.SetActive(true);
         textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : textoSiguienteUltimo;
+        SeleccionUI.SeleccionarPrimero(botonSiguiente);
     }
 
     IEnumerator AnimarBoca()
@@ -118,6 +119,7 @@ public class DialogoManager : MonoBehaviour
             escribiendo = false;
             botonSiguiente.SetActive(true);
             textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : textoSiguienteUltimo;
+            SeleccionUI.SeleccionarPrimero(botonSiguiente);
             return;
         }
         indiceActual++;

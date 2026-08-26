@@ -25,6 +25,9 @@ public class MenuPrincipal : MonoBehaviour
         var bCred = panel?.Find("BotonCreditos")?.gameObject;
         if (bCred != null)
             bCred.GetComponent<Button>().onClick.AddListener(AbrirCreditos);
+
+        if (panelMenuPrincipal != null)
+            SeleccionUI.SeleccionarPrimero(panelMenuPrincipal);
     }
 
     public void Jugar()

@@ -48,6 +48,30 @@ public class SelectorNivelesMapa : MonoBehaviour
             int numeroCapturado = nodo.numeroNivel;
             nodo.boton.onClick.AddListener(() => IntentarEntrarNivel(numeroCapturado));
         }
+
+        SeleccionarNodoActual();
+    }
+
+    void SeleccionarNodoActual()
+    {
+        int nivelDesbloqueado = PlayerPrefs.GetInt("NivelDesbloqueado", 0);
+
+        NodoNivelMapa actual = System.Array.Find(nodos,
+            n => n.numeroNivel == nivelDesbloqueado + 1 && n.boton != null && n.boton.interactable);
+        if (actual != null)
+        {
+            SeleccionUI.SeleccionarPrimero(actual.boton.gameObject);
+            return;
+        }
+
+        foreach (NodoNivelMapa nodo in nodos)
+        {
+            if (nodo.boton != null && nodo.boton.interactable)
+            {
+                SeleccionUI.SeleccionarPrimero(nodo.boton.gameObject);
+                return;
+            }
+        }
     }
 
     void IntentarEntrarNivel(int numeroNivel)
