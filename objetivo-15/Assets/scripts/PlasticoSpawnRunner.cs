@@ -15,11 +15,18 @@ public class PlasticoSpawnRunner : MonoBehaviour
 
     IEnumerator EjecutarSpawn(GameObject[] prefabs, int cantidad, Vector3 posicion, float intervalo)
     {
+        Debug.Log($"[PlasticoSpawnRunner] Iniciando spawn cantidad={cantidad} pos={posicion} escena={UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
         for (int i = 0; i < cantidad && i < prefabs.Length; i++)
         {
-            if (prefabs[i] == null) continue;
+            if (prefabs[i] == null)
+            {
+                Debug.LogWarning($"[PlasticoSpawnRunner] prefab null en indice {i}");
+                continue;
+            }
             Vector3 offset = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0);
-            Instantiate(prefabs[i], posicion + offset, Quaternion.identity);
+            Vector3 spawnPos = posicion + offset;
+            GameObject go = Instantiate(prefabs[i], spawnPos, Quaternion.identity);
+            Debug.Log($"[PlasticoSpawnRunner] Instanciado {prefabs[i].name} en {spawnPos} -> {go.name}");
             yield return new WaitForSeconds(intervalo);
         }
         Destroy(gameObject);

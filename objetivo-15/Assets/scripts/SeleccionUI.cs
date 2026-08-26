@@ -6,14 +6,36 @@ public static class SeleccionUI
 {
     public static void AsegurarEventSystem()
     {
+        ConfigurarModuloExistente();
+
         if (EventSystem.current != null) return;
 
         var existente = Object.FindFirstObjectByType<EventSystem>();
-        if (existente != null) return;
+        if (existente != null)
+        {
+            ConfigurarModulo(existente.GetComponent<StandaloneInputModule>());
+            return;
+        }
 
-        new GameObject("EventSystem",
+        var go = new GameObject("EventSystem",
             typeof(EventSystem),
             typeof(StandaloneInputModule));
+        ConfigurarModulo(go.GetComponent<StandaloneInputModule>());
+    }
+
+    static void ConfigurarModuloExistente()
+    {
+        if (EventSystem.current == null) return;
+        ConfigurarModulo(EventSystem.current.GetComponent<StandaloneInputModule>());
+    }
+
+    static void ConfigurarModulo(StandaloneInputModule modulo)
+    {
+        if (modulo == null) return;
+        modulo.horizontalAxis = "UIHorizontal";
+        modulo.verticalAxis = "UIVertical";
+        modulo.submitButton = "Submit";
+        modulo.cancelButton = "Cancel";
     }
 
     public static void SeleccionarPrimero(GameObject raiz)
@@ -21,6 +43,7 @@ public static class SeleccionUI
         if (raiz == null || !raiz.activeInHierarchy) return;
 
         AsegurarEventSystem();
+        ConfigurarModuloExistente();
         var es = EventSystem.current;
         if (es == null) return;
 

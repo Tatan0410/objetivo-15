@@ -94,32 +94,62 @@ public class EnemigoVolador : MonoBehaviour
 
     void SoltarPlasticos()
     {
-        if (Random.value > probabilidadDrop) return;
-        if (prefabsPlasticos == null || prefabsPlasticos.Length == 0) return;
+        string escena = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        Debug.Log($"[Volador] SoltarPlasticos en '{escena}' | drop={probabilidadDrop} cantidad={cantidadDrop} prefabs={(prefabsPlasticos!=null?prefabsPlasticos.Length:0)} pos={transform.position}");
+
+        if (Random.value > probabilidadDrop)
+        {
+            Debug.Log($"[Volador] Drop falló por probabilidad ({probabilidadDrop}) en '{escena}'");
+            return;
+        }
+
+        GameObject[] fuente = prefabsPlasticos;
+        if (fuente == null || fuente.Length == 0)
+        {
+            Debug.LogWarning($"[Volador] prefabsPlasticos vacío en '{escena}' ({gameObject.name}) - usando fallback Resources");
+            fuente = new GameObject[]
+            {
+                Resources.Load<GameObject>("botella"),
+                Resources.Load<GameObject>("bolsaplastica"),
+                Resources.Load<GameObject>("icopor")
+            };
+        }
 
         posicionMuerte = transform.position;
 
         int validos = 0;
         for (int i = 0; i < cantidadDrop; i++)
         {
-            GameObject p = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+            GameObject p = fuente[Random.Range(0, fuente.Length)];
             if (p != null) validos++;
         }
-        if (validos == 0) return;
+        if (validos == 0)
+        {
+            Debug.LogWarning($"[Volador] Ningún prefab válido para drop en '{escena}' ({gameObject.name})");
+            return;
+        }
 
         GameObject[] selecciones = new GameObject[validos];
         int idx = 0;
         while (idx < validos)
         {
-            GameObject p = prefabsPlasticos[Random.Range(0, prefabsPlasticos.Length)];
+            GameObject p = fuente[Random.Range(0, fuente.Length)];
             if (p != null) selecciones[idx++] = p;
         }
+
+        Vector3 posSpawn = posicionMuerte + Vector3.up * 0.8f;
+        for (int k = 0; k < 4; k++)
+        {
+            if (Physics2D.OverlapCircle(posSpawn, 0.2f) == null) break;
+            posSpawn += Vector3.up * 0.4f;
+        }
+        Debug.Log($"[Volador] Spawneando {validos} plasticos en '{escena}' pos={posSpawn} overlap={Physics2D.OverlapCircle(posSpawn,0.2f) != null}");
 
         GameObject runner = new GameObject("PlasticoSpawnRunnerVolador");
         runner.AddComponent<PlasticoSpawnRunner>().Iniciar(
             selecciones,
             validos,
-            posicionMuerte,
+            posSpawn,
             0.5f
         );
     }

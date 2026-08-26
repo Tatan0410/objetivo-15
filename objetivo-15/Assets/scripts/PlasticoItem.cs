@@ -18,6 +18,11 @@ public class PlasticoItem : MonoBehaviour
 
     void Start()
     {
+        if (alturaFlotacion == 0f) alturaFlotacion = 0.2f;
+        if (limiteY == -10f) limiteY = -50f;
+
+        Debug.Log($"[PlasticoItem] Spawn '{tipo}' en {transform.position} limiteY={limiteY} escena={UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
+
         posicionInicial = transform.position;
         rb = GetComponent<Rigidbody2D>();
         colliders = GetComponents<Collider2D>();
@@ -53,7 +58,10 @@ public class PlasticoItem : MonoBehaviour
 
         // Destruir si cae fuera del mapa
         if (transform.position.y < limiteY)
+        {
+            Debug.Log($"[PlasticoItem] Destruido por limiteY {transform.position.y} < {limiteY} tipo={tipo}");
             Destroy(gameObject);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
