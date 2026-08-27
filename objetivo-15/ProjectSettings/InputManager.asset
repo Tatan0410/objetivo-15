@@ -585,6 +585,22 @@ InputManager:
     m_Name: UIHorizontal
     descriptiveName: 
     descriptiveNegativeName: 
+    negativeButton: left
+    positiveButton: right
+    altNegativeButton: a
+    altPositiveButton: d
+    gravity: 3
+    dead: 0.001
+    sensitivity: 3
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+   - serializedVersion: 3
+    m_Name: UIHorizontal
+    descriptiveName: 
+    descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
     altNegativeButton: 
@@ -596,6 +612,22 @@ InputManager:
     invert: 0
     type: 2
     axis: 5
+    joyNum: 0
+   - serializedVersion: 3
+    m_Name: UIVertical
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: down
+    positiveButton: up
+    altNegativeButton: s
+    altPositiveButton: w
+    gravity: 3
+    dead: 0.001
+    sensitivity: 3
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 0
     joyNum: 0
    - serializedVersion: 3
     m_Name: UIVertical
