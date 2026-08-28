@@ -28,6 +28,10 @@ public class DialogoManager : MonoBehaviour
     public TMP_Text textoBotonSiguiente;
     public GameObject botonSkip;
 
+    [Header("Navegación (opcional)")]
+    [Tooltip("Panel que contiene Siguiente y Skip. Si queda vacío se usa el padre de los botones.")]
+    public GameObject panelBotones;
+
     [Header("Audio")]
     public AudioSource audioSource;
 
@@ -53,6 +57,7 @@ public class DialogoManager : MonoBehaviour
         if (botonSkip != null)
             botonSkip.GetComponent<Button>().onClick.AddListener(SkipCutscene);
 
+        ConfigurarNavegacion();
         MostrarDialogo(0);
     }
 
@@ -73,6 +78,7 @@ public class DialogoManager : MonoBehaviour
     {
         escribiendo = true;
         botonSiguiente.SetActive(false);
+        SeleccionarSegunEstado();
         textoDialogo.text = "";
         if (audioSource != null && voz != null) { audioSource.clip = voz; audioSource.Play(); }
         corrutinaBoca = StartCoroutine(AnimarBoca());
@@ -84,8 +90,9 @@ public class DialogoManager : MonoBehaviour
         DetenerBoca();
         escribiendo = false;
         botonSiguiente.SetActive(true);
-        textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : textoSiguienteUltimo;
-        SeleccionUI.SeleccionarPrimero(botonSiguiente);
+        if (textoBotonSiguiente != null)
+            textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : textoSiguienteUltimo;
+        SeleccionarSegunEstado();
     }
 
     IEnumerator AnimarBoca()
@@ -118,8 +125,9 @@ public class DialogoManager : MonoBehaviour
             DetenerBoca();
             escribiendo = false;
             botonSiguiente.SetActive(true);
-            textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : textoSiguienteUltimo;
-            SeleccionUI.SeleccionarPrimero(botonSiguiente);
+            if (textoBotonSiguiente != null)
+                textoBotonSiguiente.text = indiceActual < dialogos.Length - 1 ? "Siguiente →" : textoSiguienteUltimo;
+            SeleccionarSegunEstado();
             return;
         }
         indiceActual++;
@@ -137,6 +145,37 @@ public class DialogoManager : MonoBehaviour
     void IrAlNivel()
     {
         SceneTransitionManager.CargarEscenaConFallback(escenaDestino);
+    }
+
+    void ConfigurarNavegacion()
+    {
+        if (botonSiguiente == null || botonSkip == null) return;
+
+        var selSiguiente = botonSiguiente.GetComponent<Selectable>();
+        var selSkip = botonSkip.GetComponent<Selectable>();
+        if (selSiguiente == null || selSkip == null) return;
+
+        var navSiguiente = selSiguiente.navigation;
+        var navSkip = selSkip.navigation;
+        navSiguiente.mode = Navigation.Mode.Explicit;
+        navSkip.mode = Navigation.Mode.Explicit;
+        navSiguiente.selectOnUp = selSkip;
+        navSiguiente.selectOnDown = selSkip;
+        navSkip.selectOnUp = selSiguiente;
+        navSkip.selectOnDown = selSiguiente;
+        selSiguiente.navigation = navSiguiente;
+        selSkip.navigation = navSkip;
+    }
+
+    void SeleccionarSegunEstado()
+    {
+        GameObject raiz = panelBotones;
+        if (raiz == null && botonSkip != null)
+            raiz = botonSkip.transform.parent != null ? botonSkip.transform.parent.gameObject : botonSkip;
+        if (raiz == null && botonSiguiente != null)
+            raiz = botonSiguiente.transform.parent != null ? botonSiguiente.transform.parent.gameObject : botonSiguiente;
+        if (raiz != null)
+            SeleccionUI.SeleccionarPrimero(raiz);
     }
 }
 
