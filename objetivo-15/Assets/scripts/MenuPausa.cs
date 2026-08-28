@@ -88,12 +88,16 @@ public class MenuPausa : MonoBehaviour
 
     public void ReiniciarNivel()
     {
+        if (GameOverManager.instancia != null)
+        {
+            var canvasField = typeof(GameOverManager).GetField("canvasGameOver", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var canvas = canvasField?.GetValue(GameOverManager.instancia) as GameObject;
+            if (canvas != null) canvas.SetActive(false);
+        }
+        SeleccionUI.LimpiarSeleccion();
         Time.timeScale = 1f;
         pausado = false;
         JuegoPausado = false;
-
-        if (GameManager.instancia != null)
-            GameManager.instancia.ResetearCheckpoint();
 
         if (VidasManager.instancia != null)
         {

@@ -24,6 +24,20 @@ public class GameOverManager : MonoBehaviour
         BuscarOCrearCanvas();
         if (canvasGameOver != null)
             canvasGameOver.SetActive(false);
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnEscenaCargada;
+    }
+
+    void OnDestroy()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnEscenaCargada;
+    }
+
+    void OnEscenaCargada(UnityEngine.SceneManagement.Scene escena, UnityEngine.SceneManagement.LoadSceneMode modo)
+    {
+        if (escena.name.StartsWith("nivel") && canvasGameOver != null)
+            canvasGameOver.SetActive(false);
+        if (escena.name.StartsWith("nivel"))
+            UnityEngine.Time.timeScale = 1f;
     }
 
     void BuscarOCrearCanvas()

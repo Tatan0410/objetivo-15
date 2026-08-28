@@ -6,6 +6,7 @@ public class MuerteJugador : MonoBehaviour
     public float limiteY = -20f;
 
     private bool muriendo = false;
+    private float tiempoMuriendo = 0f;
     private Rigidbody2D rb;
     private PlayerController pc;
     private Vector3 posicionRespawn;
@@ -21,7 +22,8 @@ public class MuerteJugador : MonoBehaviour
     {
         if (muriendo)
         {
-            if (transform.position.y > limiteY)
+            tiempoMuriendo -= Time.deltaTime;
+            if (tiempoMuriendo <= 0f)
                 muriendo = false;
             return;
         }
@@ -32,6 +34,7 @@ public class MuerteJugador : MonoBehaviour
     public void MorirPorEnemigo()
     {
         if (muriendo) return;
+        if (Time.timeSinceLevelLoad < 0.6f) return;
         Morir(false); // enemigo: respeta inmortalidad
     }
 
@@ -44,6 +47,7 @@ public class MuerteJugador : MonoBehaviour
     {
         if (muriendo) return;
         muriendo = true;
+        tiempoMuriendo = 0.5f;
 
         bool esGolpeFatal = VidasManager.instancia != null && VidasManager.instancia.vidasActuales <= 1;
 

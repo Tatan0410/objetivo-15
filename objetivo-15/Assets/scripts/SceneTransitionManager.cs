@@ -139,7 +139,11 @@ public class SceneTransitionManager : MonoBehaviour
         Canvas canvas = canvasCarga.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 999;
-        canvasCarga.AddComponent<CanvasScaler>();
+        var scalerCarga = canvasCarga.AddComponent<CanvasScaler>();
+        scalerCarga.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scalerCarga.referenceResolution = new Vector2(1920, 1080);
+        scalerCarga.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        scalerCarga.matchWidthOrHeight = 0.5f;
         canvasCarga.AddComponent<GraphicRaycaster>();
         DontDestroyOnLoad(canvasCarga);
 

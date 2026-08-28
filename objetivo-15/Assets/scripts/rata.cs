@@ -453,7 +453,7 @@ public class rata : MonoBehaviour
         string fuente = cuerpo != null ? "cuerpo" : "trigger/sr";
         Debug.Log($"[{gameObject.name}] pieJugador={pieJugador:F3} cabezaEnemigo={cabezaEnemigo:F3} diferencia={pieJugador - cabezaEnemigo:F3} fuente={fuente}");
 
-        if (pieJugador >= cabezaEnemigo - 0.1f)
+        if (pieJugador >= cabezaEnemigo - 0.02f && rbJug.velocity.y <= 0.1f)
         {
             rbJug.velocity = new Vector2(rbJug.velocity.x, 6f);
             RecibirDanio(1);

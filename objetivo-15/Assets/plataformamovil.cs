@@ -41,7 +41,13 @@ public class plataformamovil : MonoBehaviour
 
         Vector3 delta = transform.position - posAnteriorFrame;
         if (jugadorEncima && jugador != null)
-            jugador.position += delta;
+        {
+            Rigidbody2D rbJug = jugador.GetComponent<Rigidbody2D>();
+            if (rbJug != null)
+                rbJug.MovePosition(rbJug.position + (Vector2)delta);
+            else
+                jugador.position += delta;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D other)
