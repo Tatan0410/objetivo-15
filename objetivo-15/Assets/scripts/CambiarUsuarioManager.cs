@@ -32,10 +32,16 @@ public class CambiarUsuarioManager : MonoBehaviour
             : PlayerPrefs.GetString("NombreJugador", "Jugador");
         if (textoBotonNombre != null)
             textoBotonNombre.text = nombre;
+
+        // El botón solo se puede usar si ya existe un nombre asignado
+        if (botonCambiarUsuario != null)
+            botonCambiarUsuario.interactable = EstadisticasManager.TieneNombreGuardado();
     }
 
     public void AbrirPanelCambiarNombre()
     {
+        // Sin nombre previo no hay usuario que cambiar
+        if (!EstadisticasManager.TieneNombreGuardado()) return;
         if (panelInputCambiar == null) return;
         panelInputCambiar.SetActive(true);
         if (inputNuevoNombre != null)
