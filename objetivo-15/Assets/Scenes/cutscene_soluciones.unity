@@ -936,53 +936,55 @@ MonoBehaviour:
   botonSiguiente: {fileID: 364873136}
   textoBotonSiguiente: {fileID: 0}
   botonSkip: {fileID: 1318645140}
+  panelBotones: {fileID: 0}
   audioSource: {fileID: 429942183}
   dialogos:
   - texto: "\xA1Hola! Soy Ambientalin. El ODS 15 busca proteger la vida de ecosistemas
       terrestres. En la region Caribe colombiana, enfrentamos graves problemas de
-      contaminacion plastica y deforestacion. \xA1Pero hay soluciones!"
+      contaminacion pl\xE1stica y deforestaci\xF3n. \xA1Pero hay soluciones!"
     vozAudio: {fileID: 8300000, guid: aa737a763ae17c2418634bf402d09bce, type: 3}
-  - texto: "REDUCE los plasticos de un solo uso. En el Atlantico, cada persona genera
-      mas de 1 kg de residuos al dia. Usa bolsas reutilizables, botellas de vidrio
-      y evita los envases desechables. \xA1Peque\xF1os cambios, grandes resultados!"
+  - texto: "REDUCE los pl\xE1sticos de un solo uso. En el Atl\xE1ntico, cada persona
+      genera mas de 1 kg de residuos al d\xEDa. Usa bolsas reutilizables, botellas
+      de vidrio y evita los envases desechables. \xA1Peque\xF1os cambios, grandes
+      resultados!"
     vozAudio: {fileID: 8300000, guid: 9e72fa4f764069e4295dd4005a770537, type: 3}
-  - texto: RECICLA correctamente. Separa el plastico, el vidrio y el papel en tu
-      hogar. En Soledad, el reciclaje adecuado evita que los residuos terminen contaminando
-      el suelo y las fuentes de agua.
+  - texto: "RECICLA correctamente. Separa el pl\xE1stico, el vidrio y el papel en
+      tu hogar. En Soledad, el reciclaje adecuado evita que los residuos terminen
+      contaminando el suelo y las fuentes de agua."
     vozAudio: {fileID: 8300000, guid: ccd5624eb5c818d48af279f804f20e76, type: 3}
   - texto: APOYA la ganaderia sostenible. El proyecto Ganaderia Colombiana Sostenible
       integra arboles nativos en la produccion ganadera, protegiendo los bosques
       secos tropicales del Caribe y capturando carbono.
     vozAudio: {fileID: 8300000, guid: 1c3ad35247e3c1b4e9da7700715cbb01, type: 3}
-  - texto: "RESTAURA los ecosistemas. La siembra de arboles nativos en el Atlantico
+  - texto: "RESTAURA los ecosistemas. La siembra de \xE1rboles nativos en el Atl\xE1ntico
       ayuda a recuperar el bosque seco tropical. Mas del 70% de estos bosques han
-      desaparecido en la region. \xA1Planta un arbol!"
+      desaparecido en la regi\xF3n. \xA1Planta un \xE1rbol!"
     vozAudio: {fileID: 8300000, guid: 94abc8f2d991023429590195fbb7d91a, type: 3}
-  - texto: ADOPTA la economia circular. Transforma los residuos en nuevos productos
+  - texto: "ADOPTA la economia circular. Transforma los residuos en nuevos productos
       en lugar de desecharlos. En el Caribe, iniciativas de reciclaje comunitario
-      convierten plasticos en materiales utiles.
+      convierten pl\xE1sticos en materiales \xFAtiles."
     vozAudio: {fileID: 8300000, guid: 93957695c11c97f46a77a12f0a8374f7, type: 3}
-  - texto: ELIGE agricultura sostenible. Los sistemas agroecologicos conservan la
-      biodiversidad y protegen el suelo de la degradacion. Consume alimentos locales
-      y de temporada en Soledad.
+  - texto: "ELIGE agricultura sostenible. Los sistemas agroecol\xF3gicos conservan
+      la biodiversidad y protegen el suelo de la degradaci\xF3n. Consume alimentos
+      locales y de temporada en Soledad."
     vozAudio: {fileID: 8300000, guid: ce9617821b77dad459fac6356e3b2756, type: 3}
-  - texto: PROMUEVE la bioeconomia. Los bioplasticos y la bioenergia son alternativas
-      a los derivados del petroleo. La region Caribe tiene un gran potencial para
-      desarrollar productos biologicos renovables.
+  - texto: "PROMUEVE la bioeconom\xEDa. Los biopl\xE1sticos y la bioenerg\xEDa son
+      alternativas a los derivados del petr\xF3leo. La regi\xF3n Caribe tiene un
+      gran potencial para desarrollar productos biol\xF3gicos renovables."
     vozAudio: {fileID: 8300000, guid: 2f665f2a824a06f438a8b6c51c3df006, type: 3}
-  - texto: PROTEGE la biodiversidad del Caribe. El bosque seco tropical alberga especies
-      unicas que solo existen en Colombia. Cuidar estos ecosistemas es proteger nuestro
-      patrimonio natural.
+  - texto: "PROTEGE la biodiversidad del Caribe. El bosque seco tropical alberga
+      especies \xFAnicas que solo existen en Colombia. Cuidar estos ecosistemas es
+      proteger nuestro patrimonio natural."
     vozAudio: {fileID: 8300000, guid: 16388669e3198bb4490adb8a48643680, type: 3}
-  - texto: CONSUME responsablemente. Reduce tu huella ecologica eligiendo productos
-      con menos empaques y menor impacto ambiental. Cada decision de compra es un
-      voto por el planeta.
+  - texto: "CONSUME responsablemente. Reduce tu huella ecol\xF3gica eligiendo productos
+      con menos empaques y menor impacto ambiental. Cada decisi\xF3n de compra es
+      un voto por el planeta."
     vozAudio: {fileID: 8300000, guid: a2ca59691ff8f2040bd6d1b2fc8b0190, type: 3}
-  - texto: PARTICIPA en tu comunidad. En Soledad y el Atlantico, hay jornadas de
-      limpieza, reciclaje y reforestacion. El cambio comienza cuando la comunidad
-      se une por un mismo objetivo.
+  - texto: "PARTICIPA en tu comunidad. En Soledad y el Atl\xE1ntico, hay jornadas
+      de limpieza, reciclaje y reforestaci\xF3n. El cambio comienza cuando la comunidad
+      se une por un mismo objetivo."
     vozAudio: {fileID: 8300000, guid: f8948dc892422904db9d70eca123db5c, type: 3}
-  - texto: "Recuerda: la naturaleza es la base de nuestra vida en la Tierra. En el
+  - texto: "Recuerda: La naturaleza es la base de nuestra vida en la Tierra. En el
       Caribe colombiano, tu eres parte del cambio. \xA1Protege los ecosistemas terrestres
       y juntos lograremos el ODS 15!"
     vozAudio: {fileID: 8300000, guid: 70dae02d2c587254383eef758a9e475f, type: 3}

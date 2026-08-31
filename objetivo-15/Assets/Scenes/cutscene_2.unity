@@ -1103,9 +1103,10 @@ MonoBehaviour:
   botonSiguiente: {fileID: 546169394}
   textoBotonSiguiente: {fileID: 0}
   botonSkip: {fileID: 1431005656}
+  panelBotones: {fileID: 0}
   audioSource: {fileID: 11000000038}
   dialogos:
-  - texto: "\xA1Buen trabajo en el hip\xF3dromo! Ahora vamos al mercado de Soledad.\n\xBFSab\xEDas
+  - texto: "\xA1Buen trabajo en el Hip\xF3dromo! Ahora vamos al mercado de Soledad.\n\xBFSab\xEDas
       que cada colombiano genera m\xE1s de 1 kilo de residuos al d\xEDa?\nLos pl\xE1sticos
       de un solo uso son uno de los mayores contaminantes."
     vozAudio: {fileID: 8300000, guid: e827220fa74c903479bbcc82106b1deb, type: 3}

@@ -1103,10 +1103,11 @@ MonoBehaviour:
   botonSiguiente: {fileID: 1208941892}
   textoBotonSiguiente: {fileID: 0}
   botonSkip: {fileID: 14120881}
+  panelBotones: {fileID: 0}
   audioSource: {fileID: 10000000038}
   dialogos:
-  - texto: "\xA1Excelente! Has limpiado el colegio sagrado coraz\xF3n. Ahora visita
-      el hip\xF3dromo,\nun lugar donde el da\xF1o a los ecosistemas es visible. En
+  - texto: "\xA1Excelente! Has limpiado el colegio Sagrado Coraz\xF3n. Ahora visita
+      el Hip\xF3dromo,\nun lugar donde el da\xF1o a los ecosistemas es visible. En
       el Atl\xE1ntico,\nhemos perdido m\xE1s del 70% de nuestros bosques secos tropicales."
     vozAudio: {fileID: 8300000, guid: 1686be3517f013a4e882d4905ca2272a, type: 3}
   - texto: "La deforestaci\xF3n destruye el h\xE1bitat de muchas especies. El ODS

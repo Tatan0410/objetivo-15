@@ -1103,9 +1103,10 @@ MonoBehaviour:
   botonSiguiente: {fileID: 699188790}
   textoBotonSiguiente: {fileID: 0}
   botonSkip: {fileID: 1461949717}
+  panelBotones: {fileID: 0}
   audioSource: {fileID: 14000000038}
   dialogos:
-  - texto: "Has llegado a la \xFAltima parada: la empresa. El sector industrial\ntiene
+  - texto: "Has llegado a la \xFAltima parada: La empresa. El sector industrial\ntiene
       un papel clave en la protecci\xF3n de los ecosistemas. La econom\xEDa\ncircular
       busca que ning\xFAn residuo termine contaminando la tierra."
     vozAudio: {fileID: 8300000, guid: de53faca7b899a84e9c978c58c4407d8, type: 3}
@@ -1113,7 +1114,7 @@ MonoBehaviour:
       la desertificaci\xF3n. Las empresas pueden adoptar pr\xE1cticas\nm\xE1s limpias
       y reducir su impacto ambiental."
     vozAudio: {fileID: 8300000, guid: 51c6787cff92e8246b42ab8391818776, type: 3}
-  - texto: "Has recorrido un gran camino, de Soledad al mundo. Recuerda: la\nnaturaleza
+  - texto: "Has recorrido un gran camino, de Soledad al mundo. Recuerda: La\nnaturaleza
       es la base de nuestra vida en la Tierra. Proteger los\necosistemas terrestres
       es proteger nuestro propio futuro. \xA1Gracias!"
     vozAudio: {fileID: 8300000, guid: b0eff4292c8387e4f90ce3b6baad28da, type: 3}
