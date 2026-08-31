@@ -25,7 +25,7 @@ public class CambiarUsuarioManager : MonoBehaviour
     void OnEnable() => ActualizarTextoBoton();
     void Start() => ActualizarTextoBoton();
 
-    void ActualizarTextoBoton()
+    public void ActualizarTextoBoton()
     {
         string nombre = EstadisticasManager.instancia != null
             ? EstadisticasManager.instancia.nombreJugador
@@ -72,8 +72,6 @@ public class CambiarUsuarioManager : MonoBehaviour
     void AbrirConfirmacionCambiar()
     {
         if (panelConfirmacionCambiar == null) return;
-        if (textoConfirmacionCambiar != null)
-            textoConfirmacionCambiar.text = "estas seguro que deseas cambiar de usuario? todo el progreso se borara";
         panelConfirmacionCambiar.SetActive(true);
         SeleccionUI.SeleccionarPrimero(panelConfirmacionCambiar);
         ConfigurarNavegacionConfirmacion(panelConfirmacionCambiar);

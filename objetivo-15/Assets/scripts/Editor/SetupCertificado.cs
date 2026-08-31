@@ -36,9 +36,15 @@ public static class SetupCertificado
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080);
 
-        TMP_FontAsset fuente = null;
-        // Intentar cargar fuente de Transicion
-        fuente = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Resources/Transicion/fuente.asset");
+        TMP_FontAsset fuente = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/fonts/PressStart2P-Regular SDF.asset");
+        if (fuente == null)
+            fuente = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Resources/Transicion/fuente.asset");
+        if (fuente == null)
+        {
+            string[] guids = AssetDatabase.FindAssets("t:TMP_FontAsset");
+            if (guids.Length > 0)
+                fuente = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(AssetDatabase.GUIDToAssetPath(guids[0]));
+        }
 
         // Fondo
         var fondoGO = new GameObject("FondoCertificado", typeof(RectTransform));
@@ -47,6 +53,8 @@ public static class SetupCertificado
         fondoRT.anchorMin = Vector2.zero; fondoRT.anchorMax = Vector2.one; fondoRT.offsetMin = Vector2.zero; fondoRT.offsetMax = Vector2.zero;
         var fondoImg = fondoGO.AddComponent<Image>();
         fondoImg.color = new Color(0.98f, 0.96f, 0.88f, 1f); // pergamino
+        fondoImg.raycastTarget = false;
+        fondoGO.transform.SetAsFirstSibling();
 
         // Título
         var tituloGO = new GameObject("TituloCertificado", typeof(RectTransform));

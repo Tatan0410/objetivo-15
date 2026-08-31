@@ -37,5 +37,8 @@ public class InputNombreJugador : MonoBehaviour
 
         if (panelInputNombre != null)
             panelInputNombre.SetActive(false);
+
+        var mgr = FindFirstObjectByType<CambiarUsuarioManager>();
+        if (mgr != null) mgr.ActualizarTextoBoton();
     }
 }

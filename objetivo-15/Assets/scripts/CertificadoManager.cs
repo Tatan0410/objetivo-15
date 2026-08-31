@@ -24,6 +24,15 @@ public class CertificadoManager : MonoBehaviour
 
     void Start()
     {
+        // Asegurar que el fondo quede detrás como en menuprincipal (primer hermano)
+        var fondo = GameObject.Find("FondoCertificado");
+        if (fondo != null)
+        {
+            fondo.transform.SetAsFirstSibling();
+            var img = fondo.GetComponent<UnityEngine.UI.Image>();
+            if (img != null) img.raycastTarget = false;
+        }
+
         MostrarEstadisticas();
         // Seleccionar primer botón para navegación con mando/teclado
         var canvas = GetComponentInParent<Canvas>();
