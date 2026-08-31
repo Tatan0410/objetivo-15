@@ -342,6 +342,8 @@ public class Enemigo : MonoBehaviour
     {
         if (muerto) return;
         muerto = true;
+        if (EstadisticasManager.instancia != null)
+            EstadisticasManager.instancia.RegistrarEnemigoDerrotado();
 
         if (animator != null)
             animator.SetBool("muerto", true);

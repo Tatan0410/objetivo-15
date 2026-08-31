@@ -22,5 +22,17 @@ public static class Bootstrapper
             GameObject vm = new GameObject("VidasManager");
             vm.AddComponent<VidasManager>();
         }
+
+        if (EstadisticasManager.instancia == null)
+        {
+            GameObject prefabEM = Resources.Load<GameObject>("EstadisticasManager");
+            if (prefabEM != null)
+                GameObject.Instantiate(prefabEM);
+            else
+            {
+                GameObject em = new GameObject("EstadisticasManager");
+                em.AddComponent<EstadisticasManager>();
+            }
+        }
     }
 }

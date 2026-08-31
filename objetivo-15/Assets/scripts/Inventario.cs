@@ -45,6 +45,9 @@ public class Inventario : MonoBehaviour
 
         ActualizarUI();
         Debug.Log("Recogiste: " + tipo.ToString());
+
+        if (EstadisticasManager.instancia != null)
+            EstadisticasManager.instancia.RegistrarPlastico();
     }
 
     public bool TieneIngredientes(int pet, int bolsas, int ico)

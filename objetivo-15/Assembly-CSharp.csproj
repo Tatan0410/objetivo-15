@@ -73,13 +73,16 @@
     <Compile Include="Assets\scripts\NubeIndividual.cs" />
     <Compile Include="Assets\scripts\FondoMovimiento.cs" />
     <Compile Include="Assets\scripts\IconoUtils.cs" />
+    <Compile Include="Assets\scripts\CambiarUsuarioManager.cs" />
     <Compile Include="Assets\plataformamovil.cs" />
+    <Compile Include="Assets\scripts\InputNombreJugador.cs" />
     <Compile Include="Assets\scripts\TrampaHot.cs" />
     <Compile Include="Assets\SpikeHead.cs" />
     <Compile Include="Assets\scripts\SelectorNivelesMapa.cs" />
     <Compile Include="Assets\scripts\CreditosManager.cs" />
     <Compile Include="Assets\scripts\FinNivel.cs" />
     <Compile Include="Assets\scripts\MapamundialEstadoManager.cs" />
+    <Compile Include="Assets\scripts\EstadisticasManager.cs" />
     <Compile Include="Assets\scripts\NPCSaltoFondo.cs" />
     <Compile Include="Assets\scripts\AjustarMapa.cs" />
     <Compile Include="Assets\scripts\SceneTransitionManager.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Assets\scripts\NPCDialogoJRPG.cs" />
     <Compile Include="Assets\scripts\GameOverManager.cs" />
     <Compile Include="Assets\scripts\TipoPlastico.cs" />
+    <Compile Include="Assets\scripts\CertificadoManager.cs" />
     <Compile Include="Assets\scripts\MenuPrincipal.cs" />
     <Compile Include="Assets\scripts\ContadorHUD.cs" />
     <Compile Include="Assets\scripts\ContadorMunicionSeleccionado.cs" />

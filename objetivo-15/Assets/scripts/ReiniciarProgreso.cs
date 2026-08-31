@@ -56,6 +56,9 @@ public class ReiniciarProgreso : MonoBehaviour
         PlayerPrefs.Save();
         Debug.Log("Progreso reiniciado (PlayerPrefs borrados).");
 
+        if (EstadisticasManager.instancia != null)
+            EstadisticasManager.instancia.ReiniciarEstadisticas();
+
         CerrarConfirmacion();
 
         var selector = Object.FindFirstObjectByType<SelectorNivelesMapa>();
