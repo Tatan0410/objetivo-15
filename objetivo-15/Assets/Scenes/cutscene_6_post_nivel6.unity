@@ -241,6 +241,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BotonSkip
       objectReference: {fileID: 0}
+    - target: {fileID: 7248364746769720499, guid: 5f35f9cd2100dd045a6695176396f62f, type: 3}
+      propertyPath: m_text
+      value: Saltar
+      objectReference: {fileID: 0}
     - target: {fileID: 9192066404107482334, guid: 5f35f9cd2100dd045a6695176396f62f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -307,7 +311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9192066404107482334, guid: 5f35f9cd2100dd045a6695176396f62f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -51.7697
+      value: -51.769775
       objectReference: {fileID: 0}
     - target: {fileID: 9192066404107482334, guid: 5f35f9cd2100dd045a6695176396f62f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1103,13 +1107,20 @@ MonoBehaviour:
   botonSiguiente: {fileID: 699188790}
   textoBotonSiguiente: {fileID: 0}
   botonSkip: {fileID: 1461949717}
+  panelBotones: {fileID: 0}
   audioSource: {fileID: 14000000038}
   dialogos:
-  - texto: "\xA1Felicidades! Has completado las 6 misiones y demostrado que\nel cambio es posible. La industria y la naturaleza pueden coexistir\ngracias a la econom\xEDa circular. [EDITA ESTE TEXTO]"
+  - texto: "\xA1Felicidades! Has completado las 6 misiones y demostrado que\nel cambio
+      es posible. La industria y la naturaleza pueden coexistir\ngracias a la econom\xEDa
+      circular. [EDITA ESTE TEXTO]"
     vozAudio: {fileID: 0}
-  - texto: "Gracias a tu esfuerzo, Soledad renace: bosques restaurados,\nsuelos sanos y vida silvestre protegida. El ODS 15 cobra vida\ncuando cada persona act\xFAa. [EDITA ESTE TEXTO]"
+  - texto: "Gracias a tu esfuerzo, Soledad renace: bosques restaurados,\nsuelos sanos
+      y vida silvestre protegida. El ODS 15 cobra vida\ncuando cada persona act\xFAa.
+      [EDITA ESTE TEXTO]"
     vozAudio: {fileID: 0}
-  - texto: "Ahora contempla el fruto de tu trabajo. El mapa muestra un mundo\nlimpio y lleno de esperanza. Descansa, has protegido nuestro\nfuturo. [EDITA ESTE TEXTO Y A\xD1ADE AUDIOS EN INSPECTOR]"
+  - texto: "Ahora contempla el fruto de tu trabajo. El mapa muestra un mundo\nlimpio
+      y lleno de esperanza. Descansa, has protegido nuestro\nfuturo. [EDITA ESTE
+      TEXTO Y A\xD1ADE AUDIOS EN INSPECTOR]"
     vozAudio: {fileID: 0}
   escenaDestino: escena_final
   textoSiguienteUltimo: "\xA1Jugar!"

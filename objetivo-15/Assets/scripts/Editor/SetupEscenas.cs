@@ -461,8 +461,20 @@ public class SetupEscenas : EditorWindow
         mc.panelCrafteo = panel;
         mc.gameObject.name = "MenuCrafteo";
 
-        // Conectar botones
-        UnityEventTools.AddPersistentListener(bPausa.GetComponent<Button>().onClick, PausarJuego);
+        // Conectar botones. IMPORTANTE: el boton de pausa debe apuntar a la instancia
+        // real de MenuPausa (no a un metodo estatico del editor, que rompe el onClick).
+        var mp = Object.FindFirstObjectByType<MenuPausa>();
+        if (mp != null)
+        {
+            UnityEventTools.AddPersistentListener(bPausa.GetComponent<Button>().onClick, mp.Pausar);
+        }
+        else
+        {
+            // Fallback por nombre si el PausaManager no esta en la escena
+            var mpGO = new GameObject("PausaManager");
+            mp = mpGO.AddComponent<MenuPausa>();
+            UnityEventTools.AddPersistentListener(bPausa.GetComponent<Button>().onClick, mp.Pausar);
+        }
         UnityEventTools.AddPersistentListener(bCrafteo.GetComponent<Button>().onClick, mc.AbrirCrafteo);
         UnityEventTools.AddPersistentListener(btnLanzador.GetComponent<Button>().onClick, mc.CraftearYCerrar);
         UnityEventTools.AddPersistentListener(btnCerrar.GetComponent<Button>().onClick, mc.CerrarMenu);

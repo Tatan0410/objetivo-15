@@ -19849,6 +19849,16 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 93, y: -7, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 253
+      m_TileSpriteIndex: 166
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: -24, y: -6, z: 0}
     second:
       serializedVersion: 2
@@ -20874,6 +20884,16 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 257
       m_TileSpriteIndex: 170
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 93, y: -6, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 253
+      m_TileSpriteIndex: 166
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -33697,8 +33717,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: ce48a88798c5f5a4f99c3d2538e87f4b, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 2
+    m_Data: {fileID: 11400000, guid: 2452cfbabf094c84a843dee04e6c7d54, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 3f9a11c831900e741a517b59edc2bdaf, type: 2}
   - m_RefCount: 1
@@ -34070,8 +34090,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 2
+    m_Data: {fileID: 1060903203, guid: 994beb13d956d6d40856106107c5855b, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -72907652, guid: 62dc9f824d2fda04ab2f806f5b941cf2, type: 3}
   - m_RefCount: 1
@@ -34285,7 +34305,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: -621777940, guid: 62dc9f824d2fda04ab2f806f5b941cf2, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 2311
+  - m_RefCount: 2313
     m_Data:
       e00: 1
       e01: 0
@@ -34340,7 +34360,7 @@ Tilemap:
       e32: 8.91e-43
       e33: 8.94e-43
   m_TileColorArray:
-  - m_RefCount: 2311
+  - m_RefCount: 2313
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -43294,6 +43314,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6383534556387638396, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.4486847
+      objectReference: {fileID: 0}
+    - target: {fileID: 6383534556387638396, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.22859383
+      objectReference: {fileID: 0}
     - target: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.179256
@@ -43405,6 +43433,7 @@ MonoBehaviour:
   caidaLentaActiva: 0
   gravedadNormal: 1
   gravedadCaidaLenta: 0.3
+  tiempoCaidaLentaMaximo: 2
 --- !u!50 &1479732589
 Rigidbody2D:
   serializedVersion: 4
@@ -43513,7 +43542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9078dbc7bac609647bba29f6e7a2d1c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  limiteY: -20
+  limiteY: -16
 --- !u!61 &1479732593
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -46761,15 +46790,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 497935447865224409, guid: f82fb0e9003c31140b1391141165fcea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 93.4
+      value: 93.35
       objectReference: {fileID: 0}
     - target: {fileID: 497935447865224409, guid: f82fb0e9003c31140b1391141165fcea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.68
+      value: -6.69
       objectReference: {fileID: 0}
     - target: {fileID: 497935447865224409, guid: f82fb0e9003c31140b1391141165fcea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.72
+      value: 1.71
       objectReference: {fileID: 0}
     - target: {fileID: 497935447865224409, guid: f82fb0e9003c31140b1391141165fcea, type: 3}
       propertyPath: m_LocalRotation.w

@@ -30,6 +30,7 @@ public class EnemigoVolador : MonoBehaviour
     private SpriteRenderer sr;
     private bool yaProcesadoEsteFrame = false;
     private float escalaOriginalX;
+    private float cooldownPisotón;
 
     void Start()
     {
@@ -50,6 +51,10 @@ public class EnemigoVolador : MonoBehaviour
     {
         yaProcesadoEsteFrame = false;
         if (muerto || congelado) return;
+
+        if (cooldownPisotón > 0f)
+            cooldownPisotón -= Time.fixedDeltaTime;
+
         Patrullar();
     }
 
@@ -236,6 +241,7 @@ public class EnemigoVolador : MonoBehaviour
     private void ManejarContactoJugador(Collider2D colJugador, GameObject jugador)
     {
         if (muerto || congelado || yaProcesadoEsteFrame) return;
+        if (cooldownPisotón > 0f) return;
 
         PlayerController pc = jugador.GetComponent<PlayerController>();
         if (pc != null && pc.EsInmortal())
@@ -272,6 +278,10 @@ public class EnemigoVolador : MonoBehaviour
         {
             rbJug.velocity = new Vector2(rbJug.velocity.x, 6f);
             RecibirDanio(1);
+            // Cooldown de pisotón: evita el rebote infinito que arrastra al jugador.
+            cooldownPisotón = 0.25f;
+            yaProcesadoEsteFrame = false;
+            return;
         }
         else
         {

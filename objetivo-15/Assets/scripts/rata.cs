@@ -44,6 +44,8 @@ public class rata : MonoBehaviour
     private enum Modo { Quieto, Perseguir, Patrullar }
     private Modo modo = Modo.Quieto;
 
+    private float cooldownPisotón;
+
     void Start()
     {
         vidas = ConfigNivelEnemigos.VidasEnemigo();
@@ -97,6 +99,9 @@ public class rata : MonoBehaviour
     {
         yaProcesadoEsteFrame = false;
         if (rb == null || muerto || congelado) return;
+
+        if (cooldownPisotón > 0f)
+            cooldownPisotón -= Time.fixedDeltaTime;
 
         switch (modo)
         {
@@ -420,6 +425,7 @@ public class rata : MonoBehaviour
     private void ManejarContactoJugador(Collider2D colJugador, GameObject jugador)
     {
         if (muerto || congelado || yaProcesadoEsteFrame) return;
+        if (cooldownPisotón > 0f) return;
 
         PlayerController pc = jugador.GetComponent<PlayerController>();
         if (pc != null && pc.EsInmortal())
@@ -459,6 +465,10 @@ public class rata : MonoBehaviour
         {
             rbJug.velocity = new Vector2(rbJug.velocity.x, 6f);
             RecibirDanio(1);
+            // Cooldown de pisotón: evita que el jugador rebote en bucle infinito.
+            cooldownPisotón = 0.25f;
+            yaProcesadoEsteFrame = false;
+            return;
         }
         else
         {

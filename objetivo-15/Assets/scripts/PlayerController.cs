@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
     public bool caidaLentaActiva = false;
     public float gravedadNormal = 1f;
     public float gravedadCaidaLenta = 0.3f;
+    public float tiempoCaidaLentaMaximo = 2f;
+    private float tiempoCaidaLenta;
 
     void Start()
     {
@@ -144,6 +146,7 @@ public class PlayerController : MonoBehaviour
 
             rb.gravityScale = gravedadCaidaLenta;
             caidaLentaActiva = true;
+            tiempoCaidaLenta = tiempoCaidaLentaMaximo;
 
             if (Camera.main != null)
             {
@@ -171,6 +174,18 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                // Red de seguridad: si el respawn dejó al jugador flotando sin poder
+                // aterrizar (por ejemplo empujado por un enemigo), restaura el control
+                // tras un tiempo máximo para evitar quedar atascado saltando.
+                tiempoCaidaLenta -= Time.fixedDeltaTime;
+                if (tiempoCaidaLenta <= 0f)
+                {
+                    caidaLentaActiva = false;
+                    rb.gravityScale = gravedadNormal;
+                    controlActivo = true;
+                    return;
+                }
+
                 if (animator != null)
                 {
                     animator.SetBool("corriendo", false);

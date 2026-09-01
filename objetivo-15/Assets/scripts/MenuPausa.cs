@@ -36,6 +36,23 @@ public class MenuPausa : MonoBehaviour
             sliderVolumen.value = volumenGuardado;
             sliderVolumen.onValueChanged.AddListener(CambiarVolumen);
         }
+
+        ConectarBotonPausa();
+    }
+
+    // El boton BtnPausa quedaba conectado a un metodo estatico del ensamblado de
+    // Editor (SetupEscenas.PausarJuego), por lo que al hacer click no hacia nada.
+    // Aqui lo reconectamos a la instancia real de MenuPausa en runtime.
+    void ConectarBotonPausa()
+    {
+        var btnGO = GameObject.Find("BtnPausa");
+        if (btnGO == null) return;
+
+        Button btn = btnGO.GetComponent<Button>();
+        if (btn == null) return;
+
+        btn.onClick.RemoveAllListeners();
+        btn.onClick.AddListener(Pausar);
     }
 
     void AplicarVolumen(float valor)
