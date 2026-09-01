@@ -56,6 +56,12 @@ public class SelectorNivelesMapa : MonoBehaviour
     {
         int nivelDesbloqueado = PlayerPrefs.GetInt("NivelDesbloqueado", 0);
 
+        // Preparar la navegacion entre todos los nodos del mapa (no solo uno).
+        // Usamos el Canvas como contenedor para que todos los botones queden enlazados.
+        var canvas = GetComponentInParent<Canvas>();
+        if (canvas != null)
+            SeleccionUI.PrepararNavegacion(canvas.gameObject);
+
         NodoNivelMapa actual = System.Array.Find(nodos,
             n => n.numeroNivel == nivelDesbloqueado + 1 && n.boton != null && n.boton.interactable);
         if (actual != null)

@@ -1110,18 +1110,16 @@ MonoBehaviour:
   panelBotones: {fileID: 0}
   audioSource: {fileID: 14000000038}
   dialogos:
-  - texto: "\xA1Felicidades! Has completado las 6 misiones y demostrado que\nel cambio
-      es posible. La industria y la naturaleza pueden coexistir\ngracias a la econom\xEDa
-      circular. [EDITA ESTE TEXTO]"
-    vozAudio: {fileID: 0}
-  - texto: "Gracias a tu esfuerzo, Soledad renace: bosques restaurados,\nsuelos sanos
-      y vida silvestre protegida. El ODS 15 cobra vida\ncuando cada persona act\xFAa.
-      [EDITA ESTE TEXTO]"
-    vozAudio: {fileID: 0}
-  - texto: "Ahora contempla el fruto de tu trabajo. El mapa muestra un mundo\nlimpio
-      y lleno de esperanza. Descansa, has protegido nuestro\nfuturo. [EDITA ESTE
-      TEXTO Y A\xD1ADE AUDIOS EN INSPECTOR]"
-    vozAudio: {fileID: 0}
+  - texto: "\xA1FELICIDADES! Has limpiado el municipio de Soledad con \xE9xito, gracias
+      a tu ayuda hemos podido recuperar los ecosistemas terrestres."
+    vozAudio: {fileID: 8300000, guid: 028828d625f641842b7b728dd315f0b4, type: 3}
+  - texto: "En este juego aprendiste a ser perseverante y resiliente, no te has rendido,
+      \xA1Te admiro mucho! Eres un ejemplo a seguir."
+    vozAudio: {fileID: 8300000, guid: 5b1ea6ececd8dcf4bb225958714d90d6, type: 3}
+  - texto: "ahora es momento de que tomes lo aprendido del objetivo 15 y lo apliques
+      en tu rutina, recicla, no arrojes pl\xE1sticos a la calle, se amigable con
+      el planeta."
+    vozAudio: {fileID: 8300000, guid: f2022f6ba29b77a4692b493ccccc8bb5, type: 3}
   escenaDestino: escena_final
   textoSiguienteUltimo: "\xA1Jugar!"
   velocidadTexto: 0.08
