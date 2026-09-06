@@ -2,5 +2,7 @@ public enum TipoPlastico
 {
     BotellaPET,
     BolsaPlastica,
-    Icopor
+    Icopor,
+    Banana,
+    Manzana
 }

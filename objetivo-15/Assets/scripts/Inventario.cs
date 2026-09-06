@@ -8,11 +8,15 @@ public class Inventario : MonoBehaviour
     public int botellasPET = 0;
     public int bolsasPlasticas = 0;
     public int icopor = 0;
+    public int bananas = 0;
+    public int manzanas = 0;
 
     [Header("UI - Contadores")]
     public ContadorHUD contadorPET;
     public ContadorHUD contadorBolsa;
     public ContadorHUD contadorIcopor;
+    public ContadorHUD contadorBanana;
+    public ContadorHUD contadorManzana;
 
     void Awake()
     {
@@ -40,6 +44,12 @@ public class Inventario : MonoBehaviour
                 break;
             case TipoPlastico.Icopor:
                 icopor++;
+                break;
+            case TipoPlastico.Banana:
+                bananas++;
+                break;
+            case TipoPlastico.Manzana:
+                manzanas++;
                 break;
         }
 
@@ -70,5 +80,7 @@ public class Inventario : MonoBehaviour
         if (contadorPET != null) contadorPET.Actualizar(botellasPET);
         if (contadorBolsa != null) contadorBolsa.Actualizar(bolsasPlasticas);
         if (contadorIcopor != null) contadorIcopor.Actualizar(icopor);
+        if (contadorBanana != null) contadorBanana.Actualizar(bananas);
+        if (contadorManzana != null) contadorManzana.Actualizar(manzanas);
     }
 }

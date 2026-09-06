@@ -151,6 +151,15 @@ public class SetupEscenas : EditorWindow
             SetupBalas.AjustarTxtBalaSeleccionada();
         EditorGUILayout.HelpBox("Tambien puedes arrastrar el texto libremente: abre el prefab Assets/prefabs/ContenedorBalas.prefab (doble clic) y muevelo en la vista de escena.", MessageType.Info);
 
+        if (GUILayout.Button("22. Agregar contadores Banana/Manzana (todos los niveles)", GUILayout.Height(40)))
+            AgregarContadoresFrutas();
+
+        if (GUILayout.Button("23. Crear prefabs Banana/Manzana + copiar HUD nivel6 a los otros 5", GUILayout.Height(40)))
+        {
+            CrearPrefabsFrutas();
+            CopiarHUDNivel6ATodos();
+        }
+
         EditorGUILayout.Space();
         EditorGUILayout.HelpBox("Abre cada escena despues de configurar para verificar.", MessageType.Info);
     }
@@ -1097,12 +1106,16 @@ public class SetupEscenas : EditorWindow
         var sprPET = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/botellasinfondo.png");
         var sprBolsa = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/bolsasinfondo.png");
         var sprIcopor = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/icopor-removebg-preview.png");
+        var sprBanana = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/banana.png");
+        var sprManzana = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/manzana.png");
 
         // Fallback procedural si falta algun sprite
         if (sprLleno == null) sprLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
         if (sprPET == null) sprPET = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.8f, 0.2f));
         if (sprBolsa == null) sprBolsa = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.5f, 0.9f));
         if (sprIcopor == null) sprIcopor = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.8f, 0.2f));
+        if (sprBanana == null) sprBanana = IconoUtils.GenerarCirculo(16, 100, new Color(0.95f, 0.9f, 0.1f));
+        if (sprManzana == null) sprManzana = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.2f, 0.2f));
 
         // ─── CONTENEDOR DE CORAZONES (los corazones se crean dinamicamente en runtime) ───
         var heartParent = MakeUI("ContenedorCorazones", canvas.transform,
@@ -1122,7 +1135,7 @@ public class SetupEscenas : EditorWindow
         // ─── CONTADORES DE RECURSOS ───
         var resParent = MakeUI("ContenedorRecursos", canvas.transform,
             new Vector2(0f, 1f), new Vector2(0f, 1f),
-            new Vector2(10, -55), new Vector2(200, 120), new Vector2(0f, 1f));
+            new Vector2(10, -55), new Vector2(200, 176), new Vector2(0f, 1f));
 
         System.Func<string, Sprite, int, ContadorHUD> crearContador =
             (nombre, iconSprite, index) =>
@@ -1154,6 +1167,8 @@ public class SetupEscenas : EditorWindow
         var contPET = crearContador("ContPET", sprPET, 0);
         var contBolsa = crearContador("ContBolsa", sprBolsa, 1);
         var contIcopor = crearContador("ContIcopor", sprIcopor, 2);
+        var contBanana = crearContador("ContBanana", sprBanana, 3);
+        var contManzana = crearContador("ContManzana", sprManzana, 4);
 
         var inv = Object.FindFirstObjectByType<Inventario>();
         if (inv != null)
@@ -1161,6 +1176,8 @@ public class SetupEscenas : EditorWindow
             inv.contadorPET = contPET;
             inv.contadorBolsa = contBolsa;
             inv.contadorIcopor = contIcopor;
+            inv.contadorBanana = contBanana;
+            inv.contadorManzana = contManzana;
             Debug.Log("Contadores conectados a Inventario");
         }
         else Debug.LogError("No se encontro Inventario");
@@ -1198,11 +1215,15 @@ public class SetupEscenas : EditorWindow
         var sprPET = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/botellasinfondo.png");
         var sprBolsa = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/bolsasinfondo.png");
         var sprIcopor = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/icopor-removebg-preview.png");
+        var sprBanana = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/banana.png");
+        var sprManzana = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/manzana.png");
 
         if (sprLleno == null) sprLleno = IconoUtils.GenerarCorazon(32, 100, new Color(1f, 0.2f, 0.2f));
         if (sprPET == null) sprPET = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.8f, 0.2f));
         if (sprBolsa == null) sprBolsa = IconoUtils.GenerarCirculo(16, 100, new Color(0.2f, 0.5f, 0.9f));
         if (sprIcopor == null) sprIcopor = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.8f, 0.2f));
+        if (sprBanana == null) sprBanana = IconoUtils.GenerarCirculo(16, 100, new Color(0.95f, 0.9f, 0.1f));
+        if (sprManzana == null) sprManzana = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.2f, 0.2f));
 
         var canvas = Object.FindFirstObjectByType<Canvas>();
         if (canvas == null) { Debug.LogError($"{nombre}: No hay Canvas"); return; }
@@ -1232,7 +1253,7 @@ public class SetupEscenas : EditorWindow
         {
             resParent = MakeUI("ContenedorRecursos", canvas.transform,
                 new Vector2(0f, 1f), new Vector2(0f, 1f),
-                new Vector2(10, -55), new Vector2(200, 120), new Vector2(0f, 1f));
+                new Vector2(10, -55), new Vector2(200, 176), new Vector2(0f, 1f));
 
             System.Func<string, Sprite, int, ContadorHUD> crearContador =
                 (nom, iconSprite, index) =>
@@ -1264,6 +1285,8 @@ public class SetupEscenas : EditorWindow
             var contPET = crearContador("ContPET", sprPET, 0);
             var contBolsa = crearContador("ContBolsa", sprBolsa, 1);
             var contIcopor = crearContador("ContIcopor", sprIcopor, 2);
+            var contBanana = crearContador("ContBanana", sprBanana, 3);
+            var contManzana = crearContador("ContManzana", sprManzana, 4);
 
             var inv = Object.FindFirstObjectByType<Inventario>();
             if (inv != null)
@@ -1271,6 +1294,8 @@ public class SetupEscenas : EditorWindow
                 inv.contadorPET = contPET;
                 inv.contadorBolsa = contBolsa;
                 inv.contadorIcopor = contIcopor;
+                inv.contadorBanana = contBanana;
+                inv.contadorManzana = contManzana;
             }
             else Debug.LogError($"{nombre}: No se encontro Inventario");
         }
@@ -1379,12 +1404,206 @@ public class SetupEscenas : EditorWindow
         Debug.Log("Contadores del Inventario actualizados");
     }
 
+    // ─────── AGREGAR CONTADORES DE FRUTAS (BANANA / MANZANA) A TODOS LOS NIVELES ───────
+
+    static ContadorHUD CrearFilaContadorFrutas(string nombre, Sprite iconSprite, int idx)
+    {
+        var resParent = GameObject.Find("ContenedorRecursos") ?? GameObject.Find("Canvas");
+        if (resParent == null) return null;
+
+        var row = MakeUI(nombre, resParent.transform,
+            new Vector2(0f, 1f), new Vector2(0f, 1f),
+            new Vector2(0, -idx * 28), new Vector2(200, 24), new Vector2(0f, 1f));
+        var iconGO = MakeUI("Icono", row.transform,
+            new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+            new Vector2(0, 0), new Vector2(20, 20), new Vector2(0.5f, 0.5f));
+        var iconImg = iconGO.AddComponent<Image>();
+        iconImg.sprite = iconSprite;
+        iconImg.preserveAspect = true;
+        var txtGO = MakeUI("Numero", row.transform,
+            new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+            new Vector2(26, 0), new Vector2(80, 24), new Vector2(0f, 0.5f));
+        var tmp = txtGO.AddComponent<TextMeshProUGUI>();
+        tmp.text = "0";
+        tmp.fontSize = 18;
+        tmp.color = Color.white;
+        tmp.alignment = TextAlignmentOptions.Left;
+        var font = FindFont();
+        if (font) tmp.font = font;
+        var cont = row.AddComponent<ContadorHUD>();
+        cont.icono = iconImg;
+        cont.texto = tmp;
+        return cont;
+    }
+
+    public static void AgregarContadoresFrutas()
+    {
+        string[] levels = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
+                            "nivel4_basurero", "nivel5_subterraneo", "nivel6_empresa" };
+        foreach (var lv in levels)
+            AgregarContadoresFrutasNivel($"Assets/Scenes/{lv}.unity", lv);
+        Debug.Log("=== CONTADORES BANANA / MANZANA AGREGADOS A TODOS LOS NIVELES ===");
+    }
+
+    static void AgregarContadoresFrutasNivel(string path, string nombre)
+    {
+        if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); return; }
+
+        EditorSceneManager.OpenScene(path);
+
+        var sprBanana = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/banana-removebg-preview.png");
+        var sprManzana = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/manzana-removebg-preview.png");
+        if (sprBanana == null) sprBanana = IconoUtils.GenerarCirculo(16, 100, new Color(0.95f, 0.9f, 0.1f));
+        if (sprManzana == null) sprManzana = IconoUtils.GenerarCirculo(16, 100, new Color(0.9f, 0.2f, 0.2f));
+
+        // Ampliar el panel para que quepa (5 filas de 28px -> alto 176)
+        var resParent = GameObject.Find("ContenedorRecursos");
+        if (resParent != null)
+        {
+            var rt = resParent.GetComponent<RectTransform>();
+            if (rt != null) rt.sizeDelta = new Vector2(rt.sizeDelta.x, 176);
+        }
+
+        var inv = Object.FindFirstObjectByType<Inventario>();
+        if (inv == null)
+        {
+            Debug.LogWarning($"{nombre}: No hay Inventario");
+            return;
+        }
+
+        // Buscar existentes
+        foreach (var c in Resources.FindObjectsOfTypeAll<ContadorHUD>())
+        {
+            if (c.gameObject.scene != EditorSceneManager.GetActiveScene()) continue;
+            string name = c.gameObject.name;
+            if (name == "ContBanana") inv.contadorBanana = c;
+            else if (name == "ContManzana") inv.contadorManzana = c;
+        }
+
+        if (inv.contadorBanana == null)
+            inv.contadorBanana = CrearFilaContadorFrutas("ContBanana", sprBanana, 3);
+        if (inv.contadorManzana == null)
+            inv.contadorManzana = CrearFilaContadorFrutas("ContManzana", sprManzana, 4);
+
+        // Actualizar sprite real en iconos existentes (aunque ya existan las filas)
+        if (inv.contadorBanana != null && inv.contadorBanana.icono != null)
+            inv.contadorBanana.icono.sprite = sprBanana;
+        if (inv.contadorManzana != null && inv.contadorManzana.icono != null)
+            inv.contadorManzana.icono.sprite = sprManzana;
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+        Debug.Log($"{nombre}: Contadores banana/manzana listos");
+    }
+
     static void GuardarTexturaComoPNG(string path, Texture2D tex)
     {
         byte[] bytes = tex.EncodeToPNG();
 
         File.WriteAllBytes(path, bytes);
         Debug.Log("Textura guardada: " + path);
+    }
+
+    // ─────── CREAR PREFABS BANANA / MANZANA (clonando botella.prefab) ───────
+
+    public static void CrearPrefabsFrutas()
+    {
+        string basePrefab = "Assets/prefabs/botella.prefab";
+        var baseGO = AssetDatabase.LoadAssetAtPath<GameObject>(basePrefab);
+        if (baseGO == null) { Debug.LogError("No se encontro " + basePrefab); return; }
+
+        var sprBanana = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/banana-removebg-preview.png");
+        var sprManzana = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/manzana-removebg-preview.png");
+
+        CrearPrefabFruta(baseGO, sprBanana, TipoPlastico.Banana, "Assets/prefabs/banana.prefab");
+        CrearPrefabFruta(baseGO, sprManzana, TipoPlastico.Manzana, "Assets/prefabs/manzana.prefab");
+        Debug.Log("=== PREFABS BANANA / MANZANA CREADOS ===");
+    }
+
+    static void CrearPrefabFruta(GameObject baseGO, Sprite spr, TipoPlastico tipo, string path)
+    {
+        var inst = Object.Instantiate(baseGO);
+        inst.name = tipo.ToString().ToLowerInvariant();
+
+        var item = inst.GetComponent<PlasticoItem>();
+        if (item != null) item.tipo = tipo;
+
+        var sr = inst.GetComponent<SpriteRenderer>();
+        if (sr != null && spr != null) sr.sprite = spr;
+
+        PrefabUtility.SaveAsPrefabAsset(inst, path);
+        Object.DestroyImmediate(inst);
+        Debug.Log($"Prefab creado: {path} (tipo={tipo})");
+    }
+
+    // ─────── COPIAR HUD (ContenedorRecursos) DEL NIVEL 6 A LOS OTROS 5 ───────
+
+    public static void CopiarHUDNivel6ATodos()
+    {
+        string hudPrefabPath = "Assets/prefabs/ContenedorRecursos.prefab";
+        string nivel6 = "Assets/Scenes/nivel6_empresa.unity";
+        string[] otros = { "nivel1_colegio", "nivel2_hipodromo", "nivel3_mercado",
+                           "nivel4_basurero", "nivel5_subterraneo" };
+
+        if (!File.Exists(nivel6)) { Debug.LogError("No existe nivel6"); return; }
+
+        // 1. Abrir nivel6, asegurar sprites y guardarlo como prefab del HUD
+        EditorSceneManager.OpenScene(nivel6);
+        var res6 = GameObject.Find("ContenedorRecursos");
+        if (res6 == null) { Debug.LogError("nivel6: No hay ContenedorRecursos"); return; }
+        if (File.Exists(hudPrefabPath)) AssetDatabase.DeleteAsset(hudPrefabPath);
+        PrefabUtility.SaveAsPrefabAsset(res6, hudPrefabPath);
+        var hudPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(hudPrefabPath);
+        Debug.Log("HUD nivel6 guardado como prefab: " + hudPrefabPath);
+
+        // 2. Reemplazar en los otros niveles
+        foreach (var lv in otros)
+        {
+            string path = $"Assets/Scenes/{lv}.unity";
+            if (!File.Exists(path)) { Debug.LogWarning($"No existe: {path}"); continue; }
+
+            EditorSceneManager.OpenScene(path);
+
+            var canvas = Object.FindFirstObjectByType<Canvas>();
+            if (canvas == null) { Debug.LogWarning($"{lv}: No hay Canvas"); continue; }
+
+            var old = GameObject.Find("ContenedorRecursos");
+            if (old != null) Object.DestroyImmediate(old);
+
+            var inst = PrefabUtility.InstantiatePrefab(hudPrefab) as GameObject;
+            if (inst == null) { Debug.LogWarning($"{lv}: No se pudo instanciar HUD"); continue; }
+            inst.transform.SetParent(canvas.transform, false);
+            var rt = inst.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                rt.anchorMin = new Vector2(0f, 1f);
+                rt.anchorMax = new Vector2(0f, 1f);
+                rt.pivot = new Vector2(0f, 1f);
+                rt.anchoredPosition = new Vector2(10f, -55f);
+                rt.sizeDelta = new Vector2(200f, 176f);
+            }
+
+            var inv = Object.FindFirstObjectByType<Inventario>();
+            if (inv != null)
+            {
+                foreach (var c in inst.GetComponentsInChildren<ContadorHUD>(true))
+                {
+                    string name = c.gameObject.name;
+                    if (name == "ContPET") inv.contadorPET = c;
+                    else if (name == "ContBolsa") inv.contadorBolsa = c;
+                    else if (name == "ContIcopor") inv.contadorIcopor = c;
+                    else if (name == "ContBanana") inv.contadorBanana = c;
+                    else if (name == "ContManzana") inv.contadorManzana = c;
+                }
+            }
+            else Debug.LogWarning($"{lv}: No hay Inventario");
+
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), path);
+            Debug.Log($"{lv}: HUD copiado desde nivel6");
+        }
+
+        Debug.Log("=== HUD DEL NIVEL 6 COPIADO A LOS OTROS 5 NIVELES ===");
     }
 
     public static void RunAllBatch()
