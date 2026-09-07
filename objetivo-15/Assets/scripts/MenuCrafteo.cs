@@ -44,7 +44,10 @@ public class MenuCrafteo : MonoBehaviour
         menuAbierto = !menuAbierto;
         panelCrafteo.SetActive(menuAbierto);
         if (menuAbierto)
+        {
             SeleccionUI.SeleccionarPrimero(panelCrafteo);
+            ActualizarCanecas();
+        }
         else
             SeleccionUI.LimpiarSeleccion();
         ActualizarTimeScale();
@@ -56,6 +59,7 @@ public class MenuCrafteo : MonoBehaviour
         menuAbierto = true;
         panelCrafteo.SetActive(true);
         SeleccionUI.SeleccionarPrimero(panelCrafteo);
+        ActualizarCanecas();
         ActualizarTimeScale();
     }
 
@@ -102,6 +106,21 @@ public class MenuCrafteo : MonoBehaviour
             SistemaCrafteo.instancia.CraftearCartuchoEpica());
         ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearBalaLegendaria", () =>
             SistemaCrafteo.instancia.CraftearCartuchoLegendaria());
+
+        ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearPotenciadorVelocidad", () =>
+            SistemaCrafteo.instancia.CraftearPotenciadorVelocidad());
+        ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearPotenciadorInmortalidad", () =>
+            SistemaCrafteo.instancia.CraftearPotenciadorInmortalidad());
+        ConectarBotonBalas(panelCrafteo.transform, "Btn_CraftearPotenciadorVida", () =>
+            SistemaCrafteo.instancia.CraftearPotenciadorVidas());
+    }
+
+    void ActualizarCanecas()
+    {
+        if (panelCrafteo == null) return;
+        CanecasCrafteo canecas = panelCrafteo.GetComponent<CanecasCrafteo>();
+        if (canecas != null)
+            canecas.ActualizarTodo();
     }
 
     void ConectarBotonBalas(Transform panel, string nombre, UnityEngine.Events.UnityAction accion)

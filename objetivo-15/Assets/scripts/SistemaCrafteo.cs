@@ -11,7 +11,22 @@ public class SistemaCrafteo : MonoBehaviour
     [Header("Cartuchos de balas")]
     public int balasPorCartucho = 10;
 
+    [System.Serializable]
+    public class CostoPotenciador
+    {
+        public int manzanas = 2;
+        public int bananas = 2;
+    }
+
+    [Header("Potenciadores (solo manzanas + bananas)")]
+    public int maxCrafteosPotenciador = 3;
+    public CostoPotenciador costoVelocidad = new CostoPotenciador { manzanas = 2, bananas = 2 };
+    public CostoPotenciador costoInmortalidad = new CostoPotenciador { manzanas = 3, bananas = 3 };
+    public CostoPotenciador costoVidaExtra = new CostoPotenciador { manzanas = 4, bananas = 4 };
+
     public static SistemaCrafteo instancia;
+
+    private readonly int[] crafteosPotenciador = new int[3];
 
     void Awake()
     {
@@ -66,6 +81,73 @@ public class SistemaCrafteo : MonoBehaviour
             Debug.Log("Cartucho legendario (10 balas) crafteado!");
         }
         else Debug.Log("Necesitas 3 Botellas + 4 Bolsas + 3 Icopores");
+    }
+
+    public void CraftearPotenciadorVelocidad()
+    {
+        CraftearPotenciador(0, TipoPotenciador.Velocidad, costoVelocidad);
+    }
+
+    public void CraftearPotenciadorInmortalidad()
+    {
+        CraftearPotenciador(1, TipoPotenciador.Inmortalidad, costoInmortalidad);
+    }
+
+    public void CraftearPotenciadorVidas()
+    {
+        CraftearPotenciador(2, TipoPotenciador.VidaExtra, costoVidaExtra);
+    }
+
+    public int CrafteosRestantes(int indice)
+    {
+        if (indice < 0 || indice >= crafteosPotenciador.Length) return 0;
+        return Mathf.Max(0, maxCrafteosPotenciador - crafteosPotenciador[indice]);
+    }
+
+    public bool PuedeCraftearPotenciador(int indice, CostoPotenciador costo)
+    {
+        if (crafteosPotenciador[indice] >= maxCrafteosPotenciador) return false;
+        if (Inventario.instancia == null) return false;
+        return Inventario.instancia.TieneFrutas(costo.manzanas, costo.bananas);
+    }
+
+    void CraftearPotenciador(int indice, TipoPotenciador tipo, CostoPotenciador costo)
+    {
+        if (Inventario.instancia == null) return;
+
+        if (crafteosPotenciador[indice] >= maxCrafteosPotenciador)
+        {
+            Debug.Log("Limite alcanzado: ya crafteaste este potenciador " + maxCrafteosPotenciador + " veces.");
+            return;
+        }
+
+        if (!Inventario.instancia.TieneFrutas(costo.manzanas, costo.bananas))
+        {
+            Debug.Log("Necesitas " + costo.manzanas + " manzanas + " + costo.bananas + " bananas.");
+            return;
+        }
+
+        Inventario.instancia.GastarFrutas(costo.manzanas, costo.bananas);
+        crafteosPotenciador[indice]++;
+
+        GameObject jugador = GameObject.FindGameObjectWithTag("Player");
+        PlayerController pc = jugador != null ? jugador.GetComponent<PlayerController>() : null;
+        if (pc != null)
+        {
+            pc.AplicarPotenciador(tipo);
+            Debug.Log("Potenciador " + tipo + " aplicado! Restantes: " + CrafteosRestantes(indice));
+        }
+
+        ReproducirAnimacionCrafteo();
+
+        NotificarActualizacion();
+    }
+
+    void NotificarActualizacion()
+    {
+        var canecas = FindFirstObjectByType<CanecasCrafteo>();
+        if (canecas != null)
+            canecas.ActualizarTodo();
     }
 
     void EquiparArma(GameObject prefabArma)

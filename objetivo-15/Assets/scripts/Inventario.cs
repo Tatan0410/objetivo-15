@@ -75,6 +75,19 @@ public class Inventario : MonoBehaviour
         ActualizarUI();
     }
 
+    public bool TieneFrutas(int manzanasNecesarias, int bananasNecesarias)
+    {
+        return manzanas >= manzanasNecesarias &&
+               bananas >= bananasNecesarias;
+    }
+
+    public void GastarFrutas(int manzanasAGastar, int bananasAGastar)
+    {
+        manzanas -= manzanasAGastar;
+        bananas -= bananasAGastar;
+        ActualizarUI();
+    }
+
     void ActualizarUI()
     {
         if (contadorPET != null) contadorPET.Actualizar(botellasPET);
