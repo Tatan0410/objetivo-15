@@ -93,7 +93,7 @@ public class NPCDialogoJRPG : MonoBehaviour
 
         if (dialogando)
         {
-            if (!escribiendo && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0) || Input.GetButtonDown("Submit")))
+            if (!escribiendo && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0) || Input.GetButtonDown("Submit") || HayToqueParaAvanzar()))
                 AvanzarDialogo();
             return;
         }
@@ -113,6 +113,23 @@ public class NPCDialogoJRPG : MonoBehaviour
 
         if (!dialogoCompletado && dist < radioDeteccion)
             IniciarDialogo();
+    }
+
+    bool HayToqueParaAvanzar()
+    {
+        if (Input.touchCount <= 0) return false;
+
+        var es = UnityEngine.EventSystems.EventSystem.current;
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+            Touch t = Input.GetTouch(i);
+            if (t.phase == TouchPhase.Began)
+            {
+                if (es == null || !es.IsPointerOverGameObject(t.fingerId))
+                    return true;
+            }
+        }
+        return false;
     }
 
     void CrearBurbuja()

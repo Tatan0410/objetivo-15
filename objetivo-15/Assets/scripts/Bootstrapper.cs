@@ -5,6 +5,7 @@ public static class Bootstrapper
     [RuntimeInitializeOnLoadMethod]
     static void Inicializar()
     {
+        Input.simulateMouseWithTouches = false;
         if (Object.FindFirstObjectByType<SceneTransitionManager>() == null)
         {
             GameObject stm = new GameObject("SceneTransitionManager");

@@ -103,13 +103,13 @@ public class PlayerController : MonoBehaviour
         else
             coyoteTimeContador -= Time.deltaTime;
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetButtonDown("Jump")) && coyoteTimeContador > 0f)
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetButtonDown("Jump") || ControlTouch.ConsumirSaltar()) && coyoteTimeContador > 0f)
         {
             saltoPendiente = true;
             coyoteTimeContador = 0f;
         }
 
-        bool disparar = Input.GetKeyDown(teclaDisparo) || Input.GetButtonDown("Shoot");
+        bool disparar = Input.GetKeyDown(teclaDisparo) || Input.GetButtonDown("Shoot") || ControlTouch.ConsumirDisparo();
         if (disparar && temporizadorCooldownDisparo <= 0)
         {
             TipoArma arma = GetArmaEquipada();
@@ -218,7 +218,7 @@ public class PlayerController : MonoBehaviour
                     transform.position.z);
         }
 
-        float movimiento = Input.GetAxisRaw("Horizontal");
+        float movimiento = Mathf.Clamp(Input.GetAxisRaw("Horizontal") + ControlTouch.Horizontal, -1f, 1f);
 
         if (saltoPendiente)
         {

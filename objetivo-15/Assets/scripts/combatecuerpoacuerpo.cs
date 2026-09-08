@@ -25,7 +25,7 @@ public class CombateJugador : MonoBehaviour
     {
         if (Time.timeScale <= 0f) return;
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") || ControlTouch.ConsumirAtaque())
         {
             Debug.Log("CombateJugador: se presionó Fire1");
             IntentarAtacar();
