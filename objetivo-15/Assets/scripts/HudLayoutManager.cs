@@ -128,7 +128,32 @@ public class HudLayoutManager : MonoBehaviour
         if (e == null) return;
         if (e.imagen != null) e.imagen.color = color;
         if (e.etiqueta != null) e.etiqueta.color = ColorContraste(color);
+
+        // Los grupos (Dpad/Botones) no tienen Image propio; se colorean sus
+        // botones tactiles descendientes para que el color siempre se vea.
+        if (e.rt != null)
+            AplicarColorRecursivo(e.rt, color);
+
         Guardar();
+    }
+
+    void AplicarColorRecursivo(Transform t, Color color)
+    {
+        if (t.GetComponent<TouchButton>() != null)
+        {
+            Image img = t.GetComponent<Image>();
+            if (img != null) img.color = color;
+
+            Transform etq = t.Find("Etiqueta");
+            if (etq != null)
+            {
+                TextMeshProUGUI tmp = etq.GetComponent<TextMeshProUGUI>();
+                if (tmp != null) tmp.color = ColorContraste(color);
+            }
+        }
+
+        foreach (Transform c in t)
+            AplicarColorRecursivo(c, color);
     }
 
     public void RestablecerTodo()
@@ -138,6 +163,9 @@ public class HudLayoutManager : MonoBehaviour
             if (e.rt != null) e.rt.anchoredPosition = e.posicionPorDefecto;
             if (e.imagen != null) e.imagen.color = e.colorPorDefecto;
             if (e.etiqueta != null) e.etiqueta.color = e.colorEtiquetaPorDefecto;
+
+            if (e.rt != null)
+                AplicarColorRecursivo(e.rt, e.colorPorDefecto);
         }
         Guardar();
     }
@@ -149,6 +177,10 @@ public class HudLayoutManager : MonoBehaviour
         if (e.rt != null) e.rt.anchoredPosition = e.posicionPorDefecto;
         if (e.imagen != null) e.imagen.color = e.colorPorDefecto;
         if (e.etiqueta != null) e.etiqueta.color = e.colorEtiquetaPorDefecto;
+
+        if (e.rt != null)
+            AplicarColorRecursivo(e.rt, e.colorPorDefecto);
+
         Guardar();
     }
 
