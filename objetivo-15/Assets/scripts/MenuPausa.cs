@@ -9,6 +9,9 @@ public class MenuPausa : MonoBehaviour
     [Header("Panel de pausa (en escena, editable)")]
     public GameObject panelPausa;
 
+    [Header("Personalizar HUD")]
+    public GameObject panelPersonalizarHud;
+
     [Header("Volumen")]
     public Slider sliderVolumen;
 
@@ -130,6 +133,18 @@ public class MenuPausa : MonoBehaviour
         AplicarVolumen(valor);
         PlayerPrefs.SetFloat("VolumenMusica", valor);
         PlayerPrefs.Save();
+    }
+
+    public void AbrirPersonalizarHud()
+    {
+        if (panelPausa != null)
+            panelPausa.SetActive(false);
+        SeleccionUI.LimpiarSeleccion();
+        if (panelPersonalizarHud != null)
+        {
+            panelPersonalizarHud.SetActive(true);
+            SeleccionUI.SeleccionarPrimero(panelPersonalizarHud);
+        }
     }
 
     public void SalirAlMenu()

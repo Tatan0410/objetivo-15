@@ -110,6 +110,8 @@ public static class SetupTouchControls
 
         ControlTouch controlTouch = root.AddComponent<ControlTouch>();
 
+        root.AddComponent<HudLayoutManager>();
+
         TMP_FontAsset font = EncontrarFuente();
 
         // ── D-pad izquierdo ─────────────────────────────
