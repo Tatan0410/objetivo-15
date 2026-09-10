@@ -33,6 +33,25 @@ public class HudPersonalizarPanel : MonoBehaviour
 
         indice = 0;
         RefrescarTexto();
+        ConectarSwatches();
+    }
+
+    // Conecta los botones de color (BtnColor0/1/2) a su propio color en
+    // tiempo de ejecucion. Evita depender de referencias serializadas en el
+    // prefab (que es donde se perdia la conexion onClic).
+    void ConectarSwatches()
+    {
+        foreach (var btn in GetComponentsInChildren<Button>(true))
+        {
+            if (btn == null) continue;
+            if (!btn.name.ToLowerInvariant().Contains("color")) continue;
+
+            var img = btn.GetComponent<Image>();
+            if (img == null) continue;
+
+            Color c = img.color;
+            btn.onClick.AddListener(() => AplicarColor(c));
+        }
     }
 
     string IdActual()

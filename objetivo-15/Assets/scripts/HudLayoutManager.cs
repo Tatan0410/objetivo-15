@@ -128,6 +128,7 @@ public class HudLayoutManager : MonoBehaviour
         if (e == null) return;
         if (e.imagen != null) e.imagen.color = color;
         if (e.etiqueta != null) e.etiqueta.color = ColorContraste(color);
+        Debug.Log($"SetColor applied to {id} with color {color}");
 
         // Los grupos (Dpad/Botones) no tienen Image propio; se colorean sus
         // botones tactiles descendientes para que el color siempre se vea.
