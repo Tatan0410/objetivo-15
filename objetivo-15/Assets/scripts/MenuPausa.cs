@@ -140,10 +140,32 @@ public class MenuPausa : MonoBehaviour
         if (panelPausa != null)
             panelPausa.SetActive(false);
         SeleccionUI.LimpiarSeleccion();
+
+        // En algunos niveles la referencia serializada (panelPersonalizarHud)
+        // quedo nula. La buscamos en tiempo de ejecucion entre los objetos
+        // inactivos de la escena para que el panel siempre se abra.
+        if (panelPersonalizarHud == null)
+        {
+            var scene = gameObject.scene;
+            foreach (var p in Resources.FindObjectsOfTypeAll<HudPersonalizarPanel>())
+            {
+                if (p != null && p.gameObject.scene == scene)
+                {
+                    panelPersonalizarHud = p.gameObject;
+                    break;
+                }
+            }
+        }
+
         if (panelPersonalizarHud != null)
         {
             panelPersonalizarHud.SetActive(true);
             SeleccionUI.SeleccionarPrimero(panelPersonalizarHud);
+        }
+        else
+        {
+            Debug.LogWarning("[MenuPausa] panelPersonalizarHud no encontrado — " +
+                "ejecutar SetupHudPersonalizar.EjecutarTodoBatch en este nivel.");
         }
     }
 
