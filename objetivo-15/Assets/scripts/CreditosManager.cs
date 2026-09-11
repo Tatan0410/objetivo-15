@@ -65,6 +65,7 @@ public class CreditosManager : MonoBehaviour
 
     private float alturaPantalla = 1080f;
     private bool scrollTerminado = false;
+    private bool transicionIniciada = false;
 
     void Start()
     {
@@ -124,7 +125,8 @@ public class CreditosManager : MonoBehaviour
 
     void Terminar()
     {
-        if (scrollTerminado) return;
+        if (transicionIniciada) return;
+        transicionIniciada = true;
         scrollTerminado = true;
         SceneTransitionManager.CargarEscenaConFallback(escenaRetorno);
     }

@@ -29,8 +29,15 @@ public class ControlTouch : MonoBehaviour
 
     void Start()
     {
+#if UNITY_EDITOR
+        // En editor se respeta forzarEnEditor para poder testear el APK en PC
         if (!forzarEnEditor && !Application.isMobilePlatform)
             gameObject.SetActive(false);
+#else
+        // Builds: los botones táctiles solo se muestran en móviles (PC queda limpio)
+        if (!Application.isMobilePlatform)
+            gameObject.SetActive(false);
+#endif
         ActualizarVisibilidadArmado();
     }
 

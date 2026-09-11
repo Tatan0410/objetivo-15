@@ -56,4 +56,47 @@ public static class SetupAndroid
     {
         Configurar();
     }
+
+    // Aplica el mismo logo (logojuego.jpg) como icono del .exe de Windows.
+    [MenuItem("Objetivo15/Configurar Icono Windows")]
+    public static void ConfigurarIconoWindows()
+    {
+        if (AsegurarLegible())
+        {
+            var tex = AssetDatabase.LoadAssetAtPath<Texture2D>(LOGO_ICONO);
+            if (tex == null)
+            {
+                Debug.LogError("[SetupWindows] No se encontro el icono en " + LOGO_ICONO);
+                return;
+            }
+
+            // Standalone (Windows) espera exactamente 8 iconos (un set de 8 tamaños).
+            var icons = new Texture2D[8];
+            for (int i = 0; i < icons.Length; i++) icons[i] = tex;
+            PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Standalone, icons);
+            AssetDatabase.SaveAssets();
+        }
+
+        var sa = PlayerSettings.GetIconsForTargetGroup(BuildTargetGroup.Standalone);
+        Debug.Log("[SetupWindows] Standalone icons=" + sa.Length + " [0]=" + (sa.Length > 0 && sa[0] != null ? sa[0].name : "null"));
+    }
+
+    // Unity no puede usar una textura como icono si no tiene Read/Write habilitado.
+    // logojuego.jpg viene con isReadable=false, asi que lo activamos y reimportamos.
+    static bool AsegurarLegible()
+    {
+        var importer = AssetImporter.GetAtPath(LOGO_ICONO) as TextureImporter;
+        if (importer == null)
+        {
+            Debug.LogError("[SetupWindows] No se pudo obtener el TextureImporter de " + LOGO_ICONO);
+            return false;
+        }
+
+        if (!importer.isReadable)
+        {
+            importer.isReadable = true;
+            importer.SaveAndReimport();
+        }
+        return true;
+    }
 }

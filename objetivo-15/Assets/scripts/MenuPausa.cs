@@ -41,6 +41,30 @@ public class MenuPausa : MonoBehaviour
         }
 
         ConectarBotonPausa();
+
+        // El HUD táctil y su personalización son solo para móviles; en PC se ocultan.
+        if (!EsMovil())
+        {
+            if (panelPersonalizarHud != null)
+                panelPersonalizarHud.SetActive(false);
+
+            if (panelPausa != null)
+            {
+                var btnPers = panelPausa.transform.Find("BotonPersonalizarHud");
+                if (btnPers != null)
+                    btnPers.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    static bool EsMovil()
+    {
+#if UNITY_EDITOR
+        // En editor se permite testear el HUD del APK
+        return true;
+#else
+        return Application.isMobilePlatform;
+#endif
     }
 
     // El boton BtnPausa quedaba conectado a un metodo estatico del ensamblado de
@@ -137,6 +161,7 @@ public class MenuPausa : MonoBehaviour
 
     public void AbrirPersonalizarHud()
     {
+        if (!EsMovil()) return;
         if (panelPausa != null)
             panelPausa.SetActive(false);
         SeleccionUI.LimpiarSeleccion();
