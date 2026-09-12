@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
 
@@ -38,6 +39,9 @@ public class NPCDialogoJRPG : MonoBehaviour
     public float velocidadTexto = 0.03f;
     public float tamanioFuente = 28f;
     public float margenVertical = 0.3f;
+
+    [Header("Repeticion")]
+    public bool soloMostrarUnaVez = true;
 
     private Transform player;
     private PlayerController playerController;
@@ -78,6 +82,9 @@ public class NPCDialogoJRPG : MonoBehaviour
             camara = Camera.main.GetComponent<CamaraSeguidora>();
 
         CrearBurbuja();
+
+        if (soloMostrarUnaVez && PlayerPrefs.HasKey(ClaveDialogo()))
+            dialogoCompletado = true;
     }
 
     void OnDestroy()
@@ -100,7 +107,7 @@ public class NPCDialogoJRPG : MonoBehaviour
 
         float dist = Vector2.Distance(transform.position, player.position);
 
-        if (dialogoCompletado && dist > radioDeteccion * 1.2f)
+        if (!soloMostrarUnaVez && dialogoCompletado && dist > radioDeteccion * 1.2f)
             dialogoCompletado = false;
 
         if (cooldownActivo)
@@ -113,6 +120,15 @@ public class NPCDialogoJRPG : MonoBehaviour
 
         if (!dialogoCompletado && dist < radioDeteccion)
             IniciarDialogo();
+    }
+
+    string ClaveDialogo()
+    {
+        string nombre = EstadisticasManager.instancia != null
+            ? EstadisticasManager.instancia.nombreJugador
+            : PlayerPrefs.GetString("NombreJugador", "Jugador");
+        return "DialogoNPC_" + nombre + "_" +
+            SceneManager.GetActiveScene().name + "_" + gameObject.name;
     }
 
     bool HayToqueParaAvanzar()
@@ -334,6 +350,12 @@ public class NPCDialogoJRPG : MonoBehaviour
     {
         dialogando = false;
         dialogoCompletado = true;
+
+        if (soloMostrarUnaVez)
+        {
+            PlayerPrefs.SetInt(ClaveDialogo(), 1);
+            PlayerPrefs.Save();
+        }
 
         if (animTexto != null)
         {

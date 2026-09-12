@@ -11,6 +11,9 @@ public class ControlTouch : MonoBehaviour
     [Tooltip("Si es false, los controles solo se muestran en plataformas moviles.")]
     public bool forzarEnEditor = true;
 
+    private bool visiblePorPlataforma = true;
+    private bool ocultoPorCrafteo = false;
+
     static bool izquierda;
     static bool derecha;
     static bool saltar;
@@ -31,14 +34,33 @@ public class ControlTouch : MonoBehaviour
     {
 #if UNITY_EDITOR
         // En editor se respeta forzarEnEditor para poder testear el APK en PC
-        if (!forzarEnEditor && !Application.isMobilePlatform)
-            gameObject.SetActive(false);
+        visiblePorPlataforma = forzarEnEditor || Application.isMobilePlatform;
 #else
         // Builds: los botones táctiles solo se muestran en móviles (PC queda limpio)
-        if (!Application.isMobilePlatform)
-            gameObject.SetActive(false);
+        visiblePorPlataforma = Application.isMobilePlatform;
 #endif
+        if (!visiblePorPlataforma)
+            gameObject.SetActive(false);
         ActualizarVisibilidadArmado();
+    }
+
+    public void OcultarParaCrafteo()
+    {
+        ocultoPorCrafteo = true;
+        CancelarEntrada();
+        gameObject.SetActive(false);
+    }
+
+    public void MostrarTrasCrafteo()
+    {
+        ocultoPorCrafteo = false;
+        if (visiblePorPlataforma)
+            gameObject.SetActive(true);
+    }
+
+    void CancelarEntrada()
+    {
+        izquierda = derecha = saltar = disparar = atacar = false;
     }
 
     void Update()

@@ -43,6 +43,7 @@ public class MenuCrafteo : MonoBehaviour
         if (panelCrafteo == null) return;
         menuAbierto = !menuAbierto;
         panelCrafteo.SetActive(menuAbierto);
+        ActualizarControlesJugabilidad();
         if (menuAbierto)
         {
             SeleccionUI.SeleccionarPrimero(panelCrafteo);
@@ -58,6 +59,7 @@ public class MenuCrafteo : MonoBehaviour
         if (panelCrafteo == null) return;
         menuAbierto = true;
         panelCrafteo.SetActive(true);
+        ActualizarControlesJugabilidad();
         SeleccionUI.SeleccionarPrimero(panelCrafteo);
         ActualizarCanecas();
         ActualizarTimeScale();
@@ -68,8 +70,18 @@ public class MenuCrafteo : MonoBehaviour
         menuAbierto = false;
         if (panelCrafteo != null)
             panelCrafteo.SetActive(false);
+        ActualizarControlesJugabilidad();
         SeleccionUI.LimpiarSeleccion();
         ActualizarTimeScale();
+    }
+
+    void ActualizarControlesJugabilidad()
+    {
+        if (ControlTouch.instancia == null) return;
+        if (menuAbierto)
+            ControlTouch.instancia.OcultarParaCrafteo();
+        else
+            ControlTouch.instancia.MostrarTrasCrafteo();
     }
 
     void ConectarBotonesPanel()
