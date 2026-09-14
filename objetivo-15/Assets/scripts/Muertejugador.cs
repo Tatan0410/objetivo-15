@@ -33,9 +33,14 @@ public class MuerteJugador : MonoBehaviour
 
     public void MorirPorEnemigo()
     {
+        MorirPorEnemigo(false);
+    }
+
+    public void MorirPorEnemigo(bool ignorarInmortalidad)
+    {
         if (muriendo) return;
         if (Time.timeSinceLevelLoad < 0.6f) return;
-        Morir(false); // enemigo: respeta inmortalidad
+        Morir(false, ignorarInmortalidad);
     }
 
     public void GuardarRespawn(Vector3 pos)
@@ -43,7 +48,7 @@ public class MuerteJugador : MonoBehaviour
         posicionRespawn = pos;
     }
 
-    void Morir(bool esCaidaAlVacio)
+    void Morir(bool esCaidaAlVacio, bool ignorarInmortalidad = false)
     {
         if (muriendo) return;
         muriendo = true;
@@ -55,7 +60,7 @@ public class MuerteJugador : MonoBehaviour
         if (rb != null) rb.velocity = Vector2.zero;
 
         if (VidasManager.instancia != null)
-            VidasManager.instancia.PerderVida(esCaidaAlVacio);
+            VidasManager.instancia.PerderVida(esCaidaAlVacio || ignorarInmortalidad);
 
         if (this == null) return;
 

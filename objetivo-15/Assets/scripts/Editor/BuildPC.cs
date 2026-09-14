@@ -5,7 +5,7 @@ using System.IO;
 
 public static class BuildPC
 {
-    const string VERSION = "1.11";
+    const string VERSION = "1.12";
     const string BUILD_ROOT = "Build";
 
     [MenuItem("Objetivo15/Build PC (Windows)")]

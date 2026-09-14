@@ -76,6 +76,13 @@ public class CombateJugador : MonoBehaviour
                 enemigoRata.RecibirDanio(dañoAtaque);
                 continue;
             }
+
+            EnemigoDiablo diablo = objeto.GetComponentInParent<EnemigoDiablo>();
+            if (diablo != null)
+            {
+                diablo.RecibirDanio(dañoAtaque);
+                continue;
+            }
         }
     }
 

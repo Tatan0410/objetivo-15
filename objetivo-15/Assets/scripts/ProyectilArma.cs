@@ -115,6 +115,14 @@ public class ProyectilArma : MonoBehaviour
                 Destruir();
                 return;
             }
+
+            EnemigoDiablo diablo = col.GetComponentInParent<EnemigoDiablo>();
+            if (diablo != null)
+            {
+                diablo.RecibirDanio(danio);
+                Destruir();
+                return;
+            }
         }
     }
 
