@@ -240,6 +240,7 @@ public class rata : MonoBehaviour
         if (go == null) return false;
         return go.GetComponent<Enemigo>() != null
             || go.GetComponent<EnemigoVolador>() != null
+            || go.GetComponent<BossFinal>() != null
             || go.GetComponent<rata>() != null;
     }
 

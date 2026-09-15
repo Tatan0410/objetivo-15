@@ -123,6 +123,14 @@ public class ProyectilArma : MonoBehaviour
                 Destruir();
                 return;
             }
+
+            BossFinal boss = col.GetComponentInParent<BossFinal>();
+            if (boss != null)
+            {
+                boss.RecibirDanio(danio);
+                Destruir();
+                return;
+            }
         }
     }
 

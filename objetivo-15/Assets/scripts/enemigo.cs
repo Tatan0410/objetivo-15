@@ -238,8 +238,10 @@ public class Enemigo : MonoBehaviour
     static bool EsEnemigo(GameObject go)
     {
         if (go == null) return false;
-        return go.GetComponent<Enemigo>() != null
+return go.GetComponent<Enemigo>() != null
             || go.GetComponent<EnemigoVolador>() != null
+            || go.GetComponent<EnemigoDiablo>() != null
+            || go.GetComponent<BossFinal>() != null
             || go.GetComponent<rata>() != null;
     }
 

@@ -83,6 +83,13 @@ public class CombateJugador : MonoBehaviour
                 diablo.RecibirDanio(dañoAtaque);
                 continue;
             }
+
+            BossFinal boss = objeto.GetComponentInParent<BossFinal>();
+            if (boss != null)
+            {
+                boss.RecibirDanio(dañoAtaque);
+                continue;
+            }
         }
     }
 

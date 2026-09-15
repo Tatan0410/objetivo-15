@@ -28,11 +28,8 @@ public class EnemigoDiablo : MonoBehaviour
     [Header("Animación")]
     public Animator animator;
 
-    [Header("Barra de vida (solo boss)")]
-    public bool mostrarBarraVida = false;
-    public float anchoBarra = 4f;
-    public float altoBarra = 0.4f;
-    public float alturaBarra = 1.2f;
+    [Header("Barra de vida (opcional)")]
+    public UnityEngine.UI.Slider barraVida;
 
     private Transform player;
     private Vector2 puntoInicio;
@@ -50,7 +47,6 @@ public class EnemigoDiablo : MonoBehaviour
     private float cooldownPisotón;
     private float tiempoUltimoDisparo;
     private int vidasMaximas;
-    private BarraVidaEnemigo barraVida;
 
     void Start()
     {
@@ -73,18 +69,12 @@ public class EnemigoDiablo : MonoBehaviour
             if (p != null) player = p.transform;
         }
 
+        if (barraVida == null)
+            barraVida = GetComponentInChildren<UnityEngine.UI.Slider>();
+
         vidasMaximas = vidas;
-        if (mostrarBarraVida)
-            CrearBarraVida();
 
         tiempoUltimoDisparo = -Mathf.Infinity;
-    }
-
-    void CrearBarraVida()
-    {
-        GameObject go = new GameObject("BarraVida_" + name);
-        barraVida = go.AddComponent<BarraVidaEnemigo>();
-        barraVida.Inicializar(anchoBarra, altoBarra);
     }
 
     void Update()
@@ -93,9 +83,8 @@ public class EnemigoDiablo : MonoBehaviour
 
         if (barraVida != null)
         {
-            float esc = transform.lossyScale.y;
-            barraVida.Seguir(transform.position + Vector3.up * (alturaBarra * esc));
-            barraVida.Actualizar(vidasMaximas > 0 ? (float)vidas / vidasMaximas : 0f);
+            barraVida.maxValue = 1f;
+            barraVida.value = vidasMaximas > 0 ? (float)vidas / vidasMaximas : 0f;
         }
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -250,7 +239,7 @@ public class EnemigoDiablo : MonoBehaviour
             col.enabled = false;
 
         if (sr != null) sr.color = Color.gray;
-        if (barraVida != null) barraVida.Ocultar();
+        if (barraVida != null) barraVida.gameObject.SetActive(false);
         SoltarPlasticos();
         Destroy(gameObject, 1f);
     }

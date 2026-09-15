@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ProyectilEnemigo : MonoBehaviour
+public class ProyectilBoss : MonoBehaviour
 {
     public float velocidad = 6f;
     public float tiempoVida = 4f;
@@ -85,11 +85,7 @@ public class ProyectilEnemigo : MonoBehaviour
             if (muerte != null)
                 muerte.MorirPorEnemigo(ignoraInmortalidad);
             Destruir();
-            return;
         }
-
-        if (!other.isTrigger)
-            Destruir();
     }
 
     void Destruir()

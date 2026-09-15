@@ -1,10 +1,18 @@
 using UnityEngine;
 
-public class EnemigoVolador : MonoBehaviour
+public class BossFinal : MonoBehaviour
 {
     [Header("Patrulla")]
+    public bool patrulla = true;
     public float velocidad = 2f;
     public float distanciaPatrulla = 3f;
+
+    [Header("Disparo")]
+    public GameObject prefabProyectil;
+    public Transform controladorDisparo;
+    public float distanciaDeteccion = 8f;
+    public float tiempoEntreDisparos = 3f;
+    public float tiempoEsperaDisparo = 0.6f;
 
     [Header("Drop de plasticos")]
     public GameObject[] prefabsPlasticos;
@@ -14,10 +22,19 @@ public class EnemigoVolador : MonoBehaviour
 
     [Header("Vida")]
     public int vidas = 3;
+    public bool vidaPersonalizada = false;
+    public bool ignoraInmortalidad = false;
 
     [Header("Animación")]
     public Animator animator;
 
+    [Header("Barra de vida (opcional)")]
+    public UnityEngine.UI.Slider barraVida;
+
+    [Header("Contador de vida (opcional)")]
+    public TMPro.TextMeshPro contadorVida;
+
+    private Transform player;
     private Vector2 puntoInicio;
     private bool moviendoDerecha = true;
     private Rigidbody2D rb;
@@ -31,10 +48,13 @@ public class EnemigoVolador : MonoBehaviour
     private bool yaProcesadoEsteFrame = false;
     private float escalaOriginalX;
     private float cooldownPisotón;
+    private float tiempoUltimoDisparo;
+    private int vidasMaximas;
 
     void Start()
     {
-        vidas = ConfigNivelEnemigos.VidasEnemigo();
+        if (!vidaPersonalizada)
+            vidas = ConfigNivelEnemigos.VidasEnemigo();
         puntoInicio = transform.position;
         rb = GetComponent<Rigidbody2D>();
         if (rb != null) rb.bodyType = RigidbodyType2D.Kinematic;
@@ -45,6 +65,61 @@ public class EnemigoVolador : MonoBehaviour
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
+
+        if (player == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p != null) player = p.transform;
+        }
+
+        if (barraVida == null)
+            barraVida = GetComponentInChildren<UnityEngine.UI.Slider>();
+        if (contadorVida == null)
+            contadorVida = GetComponentInChildren<TMPro.TextMeshPro>();
+
+        if (contadorVida != null && sr != null)
+        {
+            var rend = contadorVida.GetComponent<MeshRenderer>();
+            if (rend != null)
+            {
+                rend.sortingLayerID = sr.sortingLayerID;
+                rend.sortingOrder = sr.sortingOrder + 100;
+            }
+        }
+
+        vidasMaximas = vidas;
+
+        tiempoUltimoDisparo = -Mathf.Infinity;
+    }
+
+    void Update()
+    {
+        if (muerto || congelado || player == null) return;
+
+        float dist = Vector2.Distance(transform.position, player.position);
+        bool jugadorEnRango = dist <= distanciaDeteccion;
+
+        if (jugadorEnRango && Time.time > tiempoEntreDisparos + tiempoUltimoDisparo)
+        {
+            tiempoUltimoDisparo = Time.time;
+            if (animator != null)
+                animator.SetTrigger("disparar");
+            Invoke(nameof(Disparar), tiempoEsperaDisparo);
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (muerto) return;
+
+        if (barraVida != null)
+        {
+            barraVida.maxValue = 1f;
+            barraVida.value = vidasMaximas > 0 ? (float)vidas / vidasMaximas : 0f;
+        }
+
+        if (contadorVida != null)
+            contadorVida.text = vidas + " / " + vidasMaximas;
     }
 
     void FixedUpdate()
@@ -55,7 +130,8 @@ public class EnemigoVolador : MonoBehaviour
         if (cooldownPisotón > 0f)
             cooldownPisotón -= Time.fixedDeltaTime;
 
-        Patrullar();
+        if (patrulla)
+            Patrullar();
     }
 
     void Patrullar()
@@ -86,32 +162,52 @@ public class EnemigoVolador : MonoBehaviour
         puntoInicio = transform.position;
     }
 
-    // Aplica la escala según la dirección actual de movimiento,
-    // en vez de solo invertir (evita que quede mirando al lado contrario)
     void AplicarOrientacion()
     {
-        float signo = moviendoDerecha ? -1f : 1f; // sprite mira a la izquierda por defecto
+        float signo = moviendoDerecha ? -1f : 1f;
         transform.localScale = new Vector3(
             escalaOriginalX * signo,
             transform.localScale.y,
             transform.localScale.z);
     }
 
-    void SoltarPlasticos()
+    void Disparar()
     {
-        string escena = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        Debug.Log($"[Volador] SoltarPlasticos en '{escena}' | drop={probabilidadDrop} cantidad={cantidadDrop} prefabs={(prefabsPlasticos!=null?prefabsPlasticos.Length:0)} pos={transform.position}");
-
-        if (Random.value > probabilidadDrop)
+        if (prefabProyectil == null)
         {
-            Debug.Log($"[Volador] Drop falló por probabilidad ({probabilidadDrop}) en '{escena}'");
+            Debug.LogWarning("prefabProyectil no asignado en BossFinal (" + gameObject.name + ")");
             return;
         }
+
+        Vector3 origen = controladorDisparo != null ? controladorDisparo.position : transform.position;
+        Vector2 dir = ((Vector2)(player.position - origen)).normalized;
+        if (dir == Vector2.zero)
+            dir = Vector2.right;
+
+        GameObject proy = Instantiate(prefabProyectil, origen, Quaternion.identity);
+        ProyectilBoss p = proy.GetComponent<ProyectilBoss>();
+        if (p == null)
+        {
+            ProyectilEnemigo viejo = proy.GetComponent<ProyectilEnemigo>();
+            if (viejo != null) Destroy(viejo);
+            p = proy.AddComponent<ProyectilBoss>();
+            Debug.LogWarning("[BossFinal] El prefab '" + prefabProyectil.name + "' no tenia ProyectilBoss (se agrego automatico). Asigna un prefab con 'Proyectil Boss'.");
+        }
+        if (p != null)
+        {
+            p.ignoraInmortalidad = this.ignoraInmortalidad;
+            p.Iniciar(dir);
+        }
+    }
+
+    void SoltarPlasticos()
+    {
+        if (Random.value > probabilidadDrop)
+            return;
 
         GameObject[] fuente = prefabsPlasticos;
         if (fuente == null || fuente.Length == 0)
         {
-            Debug.LogWarning($"[Volador] prefabsPlasticos vacío en '{escena}' ({gameObject.name}) - usando fallback Resources");
             fuente = new GameObject[]
             {
                 Resources.Load<GameObject>("botella"),
@@ -120,19 +216,13 @@ public class EnemigoVolador : MonoBehaviour
             };
         }
 
-        posicionMuerte = transform.position;
-
         int validos = 0;
         for (int i = 0; i < cantidadDrop; i++)
         {
             GameObject p = fuente[Random.Range(0, fuente.Length)];
             if (p != null) validos++;
         }
-        if (validos == 0)
-        {
-            Debug.LogWarning($"[Volador] Ningún prefab válido para drop en '{escena}' ({gameObject.name})");
-            return;
-        }
+        if (validos == 0) return;
 
         GameObject[] selecciones = new GameObject[validos];
         int idx = 0;
@@ -142,15 +232,15 @@ public class EnemigoVolador : MonoBehaviour
             if (p != null) selecciones[idx++] = p;
         }
 
+        posicionMuerte = transform.position;
         Vector3 posSpawn = posicionMuerte + Vector3.up * 0.8f;
         for (int k = 0; k < 4; k++)
         {
             if (Physics2D.OverlapCircle(posSpawn, 0.2f) == null) break;
             posSpawn += Vector3.up * 0.4f;
         }
-        Debug.Log($"[Volador] Spawneando {validos} plasticos en '{escena}' pos={posSpawn} overlap={Physics2D.OverlapCircle(posSpawn,0.2f) != null}");
 
-        GameObject runner = new GameObject("PlasticoSpawnRunnerVolador");
+        GameObject runner = new GameObject("PlasticoSpawnRunnerBoss");
         runner.AddComponent<PlasticoSpawnRunner>().Iniciar(
             selecciones,
             validos,
@@ -179,8 +269,57 @@ public class EnemigoVolador : MonoBehaviour
             col.enabled = false;
 
         if (sr != null) sr.color = Color.gray;
+        if (barraVida != null) barraVida.gameObject.SetActive(false);
+        if (contadorVida != null) contadorVida.gameObject.SetActive(false);
         SoltarPlasticos();
         Destroy(gameObject, 1f);
+    }
+
+    public void RecibirDanio(int cantidad)
+    {
+        if (muerto) return;
+        vidas -= cantidad;
+        if (vidas <= 0)
+        {
+            Morir();
+            return;
+        }
+        IniciarFlashDanio();
+    }
+
+    void IniciarFlashDanio()
+    {
+        if (sr == null) return;
+        if (!flashDanioActivo)
+            colorFlashBase = sr.color;
+        flashDanioActivo = true;
+        sr.color = new Color(1f, 0f, 0f, colorFlashBase.a);
+        CancelInvoke("DetenerFlashDanio");
+        Invoke("DetenerFlashDanio", 0.2f);
+    }
+
+    void DetenerFlashDanio()
+    {
+        if (sr != null && !muerto) sr.color = colorFlashBase;
+        flashDanioActivo = false;
+    }
+
+    public void Congelar()
+    {
+        congelado = true;
+        if (rb != null) rb.velocity = Vector2.zero;
+        if (sr != null)
+        {
+            colorOriginal = sr.color;
+            sr.color = new Color(0.5f, 0.8f, 1f);
+        }
+        Invoke("Restaurar", 5f);
+    }
+
+    void Restaurar()
+    {
+        congelado = false;
+        if (sr != null) sr.color = colorOriginal;
     }
 
     private Collider2D ObtenerColliderCuerpo()
@@ -195,6 +334,7 @@ public class EnemigoVolador : MonoBehaviour
         if (go == null) return false;
         return go.GetComponent<Enemigo>() != null
             || go.GetComponent<EnemigoVolador>() != null
+            || go.GetComponent<EnemigoDiablo>() != null
             || go.GetComponent<BossFinal>() != null
             || go.GetComponent<rata>() != null;
     }
@@ -245,7 +385,7 @@ public class EnemigoVolador : MonoBehaviour
         if (cooldownPisotón > 0f) return;
 
         PlayerController pc = jugador.GetComponent<PlayerController>();
-        if (pc != null && pc.EsInmortal())
+        if (!ignoraInmortalidad && pc != null && pc.EsInmortal())
         {
             Morir();
             yaProcesadoEsteFrame = true;
@@ -279,7 +419,6 @@ public class EnemigoVolador : MonoBehaviour
         {
             rbJug.velocity = new Vector2(rbJug.velocity.x, 6f);
             RecibirDanio(1);
-            // Cooldown de pisotón: evita el rebote infinito que arrastra al jugador.
             cooldownPisotón = 0.25f;
             yaProcesadoEsteFrame = false;
             return;
@@ -288,7 +427,7 @@ public class EnemigoVolador : MonoBehaviour
         {
             MuerteJugador muerte = jugador.GetComponent<MuerteJugador>();
             if (muerte != null)
-                muerte.MorirPorEnemigo();
+                muerte.MorirPorEnemigo(ignoraInmortalidad);
         }
     }
 
@@ -309,63 +448,19 @@ public class EnemigoVolador : MonoBehaviour
             return;
         }
 
-        if (other.GetComponent<Enemigo>() != null || other.GetComponent<EnemigoVolador>() != null)
+        if (other.GetComponent<Enemigo>() != null ||
+            other.GetComponent<EnemigoVolador>() != null ||
+            other.GetComponent<EnemigoDiablo>() != null ||
+            other.GetComponent<BossFinal>() != null)
         {
             other.SendMessage("RecibirDanio", 1, SendMessageOptions.DontRequireReceiver);
             Morir();
         }
     }
 
-    public void RecibirDanio(int cantidad)
-    {
-        if (muerto) return;
-        vidas -= cantidad;
-        if (vidas <= 0)
-        {
-            Morir();
-            return;
-        }
-        IniciarFlashDanio();
-    }
-
-    void IniciarFlashDanio()
-    {
-        if (sr == null) return;
-        if (!flashDanioActivo)
-            colorFlashBase = sr.color;
-        flashDanioActivo = true;
-        sr.color = new Color(1f, 0f, 0f, colorFlashBase.a);
-        CancelInvoke("DetenerFlashDanio");
-        Invoke("DetenerFlashDanio", 0.2f);
-    }
-
-    void DetenerFlashDanio()
-    {
-        if (sr != null && !muerto) sr.color = colorFlashBase;
-        flashDanioActivo = false;
-    }
-
-    public void Congelar()
-    {
-        congelado = true;
-        if (rb != null) rb.velocity = Vector2.zero;
-        if (sr != null)
-        {
-            colorOriginal = sr.color;
-            sr.color = new Color(0.5f, 0.8f, 1f);
-        }
-        Invoke("Restaurar", 5f);
-    }
-
-    void Restaurar()
-    {
-        congelado = false;
-        if (sr != null) sr.color = colorOriginal;
-    }
-
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, 0.3f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, distanciaDeteccion);
     }
 }
