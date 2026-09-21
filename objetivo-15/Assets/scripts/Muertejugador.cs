@@ -48,6 +48,21 @@ public class MuerteJugador : MonoBehaviour
         posicionRespawn = pos;
     }
 
+    public void Reactivar()
+    {
+        muriendo = false;
+        tiempoMuriendo = 0f;
+    }
+
+    public void RespawnEnCheckpoint()
+    {
+        if (pc != null)
+        {
+            pc.posicionRespawn = posicionRespawn;
+            pc.respawnPendiente = true;
+        }
+    }
+
     void Morir(bool esCaidaAlVacio, bool ignorarInmortalidad = false)
     {
         if (muriendo) return;

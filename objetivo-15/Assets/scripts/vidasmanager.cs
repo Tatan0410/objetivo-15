@@ -123,9 +123,6 @@ public class VidasManager : MonoBehaviour
         vidasActuales = vidasIniciales;
         ActualizarUI();
 
-        if (GameManager.instancia != null)
-            GameManager.instancia.ResetearCheckpoint();
-
         if (GameOverManager.instancia != null)
             GameOverManager.instancia.MostrarGameOver();
     }

@@ -102,7 +102,26 @@ public class GameOverManager : MonoBehaviour
         canvasGameOver.SetActive(false);
         SeleccionUI.LimpiarSeleccion();
         Time.timeScale = 1f;
-        SceneTransitionManager.CargarEscenaConFallback(escenaActual);
+
+        GameObject jugador = GameObject.FindGameObjectWithTag("Player");
+        if (jugador == null && GameManager.instancia != null)
+            jugador = GameManager.instancia.jugador;
+
+        if (jugador != null)
+        {
+            MuerteJugador mj = jugador.GetComponent<MuerteJugador>();
+            if (mj != null)
+            {
+                mj.Reactivar();
+                mj.RespawnEnCheckpoint();
+            }
+            else if (GameManager.instancia != null)
+            {
+                PlayerController pc = jugador.GetComponent<PlayerController>();
+                if (pc != null) pc.ActivarControl();
+                GameManager.instancia.RespawnJugador(jugador);
+            }
+        }
     }
 
     public void IrAlMenu()
