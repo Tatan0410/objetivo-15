@@ -236,6 +236,111 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 384ec4f7b34e8024faa3f0d4eafb91b3, type: 3}
+--- !u!1001 &26860308
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 28.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: caminataMax
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: tiempoComerMax
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: tiempoComerMin
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: velocidadVuelo
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: velocidadCaminar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[0]
+      value: 
+      objectReference: {fileID: 1469331200}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[1]
+      value: 
+      objectReference: {fileID: 291788896}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[2]
+      value: 
+      objectReference: {fileID: 1776148982}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.data[0]
+      value: 
+      objectReference: {fileID: 224179598}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.data[1]
+      value: 
+      objectReference: {fileID: 1709468247}
+    - target: {fileID: 8458623780152827761, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_Name
+      value: cuervo (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e032522d7cbc070428459bc851adca10, type: 3}
 --- !u!1 &37548736
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,6 +1245,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef358a9e652269d4ea96afc8f494b50c, type: 3}
+--- !u!1 &224179597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224179598}
+  m_Layer: 0
+  m_Name: puntoaterrizaje
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &224179598
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224179597}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25.5, y: -5.45, z: -0.08226034}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &231836169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1615,6 +1751,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a9f1bcd6d66a6248849443197b95b7a, type: 3}
+--- !u!1 &291788895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 291788896}
+  m_Layer: 0
+  m_Name: puntovuelo (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &291788896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291788895}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.54, y: -1.94, z: -0.08226034}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &296149232
 GameObject:
   m_ObjectHideFlags: 0
@@ -8999,6 +9166,111 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af8d6962f9fc213459fca173e6181fbb, type: 3}
+--- !u!1001 &711607668
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.521664
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.346686
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: caminataMax
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: tiempoComerMax
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: tiempoComerMin
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: velocidadVuelo
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: velocidadCaminar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[0]
+      value: 
+      objectReference: {fileID: 1469331200}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[1]
+      value: 
+      objectReference: {fileID: 291788896}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[2]
+      value: 
+      objectReference: {fileID: 1776148982}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.data[0]
+      value: 
+      objectReference: {fileID: 224179598}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.data[1]
+      value: 
+      objectReference: {fileID: 1709468247}
+    - target: {fileID: 8458623780152827761, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_Name
+      value: cuervo
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e032522d7cbc070428459bc851adca10, type: 3}
 --- !u!1001 &721070308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9842,6 +10114,111 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d8d9014b4e6a0c4e977bafe5e09ad22, type: 3}
+--- !u!1001 &835396452
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 31.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: caminataMax
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: tiempoComerMax
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: tiempoComerMin
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: velocidadVuelo
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: velocidadCaminar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[0]
+      value: 
+      objectReference: {fileID: 1469331200}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[1]
+      value: 
+      objectReference: {fileID: 291788896}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[2]
+      value: 
+      objectReference: {fileID: 1776148982}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.data[0]
+      value: 
+      objectReference: {fileID: 224179598}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.data[1]
+      value: 
+      objectReference: {fileID: 1709468247}
+    - target: {fileID: 8458623780152827761, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_Name
+      value: cuervo (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e032522d7cbc070428459bc851adca10, type: 3}
 --- !u!1 &842867480
 GameObject:
   m_ObjectHideFlags: 0
@@ -146009,6 +146386,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a9f1bcd6d66a6248849443197b95b7a, type: 3}
+--- !u!1 &1469331199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1469331200}
+  m_Layer: 0
+  m_Name: puntovuelo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1469331200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469331199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 54.93, y: 3.48, z: -0.08226034}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1475917284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148052,6 +148460,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ec0007c85e9a8e43acf45ed04d45b16, type: 3}
+--- !u!1 &1709468246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1709468247}
+  m_Layer: 0
+  m_Name: puntoaterrizaje (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1709468247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709468246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 36.48, y: -6.3, z: -0.08226034}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1710822653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148395,6 +148834,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d42dc879f5d984f4d8b15c10ff028c03, type: 3}
+--- !u!1 &1776148981
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1776148982}
+  m_Layer: 0
+  m_Name: puntovuelo (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1776148982
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776148981}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 28.97, y: 5.28, z: -0.08226034}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1781603058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -149900,6 +150370,111 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6543900473922007332, guid: c5b9408d260a09a4b986bb84cda3b54a, type: 3}
   m_PrefabInstance: {fileID: 1932648337}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1965172963
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 53.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 893807071178484124, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: caminataMax
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: tiempoComerMax
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: tiempoComerMin
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: velocidadVuelo
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: velocidadCaminar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[0]
+      value: 
+      objectReference: {fileID: 1469331200}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[1]
+      value: 
+      objectReference: {fileID: 291788896}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosVuelo.Array.data[2]
+      value: 
+      objectReference: {fileID: 1776148982}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.data[0]
+      value: 
+      objectReference: {fileID: 224179598}
+    - target: {fileID: 6191102509610558035, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: puntosAterrizaje.Array.data[1]
+      value: 
+      objectReference: {fileID: 1709468247}
+    - target: {fileID: 8458623780152827761, guid: e032522d7cbc070428459bc851adca10, type: 3}
+      propertyPath: m_Name
+      value: cuervo (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e032522d7cbc070428459bc851adca10, type: 3}
 --- !u!1001 &1966763645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -151872,3 +152447,12 @@ SceneRoots:
   - {fileID: 1622128123}
   - {fileID: 687767173}
   - {fileID: 936042895}
+  - {fileID: 711607668}
+  - {fileID: 1965172963}
+  - {fileID: 835396452}
+  - {fileID: 26860308}
+  - {fileID: 1469331200}
+  - {fileID: 291788896}
+  - {fileID: 1776148982}
+  - {fileID: 224179598}
+  - {fileID: 1709468247}

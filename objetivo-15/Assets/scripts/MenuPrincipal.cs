@@ -26,6 +26,10 @@ public class MenuPrincipal : MonoBehaviour
         if (bCred != null)
             bCred.GetComponent<Button>().onClick.AddListener(AbrirCreditos);
 
+        var bSalir = panel?.Find("BotonSalir")?.gameObject;
+        if (bSalir != null)
+            bSalir.GetComponent<Button>().onClick.AddListener(Salir);
+
         if (panelMenuPrincipal != null)
             SeleccionUI.SeleccionarPrimero(panelMenuPrincipal);
     }
@@ -48,7 +52,11 @@ public class MenuPrincipal : MonoBehaviour
 
     public void Salir()
     {
-        Application.Quit();
         Debug.Log("Saliendo del juego...");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
