@@ -52,7 +52,8 @@ public class SceneTransitionManager : MonoBehaviour
     public TMP_FontAsset fontCarga;
 
     [Header("Configuración")]
-    public float duracionMinima = 2f;
+    [Tooltip("Segundos minimos que se ve la pantalla de carga (barra + dato curioso). Un solo punto de control para todo el juego, no tiene sentido poner managers en escenas.")]
+    public float duracionMinima = 4f;
 
     const string RUTA_SPRITES_RECURSO = "Transicion/corriendo";
     const string RUTA_FUENTE_RECURSO = "Transicion/fuente";
