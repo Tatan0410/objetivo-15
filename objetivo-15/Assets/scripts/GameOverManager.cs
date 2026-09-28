@@ -17,6 +17,15 @@ public class GameOverManager : MonoBehaviour
         if (instancia != null) { Destroy(gameObject); return; }
         instancia = this;
         DontDestroyOnLoad(gameObject);
+
+        // Fallback: si canvasGameOver viene nulo, intentarlo desde el prefab
+        if (canvasGameOver == null && panelGameOverPrefab != null)
+        {
+            canvasGameOver = Instantiate(panelGameOverPrefab);
+            canvasGameOver.name = "CanvasGameOver";
+            canvasGameOver.transform.SetParent(null);
+            DontDestroyOnLoad(canvasGameOver);
+        }
     }
 
     void Start()
@@ -91,6 +100,11 @@ public class GameOverManager : MonoBehaviour
 
     public void MostrarGameOver()
     {
+        if (canvasGameOver == null)
+        {
+            Debug.LogError("GameOverManager: canvasGameOver es nulo. Verificar panelGameOverPrefab o Bootstrapper.");
+            return;
+        }
         escenaActual = SceneManager.GetActiveScene().name;
         canvasGameOver.SetActive(true);
         SeleccionUI.SeleccionarPrimero(canvasGameOver);

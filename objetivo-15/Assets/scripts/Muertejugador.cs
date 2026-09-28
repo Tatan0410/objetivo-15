@@ -87,6 +87,7 @@ public class MuerteJugador : MonoBehaviour
                 Debug.Log("[MuerteJugador] posicionRespawn=" + posicionRespawn + " destino=" + destino);
                 pc.posicionRespawn = destino;
                 pc.respawnPendiente = true;
+                pc.ActivarControl(); // ← Reactiva el control después del respawn
             }
         }
     }
