@@ -263,6 +263,65 @@ public static class SetupCertificadoBotones
     }
 
     // ─────────────────────────────────────────────────────────────────────────
+    //  Reparar escena guardada con el estado del preview (fondo limpio, nodos
+    //  ocultos, boton certificado activo) → volver al comportamiento original
+    // ─────────────────────────────────────────────────────────────────────────
+    [MenuItem("Objetivo15/Reparar Mapa Guardado por Preview")]
+    public static void RepararMapamundialPostPreview()
+    {
+        if (Application.isPlaying) { Debug.LogWarning("[Reparar] Sale del Play Mode primero"); return; }
+        if (!System.IO.File.Exists(EscenaMapa)) { Debug.LogError("No existe: " + EscenaMapa); return; }
+
+        EditorSceneManager.OpenScene(EscenaMapa);
+
+        // 1) Fondo de vuelta al mapa contaminado original
+        var fondo = FondoSpriteRenderer();
+        var sucio = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/sprites/mapamundialbeta.png");
+        if (fondo != null && sucio != null)
+        {
+            fondo.sprite = sucio;
+            Debug.Log("[Reparar] Fondo restaurado a mapamundialbeta");
+        }
+        else
+            Debug.LogError("[Reparar] No se pudo restaurar el fondo (fondo=" + (fondo != null) + " sprite=" + (sucio != null) + ")");
+
+        // 2) Nodos y contenedor visibles, boton certificado oculto
+        var mgr = Object.FindFirstObjectByType<MapamundialEstadoManager>();
+        if (mgr != null)
+        {
+            if (mgr.contenedorNiveles != null) mgr.contenedorNiveles.SetActive(true);
+
+            var sel = Object.FindFirstObjectByType<SelectorNivelesMapa>();
+            if (sel != null && sel.nodos != null)
+                foreach (var n in sel.nodos)
+                    if (n != null && n.boton != null) n.boton.gameObject.SetActive(true);
+
+            // Solo cambia el estado activo: posicion, tamano, sprite y evento se conservan
+            if (mgr.botonCertificado != null) mgr.botonCertificado.SetActive(false);
+            Debug.Log("[Reparar] Nodos/contenedor activos; BotonCertificado oculto");
+        }
+        else
+            Debug.LogError("[Reparar] No hay MapamundialEstadoManager");
+
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), EscenaMapa);
+
+        // 3) PlayerPrefs del Editor: borrar progreso/estadisticas del preview
+        PlayerPrefs.DeleteKey("NivelDesbloqueado");
+        PlayerPrefs.DeleteKey("EstadisticasGuardadas");
+        PlayerPrefs.DeleteKey("StatsPlasticos");
+        PlayerPrefs.DeleteKey("StatsEnemigos");
+        PlayerPrefs.DeleteKey("StatsTiempo");
+        PlayerPrefs.Save();
+        Debug.Log("[Reparar] PlayerPrefs del editor limpiadas (NivelDesbloqueado, Stats)");
+
+        if (!Application.isBatchMode)
+            EditorUtility.DisplayDialog("Reparación completa",
+                "Mapa restaurado (fondo contaminado, nodos visibles, certificado oculto) " +
+                "y progreso/estadísticas del editor borrados.", "OK");
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     //  Auxiliares
     // ─────────────────────────────────────────────────────────────────────────
     static bool AbrirMapaSiHaceFalta()
@@ -296,6 +355,7 @@ public static class SetupCertificadoBotones
     public static void EjecutarBatch()
     {
         RevertirBotonImprimir();
+        RepararMapamundialPostPreview();
         Debug.Log("[SetupCertificadoBotones] EjecutarBatch completado");
     }
 }
