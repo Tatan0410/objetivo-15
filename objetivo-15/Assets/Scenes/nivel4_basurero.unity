@@ -1831,7 +1831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f15556ca371b3645a82e556afd63af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximoPorTipo: 99
+  maximoPorTipo: 999
   balasComunes: 15
   balasEpicas: 0
   balasLegendarias: 0
@@ -8033,7 +8033,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.964159, y: -6.5440454, z: -10}
+  m_LocalPosition: {x: -13.117308, y: -6.542556, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8765,7 +8765,7 @@ RectTransform:
   m_Father: {fileID: 1164423719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.46, y: 0.88}
-  m_AnchorMax: {x: 0.63, y: 0.95}
+  m_AnchorMax: {x: 0.63, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
@@ -10132,11 +10132,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73571b9ff6842514b86929b42fe05187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidasMaximas: 5
+  vidasMaximas: 10
   vidasIniciales: 3
   vidasActuales: 0
-  separacionCorazones: 50
-  tamanoCorazon: {x: 50, y: 50}
+  separacionCorazones: 68
+  tamanoCorazon: {x: 64, y: 64}
   corazonLleno: {fileID: 21300000, guid: 6680cc51e07baac4b85cfffbdff06db1, type: 3}
   rutaCorazonResources: Sprites/corazonazul
   panelHUD: {fileID: 0}

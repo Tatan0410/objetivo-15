@@ -11,7 +11,7 @@ public class Potenciador : MonoBehaviour
 {
     [Header("Configuracion")]
     public TipoPotenciador tipo;
-    public float tiempoVida = 10f;
+    public float tiempoVida = 9999f;
 
     [Header("Animacion flotante")]
     public float velocidadFlotacion = 2f;
@@ -58,16 +58,25 @@ public class Potenciador : MonoBehaviour
         if (!col.CompareTag("Player")) return;
 
         PlayerController pc = col.GetComponent<PlayerController>();
-        if (pc != null)
-        {
-            pc.AplicarPotenciador(tipo);
-            Debug.Log("Potenciador aplicado: " + tipo);
-        }
-        else
+        if (pc == null)
         {
             Debug.LogWarning("No se encontro PlayerController en el jugador");
+            Destroy(gameObject);
+            return;
         }
 
+        // Corazon de vida extra: si ya tienes el maximo de vidas, el item
+        // NO se consume y queda flotando hasta que pierdas una vida.
+        if (tipo == TipoPotenciador.VidaExtra &&
+            VidasManager.instancia != null &&
+            VidasManager.instancia.vidasActuales >= VidasManager.instancia.vidasMaximas)
+        {
+            Debug.Log("[Potenciador] Vidas llenas: el corazon queda flotando en el nivel");
+            return;
+        }
+
+        pc.AplicarPotenciador(tipo);
+        Debug.Log("Potenciador aplicado: " + tipo);
         Destroy(gameObject);
     }
 

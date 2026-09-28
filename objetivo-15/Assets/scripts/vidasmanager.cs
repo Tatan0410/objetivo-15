@@ -8,11 +8,11 @@ public class VidasManager : MonoBehaviour
     public static VidasManager instancia;
 
     [Header("Configuración")]
-    public int vidasMaximas = 5;
+    public int vidasMaximas = 10;
     public int vidasIniciales = 3;
     public int vidasActuales;
-    public float separacionCorazones = 36f;
-    public Vector2 tamanoCorazon = new Vector2(32, 32);
+    public float separacionCorazones = 68f;
+    public Vector2 tamanoCorazon = new Vector2(64, 64);
 
     [Header("UI - Corazon")]
     public Sprite corazonLleno;
@@ -57,6 +57,15 @@ public class VidasManager : MonoBehaviour
             }
         }
     }
+
+#if UNITY_EDITOR
+    void OnValidate()
+    {
+        // Redibuja los corazones al instante si cambias valores en el Inspector durante Play
+        if (Application.isPlaying && corazonesCreados)
+            ActualizarUI();
+    }
+#endif
 
     void CargarSpriteCorazon()
     {
@@ -104,17 +113,19 @@ public class VidasManager : MonoBehaviour
             MorirJugador();
     }
 
-    public void AgregarVida()
+    public bool AgregarVida()
     {
         if (vidasActuales < vidasMaximas)
         {
             vidasActuales++;
             ActualizarUI();
             Debug.Log("VIDA GANADA! Vidas: " + vidasActuales);
+            return true;
         }
         else
         {
             Debug.Log("Ya tienes el maximo de vidas: " + vidasMaximas);
+            return false;
         }
     }
 
@@ -205,6 +216,12 @@ public class VidasManager : MonoBehaviour
             rt.anchoredPosition = new Vector2(10, -10);
             rt.sizeDelta = new Vector2(180, 36);
         }
+
+        // ─── Auto-ajustar el contenedor al tamaño real de la fila de corazones ───
+        RectTransform rtCont = contenedor.GetComponent<RectTransform>();
+        rtCont.sizeDelta = new Vector2(
+            Mathf.Max(1, vidasMaximas) * separacionCorazones,
+            tamanoCorazon.y);
 
         for (int i = contenedor.transform.childCount - 1; i >= 0; i--)
             Destroy(contenedor.transform.GetChild(i).gameObject);

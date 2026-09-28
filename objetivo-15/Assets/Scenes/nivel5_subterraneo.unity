@@ -622,7 +622,7 @@ Transform:
   m_GameObject: {fileID: 60250561}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.37, y: -2.8799996, z: -10}
+  m_LocalPosition: {x: -23.28, y: -3.3799996, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1744,6 +1744,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee6fa5c8a7146194aabef2a1749d9543, type: 3}
+--- !u!1001 &240975788
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 100000, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_Name
+      value: erdiablo
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 248.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.1186175
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
 --- !u!1001 &243391882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2226,7 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f15556ca371b3645a82e556afd63af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximoPorTipo: 99
+  maximoPorTipo: 999
   balasComunes: 15
   balasEpicas: 0
   balasLegendarias: 0
@@ -7359,79 +7416,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ec0007c85e9a8e43acf45ed04d45b16, type: 3}
---- !u!1001 &414026710
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 100000, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_Name
-      value: erdiablo
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 250.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7688123479410416366, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: cantidadDrop
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7688123479410416366, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: primerDisparo
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7688123479410416366, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: rangoDeteccion
-      value: 2.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7688123479410416366, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
-      propertyPath: cooldownDisparo
-      value: 0.73
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 45aaad7c08fc19b4095ee2eaebda7e47, type: 3}
 --- !u!1001 &421220060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8133,7 +8117,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.2787, y: -2.874352, z: -10}
+  m_LocalPosition: {x: -13.431568, y: -3.3744864, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10672,11 +10656,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73571b9ff6842514b86929b42fe05187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidasMaximas: 5
+  vidasMaximas: 10
   vidasIniciales: 3
   vidasActuales: 0
-  separacionCorazones: 50
-  tamanoCorazon: {x: 50, y: 50}
+  separacionCorazones: 68
+  tamanoCorazon: {x: 64, y: 64}
   corazonLleno: {fileID: 21300000, guid: 6680cc51e07baac4b85cfffbdff06db1, type: 3}
   rutaCorazonResources: Sprites/corazonazul
   panelHUD: {fileID: 0}
@@ -157085,7 +157069,7 @@ Transform:
   m_GameObject: {fileID: 1479732586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.37, y: -4.18, z: 0}
+  m_LocalPosition: {x: -23.28, y: -4.68, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -160850,5 +160834,5 @@ SceneRoots:
   - {fileID: 871794954}
   - {fileID: 1541508221}
   - {fileID: 545919698}
-  - {fileID: 414026710}
   - {fileID: 784750360}
+  - {fileID: 240975788}

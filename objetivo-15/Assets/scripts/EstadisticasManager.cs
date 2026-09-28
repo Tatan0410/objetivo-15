@@ -14,6 +14,12 @@ public class EstadisticasManager : MonoBehaviour
 
     private bool tiempoActivo = true;
 
+    // ── Persistencia (para ver el certificado más adelante) ──
+    const string kGuardadas = "EstadisticasGuardadas";
+    const string kPlasticos = "StatsPlasticos";
+    const string kEnemigos = "StatsEnemigos";
+    const string kTiempo = "StatsTiempo";
+
     void Awake()
     {
         if (instancia == null)
@@ -30,6 +36,44 @@ public class EstadisticasManager : MonoBehaviour
         // Cargar nombre guardado si existe
         if (PlayerPrefs.HasKey("NombreJugador"))
             nombreJugador = PlayerPrefs.GetString("NombreJugador");
+
+        // Cargar estadísticas persistidas (se guardan al ver el certificado /
+        // al salir del juego; se borran al reiniciar progreso)
+        if (PlayerPrefs.HasKey(kGuardadas))
+        {
+            totalPlasticosReciclados = PlayerPrefs.GetInt(kPlasticos, 0);
+            totalEnemigosDerrotados = PlayerPrefs.GetInt(kEnemigos, 0);
+            tiempoJugado = PlayerPrefs.GetFloat(kTiempo, 0f);
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        GuardarEstadisticas();
+    }
+
+    void OnApplicationPause(bool pausado)
+    {
+        if (pausado)
+            GuardarEstadisticas();
+    }
+
+    public void GuardarEstadisticas()
+    {
+        PlayerPrefs.SetInt(kPlasticos, totalPlasticosReciclados);
+        PlayerPrefs.SetInt(kEnemigos, totalEnemigosDerrotados);
+        PlayerPrefs.SetFloat(kTiempo, tiempoJugado);
+        PlayerPrefs.SetInt(kGuardadas, 1);
+        PlayerPrefs.Save();
+    }
+
+    void BorrarEstadisticasGuardadas()
+    {
+        PlayerPrefs.DeleteKey(kGuardadas);
+        PlayerPrefs.DeleteKey(kPlasticos);
+        PlayerPrefs.DeleteKey(kEnemigos);
+        PlayerPrefs.DeleteKey(kTiempo);
+        PlayerPrefs.Save();
     }
 
     void Update()
@@ -100,5 +144,6 @@ public class EstadisticasManager : MonoBehaviour
         totalEnemigosDerrotados = 0;
         tiempoJugado = 0f;
         tiempoActivo = true;
+        BorrarEstadisticasGuardadas();
     }
 }

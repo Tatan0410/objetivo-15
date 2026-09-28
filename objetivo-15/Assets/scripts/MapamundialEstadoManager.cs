@@ -11,6 +11,9 @@ public class MapamundialEstadoManager : MonoBehaviour
     public GameObject botonMenuPrincipal;
     public GameObject contenedorNiveles;
 
+    [Header("Certificado (visible solo con el mapa limpio)")]
+    public GameObject botonCertificado;
+
     private Sprite spriteContaminado;
     private SpriteRenderer srFondo;
 
@@ -60,6 +63,7 @@ public class MapamundialEstadoManager : MonoBehaviour
             if (contenedorNiveles != null) contenedorNiveles.SetActive(!limpio);
             if (botonRejugar != null) botonRejugar.SetActive(true);
             if (botonMenuPrincipal != null) botonMenuPrincipal.SetActive(true);
+            if (botonCertificado != null) botonCertificado.SetActive(limpio);
             if (limpio && botonRejugar != null) SeleccionUI.SeleccionarPrimero(botonRejugar.transform.parent != null ? botonRejugar.transform.parent.gameObject : botonRejugar);
             return;
         }
@@ -83,8 +87,16 @@ public class MapamundialEstadoManager : MonoBehaviour
         if (contenedorNiveles != null) contenedorNiveles.SetActive(!limpio);
         if (botonRejugar != null) botonRejugar.SetActive(true);
         if (botonMenuPrincipal != null) botonMenuPrincipal.SetActive(true);
+        if (botonCertificado != null) botonCertificado.SetActive(limpio);
         if (limpio && botonRejugar != null)
             SeleccionUI.SeleccionarPrimero(botonRejugar.transform.parent != null ? botonRejugar.transform.parent.gameObject : botonRejugar);
+    }
+
+    // Botón "Ver Certificado" (mapa limpio): reabre la escena de certificado
+    public void AbrirCertificado()
+    {
+        Debug.Log("[MapamundialEstado] Abriendo certificado");
+        SceneTransitionManager.CargarEscenaConFallback("certificado");
     }
 
     void BuscarFondoFallback()

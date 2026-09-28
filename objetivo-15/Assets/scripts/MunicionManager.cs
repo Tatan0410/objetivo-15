@@ -6,7 +6,7 @@ public class MunicionManager : MonoBehaviour
     public static MunicionManager instancia;
 
     [Header("Configuracion")]
-    public int maximoPorTipo = 99;
+    public int maximoPorTipo = 999;
 
     [Header("Conteo por tipo de bala")]
     public int balasComunes = 15;

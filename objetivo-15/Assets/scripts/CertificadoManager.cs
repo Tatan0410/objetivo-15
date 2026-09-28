@@ -14,7 +14,9 @@ public class CertificadoManager : MonoBehaviour
     [Header("UI - Botón de descarga")]
     public GameObject botonDescargar;
     public TMP_Text textoBotonDescargar;
-    public GameObject panelConfirmacion; // opcional: "¡Guardado!"
+
+    [Header("UI - Confirmación")]
+    public GameObject panelConfirmacion;
     public TMP_Text textoConfirmacion;
 
     [Header("Configuración de captura")]
@@ -35,6 +37,12 @@ public class CertificadoManager : MonoBehaviour
         }
 
         MostrarEstadisticas();
+
+        // Snapshot de estadísticas: el certificado se puede revisar más tarde
+        // (desde el mapa limpio) aunque se cierre el juego
+        if (EstadisticasManager.instancia != null)
+            EstadisticasManager.instancia.GuardarEstadisticas();
+
         // Seleccionar primer botón para navegación con mando/teclado
         var canvas = GetComponentInParent<Canvas>();
         if (canvas != null)
@@ -48,10 +56,7 @@ public class CertificadoManager : MonoBehaviour
 
     public void Continuar()
     {
-        if (SceneTransitionManager.instancia != null)
-            SceneTransitionManager.instancia.CargarEscena("Mapamundial");
-        else
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Mapamundial");
+        SceneTransitionManager.CargarEscenaConFallback("Mapamundial");
     }
 
     void MostrarEstadisticas()
@@ -91,85 +96,118 @@ public class CertificadoManager : MonoBehaviour
 
     IEnumerator CapturarYGuardar()
     {
-        // Ocultar el botón de descarga y la UI de confirmación antes de capturar,
-        // para que no aparezcan en la imagen final
-        if (botonDescargar != null)
-            botonDescargar.SetActive(false);
-
-        if (panelConfirmacion != null)
-            panelConfirmacion.SetActive(false);
-
+        // Ocultar botón y confirmación para que no salgan en la imagen
+        OcultarBotones();
         yield return new WaitForEndOfFrame();
 
-        string nombreArchivo = "Certificado_" +
-            (EstadisticasManager.instancia != null
+        byte[] png = CapturarPNG();
+        RestaurarBotones();
+
+        if (png == null || png.Length == 0)
+        {
+            MostrarConfirmacion("No se pudo capturar el certificado.");
+            yield break;
+        }
+
+        GuardarPNG(png);
+    }
+
+    void OcultarBotones()
+    {
+        if (botonDescargar != null) botonDescargar.SetActive(false);
+        if (panelConfirmacion != null) panelConfirmacion.SetActive(false);
+    }
+
+    void RestaurarBotones()
+    {
+        if (botonDescargar != null) botonDescargar.SetActive(true);
+    }
+
+    // Captura síncrona y confiable (sin la carrera de archivos de CaptureScreenshot)
+    byte[] CapturarPNG()
+    {
+        try
+        {
+            Texture2D tex = ScreenCapture.CaptureScreenshotAsTexture();
+            byte[] png = tex.EncodeToPNG();
+            Object.Destroy(tex);
+            return png;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[Certificado] Error capturando imagen: " + e);
+            return null;
+        }
+    }
+
+    string NombreArchivoPNG()
+    {
+        return "Certificado_" +
+            (EstadisticasManager.instancia != null && !string.IsNullOrEmpty(EstadisticasManager.instancia.nombreJugador)
                 ? EstadisticasManager.instancia.nombreJugador.Replace(" ", "_")
                 : "Jugador") +
             "_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".png";
-
-        string rutaCarpeta = ObtenerRutaCaptura();
-
-        if (!Directory.Exists(rutaCarpeta))
-            Directory.CreateDirectory(rutaCarpeta);
-
-        string rutaCompleta = Path.Combine(rutaCarpeta, nombreArchivo);
-
-        ScreenCapture.CaptureScreenshot(rutaCompleta);
-
-        // Esperar a que la captura se escriba en disco (en Android es asincrona)
-        float espera = 0f;
-        while (!File.Exists(rutaCompleta) && espera < 3f)
-        {
-            espera += 0.1f;
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        if (botonDescargar != null)
-            botonDescargar.SetActive(true);
-
-        string mensaje = ProcesarSegunPlataforma(rutaCompleta, nombreArchivo);
-        MostrarConfirmacion(mensaje);
     }
 
-    // Decide donde capturar segun la plataforma:
-    //  - PC: directo en la carpeta Descargas del usuario.
-    //  - Android: archivo temporal (luego se mueve a la galeria).
-    string ObtenerRutaCaptura()
+    // ── Guardar en disco/galería ──────────────────────────────────────────────
+    void GuardarPNG(byte[] png)
     {
+        string nombreArchivo = NombreArchivoPNG();
+
 #if UNITY_ANDROID && !UNITY_EDITOR
-        return Path.Combine(Application.persistentDataPath, "capturas_tmp");
+        // 1) MediaStore (Android 10+): inserta directo en la galería sin permisos
+        if (GuardarEnGaleriaAndroid(png, nombreArchivo))
+        {
+            MostrarConfirmacion("¡Certificado guardado en tu galería!\n(Carpeta Pictures/" + nombreCarpeta + ")");
+            return;
+        }
+
+        // 2) Fallback para Android antiguo (<10): permiso + escritura directa
+        if (GuardarEnGaleriaLegacy(png, nombreArchivo))
+        {
+            MostrarConfirmacion("¡Certificado guardado en Pictures/" + nombreCarpeta + "!");
+            return;
+        }
+
+        // 3) Último recurso: carpeta privada de la app
+        try
+        {
+            string rutaPrivada = Path.Combine(Application.persistentDataPath, nombreArchivo);
+            File.WriteAllBytes(rutaPrivada, png);
+            Debug.Log("[Certificado] Guardado en carpeta privada: " + rutaPrivada);
+            MostrarConfirmacion("No se pudo usar la galería.\nSe guardó en la app.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[Certificado] Error guardando: " + e);
+            MostrarConfirmacion("Error guardando: " + e.Message);
+        }
 #else
-        string descargas = Path.Combine(
-            System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
-            "Downloads");
+        // PC: descargas del usuario
+        try
+        {
+            string descargas = Path.Combine(
+                System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
+                "Downloads");
+            if (!Directory.Exists(descargas))
+                descargas = Application.persistentDataPath;
 
-        if (Directory.Exists(descargas))
-            return descargas;
-
-        return Path.Combine(Application.persistentDataPath, nombreCarpeta);
+            string rutaCompleta = Path.Combine(descargas, nombreArchivo);
+            File.WriteAllBytes(rutaCompleta, png);
+            Debug.Log("[Certificado] Guardado en: " + rutaCompleta);
+            MostrarConfirmacion("¡Certificado guardado en Descargas!\n" + rutaCompleta);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[Certificado] Error guardando: " + e);
+            MostrarConfirmacion("Error guardando: " + e.Message);
+        }
 #endif
     }
 
-    string ProcesarSegunPlataforma(string rutaCompleta, string nombreArchivo)
-    {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        if (GuardarEnGaleriaAndroid(rutaCompleta, nombreArchivo))
-        {
-            // El temporal ya no se necesita, la copia vive en la galeria
-            try { File.Delete(rutaCompleta); } catch { }
-            return "¡Certificado guardado en tu galería!\n(Carpeta Pictures/" + nombreCarpeta + ")";
-        }
-
-        return "No se pudo guardar en la galería.\n(Tu versión de Android es muy antigua)";
-#else
-        Debug.Log("Certificado guardado en: " + rutaCompleta);
-        return "¡Certificado guardado en Descargas!\n" + rutaCompleta;
-#endif
-    }
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-    // Inserta el PNG en la galeria usando MediaStore (sin permisos, Android 10+).
-    bool GuardarEnGaleriaAndroid(string rutaArchivo, string nombreArchivo)
+    // Inserta el PNG en la galería usando MediaStore (sin permisos, Android 10+).
+    bool GuardarEnGaleriaAndroid(byte[] bytes, string nombreArchivo)
     {
         try
         {
@@ -179,12 +217,11 @@ public class CertificadoManager : MonoBehaviour
                 int sdk = version.GetStatic<int>("SDK_INT");
                 if (sdk < 29)
                 {
-                    Debug.LogWarning("[Certificado] Android " + sdk + " < 29: no se puede guardar en galería sin permisos.");
+                    Debug.LogWarning("[Certificado] Android " + sdk + " < 29: usando escritura directa en Pictures.");
                     return false;
                 }
             }
 
-            byte[] bytes = File.ReadAllBytes(rutaArchivo);
             if (bytes == null || bytes.Length == 0)
                 return false;
 
@@ -195,9 +232,10 @@ public class CertificadoManager : MonoBehaviour
 
                 using (var values = new AndroidJavaObject("android.content.ContentValues"))
                 {
-                    values.Call<AndroidJavaObject>("put", "_display_name", nombreArchivo);
-                    values.Call<AndroidJavaObject>("put", "mime_type", "image/png");
-                    values.Call<AndroidJavaObject>("put", "relative_path", "Pictures/" + nombreCarpeta);
+                    // IMPORTANTE: ContentValues.put devuelve void -> usar Call (no Call<T>)
+                    values.Call("put", "_display_name", nombreArchivo);
+                    values.Call("put", "mime_type", "image/png");
+                    values.Call("put", "relative_path", "Pictures/" + nombreCarpeta);
 
                     AndroidJavaObject coleccion;
                     using (var mediaStore = new AndroidJavaClass("android.provider.MediaStore$Images$Media"))
@@ -205,11 +243,17 @@ public class CertificadoManager : MonoBehaviour
 
                     AndroidJavaObject uri = resolver.Call<AndroidJavaObject>("insert", coleccion, values);
                     if (uri == null)
+                    {
+                        Debug.LogError("[Certificado] MediaStore insert devolvió null");
                         return false;
+                    }
 
                     AndroidJavaObject stream = resolver.Call<AndroidJavaObject>("openOutputStream", uri);
                     if (stream == null)
+                    {
+                        Debug.LogError("[Certificado] openOutputStream devolvió null");
                         return false;
+                    }
 
                     stream.Call("write", new object[] { bytes });
                     stream.Call("flush");
@@ -220,7 +264,44 @@ public class CertificadoManager : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogWarning("[Certificado] Error guardando en galería: " + e.Message);
+            Debug.LogError("[Certificado] Error guardando en galería: " + e);
+            return false;
+        }
+    }
+
+    // Android < 10: pide permiso de almacenamiento y escribe directo en Pictures/
+    bool GuardarEnGaleriaLegacy(byte[] png, string nombreArchivo)
+    {
+        try
+        {
+            using (var version = new AndroidJavaClass("android.os.Build$VERSION"))
+            {
+                int sdk = version.GetStatic<int>("SDK_INT");
+                if (sdk >= 29)
+                    return false; // >=10 usa MediaStore (ya falló arriba, no insistir)
+            }
+
+            if (!UnityEngine.Permission.HasUserAuthorizedPermission(UnityEngine.Permission.ExternalStorageWrite))
+            {
+                UnityEngine.Permission.RequestUserPermission(UnityEngine.Permission.ExternalStorageWrite);
+                MostrarConfirmacion("Permite el acceso al almacenamiento\ny vuelve a tocar Descargar.");
+                return false;
+            }
+
+            using (var env = new AndroidJavaClass("android.os.Environment"))
+            using (var dir = env.CallStatic<AndroidJavaObject>("getExternalStoragePublicDirectory", "Pictures"))
+            {
+                string carpeta = Path.Combine(dir.Call<string>("getAbsolutePath"), nombreCarpeta);
+                Directory.CreateDirectory(carpeta);
+                string ruta = Path.Combine(carpeta, nombreArchivo);
+                File.WriteAllBytes(ruta, png);
+                Debug.Log("[Certificado] Guardado (legacy): " + ruta);
+                return true;
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[Certificado] Error guardando (legacy): " + e);
             return false;
         }
     }
