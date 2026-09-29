@@ -295,6 +295,7 @@ public class EnemigoVolador : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col)
     {
         if (muerto || congelado) return;
+        Debug.Log("[COLLISION-" + gameObject.name + "] tocó: " + col.gameObject.name + " frame=" + Time.frameCount);
         if (!col.gameObject.CompareTag("Player")) return;
         ManejarContactoJugador(col.otherCollider, col.gameObject);
     }
@@ -302,6 +303,8 @@ public class EnemigoVolador : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (muerto || congelado) return;
+
+        Debug.Log("[TRIGGER-" + gameObject.name + "] tocó: " + other.gameObject.name + " frame=" + Time.frameCount);
 
         if (other.CompareTag("Player"))
         {

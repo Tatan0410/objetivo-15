@@ -484,6 +484,7 @@ return go.GetComponent<Enemigo>() != null
     void OnCollisionEnter2D(Collision2D col)
     {
         if (muerto || congelado) return;
+        Debug.Log("[COLLISION-" + gameObject.name + "] tocó: " + col.gameObject.name + " frame=" + Time.frameCount);
         if (!col.gameObject.CompareTag("Player")) return;
         ManejarContactoJugador(col.otherCollider, col.gameObject);
     }
@@ -491,6 +492,7 @@ return go.GetComponent<Enemigo>() != null
     void OnTriggerEnter2D(Collider2D other)
     {
         if (muerto || congelado) return;
+        Debug.Log("[TRIGGER-" + gameObject.name + "] tocó: " + other.gameObject.name + " frame=" + Time.frameCount);
         if (!other.CompareTag("Player")) return;
         ManejarContactoJugador(other, other.gameObject);
     }

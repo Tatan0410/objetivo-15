@@ -3,11 +3,19 @@
   "WorkspaceRootPath": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0F5D90CE-B3EC-A2CE-6354-05D4493C1F69}|Assembly-CSharp-Editor.csproj|c:\\users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\editor\\buildandroid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F5D90CE-B3EC-A2CE-6354-05D4493C1F69}|Assembly-CSharp-Editor.csproj|solutionrelative:assets\\scripts\\editor\\buildandroid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\rockhead.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\rockhead.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\hudlayoutmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\hudlayoutmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|c:\\users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\touchbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|C:\\Users\\sebas\\objetivo-15\\objetivo-15\\assets\\scripts\\touchbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{249DABCC-077A-CA62-8AA1-FDDE8A191DB4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\touchbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -125,11 +133,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BuildAndroid.cs",
+              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\Editor\\BuildAndroid.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\Editor\\BuildAndroid.cs",
+              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\Editor\\BuildAndroid.cs",
+              "RelativeToolTip": "Assets\\scripts\\Editor\\BuildAndroid.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAQwCYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T23:17:31.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "RockHead.cs",
+              "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\RockHead.cs",
+              "RelativeDocumentMoniker": "Assets\\RockHead.cs",
+              "ToolTip": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\RockHead.cs",
+              "RelativeToolTip": "Assets\\RockHead.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-12T15:48:26.117Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "TouchButton.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\TouchButton.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\TouchButton.cs",
@@ -137,12 +170,11 @@
               "RelativeToolTip": "Assets\\scripts\\TouchButton.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-10T00:12:53.607Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-10T00:12:53.607Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "HudConfig.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\HudConfig.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\HudConfig.cs",
@@ -154,7 +186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "HudPersonalizarPanel.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\HudPersonalizarPanel.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\HudPersonalizarPanel.cs",
@@ -166,7 +198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "HudLayoutManager.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\HudLayoutManager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\HudLayoutManager.cs",
@@ -174,12 +206,11 @@
               "RelativeToolTip": "Assets\\scripts\\HudLayoutManager.cs",
               "ViewState": "AgIAANAAAAAAAAAAAAAQwNUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-09T23:34:06.125Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-09T23:34:06.125Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "PanelBalasHUD.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\PanelBalasHUD.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\PanelBalasHUD.cs",
@@ -191,7 +222,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "BotonControlesUI.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\BotonControlesUI.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\BotonControlesUI.cs",
@@ -202,7 +233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "particulasmagicas.cs",
               "DocumentMoniker": "C:\\Users\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\particulasmagicas.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\Estudiante\\objetivo-15\\objetivo-15\\Assets\\scripts\\particulasmagicas.cs",
@@ -213,7 +244,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "EnemigoVolador.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\EnemigoVolador.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\EnemigoVolador.cs",
@@ -225,7 +256,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "rata.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\rata.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\rata.cs",
@@ -237,7 +268,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "Muertejugador.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\Muertejugador.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Muertejugador.cs",
@@ -249,7 +280,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "combatecuerpoacuerpo.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\combatecuerpoacuerpo.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\combatecuerpoacuerpo.cs",
@@ -261,7 +292,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "MotocarroPlataforma.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\MotocarroPlataforma.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\MotocarroPlataforma.cs",
@@ -273,7 +304,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "NavegacionUI.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\NavegacionUI.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\NavegacionUI.cs",
@@ -285,7 +316,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "Da\u00F1oEnemigo.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\Da\u00F1oEnemigo.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Da\u00F1oEnemigo.cs",
@@ -297,7 +328,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "PlayerController.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\PlayerController.cs",
@@ -309,7 +340,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "plataformamovil.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\plataformamovil.cs",
               "RelativeDocumentMoniker": "Assets\\plataformamovil.cs",
@@ -321,7 +352,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "MenuPrincipal.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\MenuPrincipal.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\MenuPrincipal.cs",
@@ -333,7 +364,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "Sprite-Lit-Default.shader",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Library\\PackageCache\\com.unity.render-pipelines.universal@14.0.12\\Shaders\\2D\\Sprite-Lit-Default.shader",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.render-pipelines.universal@14.0.12\\Shaders\\2D\\Sprite-Lit-Default.shader",
@@ -345,7 +376,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "SistemaCrafteo.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\SistemaCrafteo.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\SistemaCrafteo.cs",
@@ -357,7 +388,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "TrampaHot.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\TrampaHot.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\TrampaHot.cs",
@@ -369,7 +400,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "SpikeHead.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\SpikeHead.cs",
               "RelativeDocumentMoniker": "Assets\\SpikeHead.cs",
@@ -381,7 +412,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "NPCDialogoJRPG.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\NPCDialogoJRPG.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\NPCDialogoJRPG.cs",
@@ -393,7 +424,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "SetUpNpc.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\Editor\\SetUpNpc.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Editor\\SetUpNpc.cs",
@@ -405,7 +436,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "CajaSorpresa.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\CajaSorpresa.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\CajaSorpresa.cs",
@@ -417,7 +448,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "FondoMovimiento.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\FondoMovimiento.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\FondoMovimiento.cs",
@@ -429,7 +460,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "ConectarVidasUI.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\ConectarVidasUI.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\ConectarVidasUI.cs",
@@ -441,7 +472,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "vidasmanager.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\vidasmanager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\vidasmanager.cs",
@@ -453,7 +484,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "DialogoManager.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\DialogoManager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\DialogoManager.cs",
@@ -465,7 +496,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "JugadorMapa.cs",
               "DocumentMoniker": "C:\\Users\\sebas\\objetivo-15\\objetivo-15\\Assets\\scripts\\JugadorMapa.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\JugadorMapa.cs",

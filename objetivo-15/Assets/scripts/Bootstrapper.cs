@@ -14,8 +14,18 @@ public static class Bootstrapper
 
         if (Object.FindFirstObjectByType<GameOverManager>() == null)
         {
-            GameObject gom = new GameObject("GameOverManager");
-            gom.AddComponent<GameOverManager>();
+            GameObject prefabGO = Resources.Load<GameObject>("GameOverManager");
+            if (prefabGO != null)
+            {
+                GameObject.Instantiate(prefabGO);
+                // El prefab debe tener panelGameOverPrefab asignado en el Inspector.
+                // Si no, el GameOverManager Awake() creará el canvas desde el prefab.
+            }
+            else
+            {
+                GameObject gom = new GameObject("GameOverManager");
+                gom.AddComponent<GameOverManager>();
+            }
         }
 
         if (Object.FindFirstObjectByType<VidasManager>() == null)
@@ -33,6 +43,18 @@ public static class Bootstrapper
             {
                 GameObject em = new GameObject("EstadisticasManager");
                 em.AddComponent<EstadisticasManager>();
+            }
+        }
+
+        if (GameOverManager.instancia == null)
+        {
+            GameObject prefabGO = Resources.Load<GameObject>("GameOverManager");
+            if (prefabGO != null)
+                GameObject.Instantiate(prefabGO);
+            else
+            {
+                GameObject gom = new GameObject("GameOverManager");
+                gom.AddComponent<GameOverManager>();
             }
         }
     }

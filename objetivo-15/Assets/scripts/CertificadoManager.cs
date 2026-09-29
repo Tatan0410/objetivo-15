@@ -25,6 +25,10 @@ public class CertificadoManager : MonoBehaviour
 
     private string textoBotonOriginal = "📥 Descargar Certificado";
 
+    // Se activa cuando se pidió el permiso de almacenamiento (Android < 10)
+    // para no sobrescribir el mensaje "Permite el acceso..." con el fallback.
+    private bool esperandoPermiso;
+
     void Start()
     {
         // Asegurar que el fondo quede detrás como en menuprincipal (primer hermano)
@@ -169,6 +173,13 @@ public class CertificadoManager : MonoBehaviour
             return;
         }
 
+        // Si se pidió el permiso, dejamos el mensaje "Permite el acceso..." y salimos
+        if (esperandoPermiso)
+        {
+            esperandoPermiso = false;
+            return;
+        }
+
         // 3) Último recurso: carpeta privada de la app
         try
         {
@@ -281,9 +292,10 @@ public class CertificadoManager : MonoBehaviour
                     return false; // >=10 usa MediaStore (ya falló arriba, no insistir)
             }
 
-            if (!UnityEngine.Permission.HasUserAuthorizedPermission(UnityEngine.Permission.ExternalStorageWrite))
+            if (!UnityEngine.Android.Permission.HasUserAuthorizedPermission(UnityEngine.Android.Permission.ExternalStorageWrite))
             {
-                UnityEngine.Permission.RequestUserPermission(UnityEngine.Permission.ExternalStorageWrite);
+                UnityEngine.Android.Permission.RequestUserPermission(UnityEngine.Android.Permission.ExternalStorageWrite);
+                esperandoPermiso = true;
                 MostrarConfirmacion("Permite el acceso al almacenamiento\ny vuelve a tocar Descargar.");
                 return false;
             }
